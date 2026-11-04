@@ -2,7 +2,7 @@
   @for (day of daily(); track day.time) {
     <div class="forecast-card">
       <p class="day-name">{{ dayName(day.time) }}</p>
-      <span class="weather-icon">{{ day.weathercode | weatherIcon }}</span>
+      <span class="weather-icon">{{ day.weather_code | weatherIcon }}</span>
       <div class="temps">
         <span class="temp-max">{{ day.temperature_2m_max }}°</span>
         <span class="temp-min">{{ day.temperature_2m_min }}°</span>

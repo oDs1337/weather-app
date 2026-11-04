@@ -5,9 +5,9 @@ export interface WeatherResponse {
 }
 
 export interface CurrentWeather {
-  temperature: number;
-  windspeed: number;
-  weathercode: number;
+  temperature_2m: number;
+  windspeed_10m: number;
+  weather_code: number;
   time: string;
   is_day: number;
   relative_humidity_2m: number;
@@ -17,7 +17,7 @@ export interface CurrentWeather {
 
 export interface DailyWeather {
   time: string;
-  weathercode: number;
+  weather_code: number;
   temperature_2m_max: number;
   temperature_2m_min: number;
   sunrise: string;
@@ -29,6 +29,6 @@ export interface DailyWeather {
 export interface HourlyWeather {
   time: string[];
   temperature_2m: number[];
-  weathercode: number[];
+  weather_code: number[];
   precipitation_probability: number[];
 }

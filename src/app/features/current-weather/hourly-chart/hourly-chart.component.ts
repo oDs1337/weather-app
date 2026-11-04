@@ -24,7 +24,7 @@ export class HourlyChartComponent {
       result.push({
         time: displayHour,
         temp: hours.temperature_2m[i],
-        icon: hours.weathercode[i],
+        icon: hours.weather_code[i],
         precip: hours.precipitation_probability?.[i] ?? 0,
       });
     }
