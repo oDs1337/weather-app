@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CitySelectorComponent } from './features/city-selector/city-selector.component';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [CitySelectorComponent],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
