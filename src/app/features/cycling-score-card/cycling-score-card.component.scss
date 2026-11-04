@@ -1,36 +1,36 @@
 .score-card {
   background: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 
   .card-header {
-    padding: 1.5rem 2rem;
+    padding: 1.25rem 1.5rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
 
     h2 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.5rem;
+      margin: 0 0 0.25rem 0;
+      font-size: 1.25rem;
     }
 
     .city-name {
       margin: 0;
       opacity: 0.9;
-      font-size: 1rem;
+      font-size: 0.9375rem;
     }
   }
 
   .overall-score {
-    padding: 2rem;
+    padding: 1.5rem 1rem;
     text-align: center;
     color: white;
 
     .score-circle {
       position: relative;
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 1.5rem;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1.25rem;
 
       svg {
         width: 100%;
@@ -46,14 +46,14 @@
 
         .score-value {
           display: block;
-          font-size: 2.5rem;
+          font-size: 2rem;
           font-weight: bold;
           line-height: 1;
         }
 
         .score-label {
           display: block;
-          font-size: 0.9rem;
+          font-size: 0.8125rem;
           opacity: 0.9;
         }
       }
@@ -61,20 +61,20 @@
 
     .score-message {
       margin: 0;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
     }
   }
 
   .individual-scores {
-    padding: 1.5rem 2rem;
+    padding: 1.25rem 1.5rem;
 
     .score-item {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
+      gap: 0.875rem;
+      padding: 0.875rem;
+      margin-bottom: 0.625rem;
       background: #f7fafc;
       border-radius: 12px;
       transition: all 0.3s ease;
@@ -83,15 +83,11 @@
         margin-bottom: 0;
       }
 
-      &:hover {
-        transform: translateX(5px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-
       .score-icon {
-        font-size: 1.5rem;
-        width: 40px;
+        font-size: 1.375rem;
+        width: 36px;
         text-align: center;
+        flex-shrink: 0;
       }
 
       .score-info {
@@ -101,23 +97,24 @@
         align-items: center;
 
         .score-title {
-          font-size: 0.9rem;
+          font-size: 0.875rem;
           color: #718096;
         }
 
         .score-value {
           font-weight: 700;
-          font-size: 1rem;
+          font-size: 0.9375rem;
         }
       }
 
       .score-status {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         font-weight: 600;
-        padding: 0.25rem 0.75rem;
+        padding: 0.25rem 0.625rem;
         border-radius: 20px;
         background: #e2e8f0;
         color: #4a5568;
+        flex-shrink: 0;
       }
 
       // Score class variants
@@ -154,6 +151,85 @@
         .score-status {
           background: #e53e3e;
           color: white;
+        }
+      }
+    }
+  }
+}
+
+/* Tablet+ */
+@media (min-width: 768px) {
+  .score-card {
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+    .card-header {
+      padding: 1.5rem 2rem;
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .city-name {
+        font-size: 1rem;
+      }
+    }
+
+    .overall-score {
+      padding: 2rem;
+
+      .score-circle {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1.5rem;
+
+        .score-text {
+          .score-value {
+            font-size: 2.5rem;
+          }
+
+          .score-label {
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      .score-message {
+        font-size: 1.1rem;
+      }
+    }
+
+    .individual-scores {
+      padding: 1.5rem 2rem;
+
+      .score-item {
+        gap: 1rem;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+
+        &:hover {
+          transform: translateX(5px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-icon {
+          font-size: 1.5rem;
+          width: 40px;
+        }
+
+        .score-info {
+          .score-title {
+            font-size: 0.9rem;
+          }
+
+          .score-value {
+            font-size: 1rem;
+          }
+        }
+
+        .score-status {
+          font-size: 0.85rem;
+          padding: 0.25rem 0.75rem;
         }
       }
     }

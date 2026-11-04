@@ -10,35 +10,35 @@ import { CyclingIssue } from '../../../core/models/weather.model';
   styles: [`
     .alerts-container {
       background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       overflow: hidden;
 
       .alerts-header {
-        padding: 1.5rem 2rem;
+        padding: 1.25rem 1.5rem;
         background: linear-gradient(135deg, #f56565 0%, #ed8936 100%);
         color: white;
 
         h3 {
-          margin: 0 0 0.5rem 0;
-          font-size: 1.4rem;
+          margin: 0 0 0.25rem 0;
+          font-size: 1.25rem;
         }
 
         p {
           margin: 0;
           opacity: 0.9;
-          font-size: 0.95rem;
+          font-size: 0.875rem;
         }
       }
 
       .alerts-list {
-        padding: 1.5rem 2rem;
+        padding: 1.25rem 1.5rem;
 
         .alert-item {
           display: flex;
-          gap: 1rem;
-          padding: 1.25rem;
-          margin-bottom: 1rem;
+          gap: 0.875rem;
+          padding: 1rem;
+          margin-bottom: 0.75rem;
           border-radius: 12px;
           border-left: 4px solid;
           transition: all 0.3s ease;
@@ -47,13 +47,8 @@ import { CyclingIssue } from '../../../core/models/weather.model';
             margin-bottom: 0;
           }
 
-          &:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          }
-
           .alert-icon {
-            font-size: 2rem;
+            font-size: 1.75rem;
             flex-shrink: 0;
           }
 
@@ -61,14 +56,15 @@ import { CyclingIssue } from '../../../core/models/weather.model';
             flex: 1;
 
             h4 {
-              margin: 0 0 0.5rem 0;
-              font-size: 1.1rem;
+              margin: 0 0 0.375rem 0;
+              font-size: 1rem;
             }
 
             p {
               margin: 0;
               line-height: 1.5;
               color: #4a5568;
+              font-size: 0.9rem;
             }
           }
 
@@ -104,28 +100,28 @@ import { CyclingIssue } from '../../../core/models/weather.model';
 
     .no-alerts {
       background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      padding: 3rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      padding: 2rem 1.5rem;
       text-align: center;
 
       .no-alerts-content {
         .alert-icon {
-          font-size: 4rem;
+          font-size: 3rem;
           display: block;
-          margin-bottom: 1rem;
+          margin-bottom: 0.75rem;
         }
 
         h3 {
-          margin: 0 0 0.5rem 0;
+          margin: 0 0 0.375rem 0;
           color: #2d3748;
-          font-size: 1.5rem;
+          font-size: 1.25rem;
         }
 
         p {
           margin: 0;
           color: #718096;
-          font-size: 1.1rem;
+          font-size: 0.9375rem;
         }
       }
     }

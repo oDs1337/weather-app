@@ -34,19 +34,20 @@ interface GeoLocation {
       align-items: flex-start;
       min-height: 100vh;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 1rem;
+      padding: 0;
 
       .selector-card {
         background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        border-radius: 0;
+        box-shadow: none;
         max-width: 800px;
         width: 100%;
-        overflow: hidden;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
 
         .card-header {
-          padding: 2rem 2rem 1.5rem;
+          padding: calc(env(safe-area-inset-top, 16px) + 2rem) 2rem 1.5rem;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
           text-align: center;
@@ -245,7 +246,7 @@ interface GeoLocation {
 
           .back-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 0.875rem 1rem;
             background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
             border: 2px solid #667eea;
             border-radius: 12px;
@@ -254,6 +255,8 @@ interface GeoLocation {
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 1.5rem;
+            min-height: 48px;
+            font-size: 0.9375rem;
 
             &:hover {
               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -264,7 +267,7 @@ interface GeoLocation {
           .weather-content {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.25rem;
           }
         }
       }
@@ -272,14 +275,14 @@ interface GeoLocation {
 
     @media (max-width: 768px) {
       .city-selector-container {
-        padding: 0.5rem;
-        align-items: stretch;
+        padding: 0;
 
         .selector-card {
-          border-radius: 16px;
+          border-radius: 0;
+          min-height: 100vh;
 
           .card-header {
-            padding: 1.5rem 1rem 1rem;
+            padding: calc(env(safe-area-inset-top, 16px) + 1.5rem) 1.25rem 1.25rem;
 
             h1 {
               font-size: 1.5rem;
@@ -292,28 +295,29 @@ interface GeoLocation {
 
           .card-content,
           .weather-section {
-            padding: 1rem;
+            padding: 1.25rem;
           }
 
           .popular-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
+            gap: 0.75rem;
 
             .popular-city-btn {
-              padding: 0.75rem;
-              font-size: 0.9rem;
+              padding: 1rem;
+              font-size: 0.95rem;
+              min-height: 48px; /* Touch target */
             }
           }
 
           .features-info {
-            padding: 1rem;
+            padding: 1.25rem;
 
             h3 {
               font-size: 1rem;
             }
 
             li {
-              font-size: 0.875rem;
+              font-size: 0.9rem;
             }
           }
         }
@@ -322,22 +326,77 @@ interface GeoLocation {
 
     @media (max-width: 480px) {
       .city-selector-container {
-        padding: 0.25rem;
+        padding: 0;
 
         .selector-card {
-          border-radius: 12px;
+          border-radius: 0;
 
           .card-header {
             h1 {
-              font-size: 1.25rem;
+              font-size: 1.35rem;
             }
+
+            .subtitle {
+              font-size: 0.85rem;
+            }
+          }
+
+          .card-content,
+          .weather-section {
+            padding: 1rem;
           }
 
           .input-group {
             flex-direction: column;
 
+            .city-input {
+              min-height: 48px;
+              font-size: 16px; /* Prevent iOS zoom */
+            }
+
             .search-btn {
               width: 100%;
+              min-height: 48px;
+              font-size: 1rem;
+            }
+          }
+
+          .results-list {
+            .city-item {
+              padding: 1rem;
+              min-height: 56px; /* Comfortable touch target */
+
+              .city-name {
+                font-size: 1rem;
+              }
+
+              .city-location {
+                font-size: 0.85rem;
+              }
+            }
+          }
+
+          .popular-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.625rem;
+
+            .popular-city-btn {
+              padding: 0.875rem;
+              font-size: 0.9rem;
+              min-height: 48px;
+            }
+          }
+
+          .features-info {
+            padding: 1rem;
+
+            h3 {
+              font-size: 0.95rem;
+            }
+
+            li {
+              font-size: 0.875rem;
+              padding: 0.4rem 0;
             }
           }
         }
