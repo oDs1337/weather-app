@@ -4,12 +4,8 @@ import { App } from './app/app';
 
 // Initialize Capacitor if running in a native environment
 if (typeof window !== 'undefined' && (window as any).Capacitor) {
-  const { Capacitor } = (window as any);
-  // Import and initialize plugins dynamically
-  import('@capacitor/core').then(({ Capacitor: Cap }) => {
-    Cap.init();
-    console.log('[App] Capacitor initialized — running on', Cap.getPlatform());
-  });
+  const platform = (window as any).Capacitor.getPlatform();
+  console.log('[App] Capacitor detected — running on', platform);
 }
 
 bootstrapApplication(App, appConfig)
