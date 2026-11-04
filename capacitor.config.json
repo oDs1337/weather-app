@@ -1,0 +1,5 @@
+{
+  "appId": "com.example.weatherapp",
+  "appName": "weather-app",
+  "webDir": "dist/weather-app/browser"
+}
