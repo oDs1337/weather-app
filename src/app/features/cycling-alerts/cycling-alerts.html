@@ -1,0 +1,26 @@
+<div class="alerts-container" *ngIf="issues.length > 0">
+  <div class="alerts-header">
+    <h3>🚨 Cycling Alerts & Warnings</h3>
+    <p>Important information for your ride safety</p>
+  </div>
+
+  <div class="alerts-list">
+    @for (issue of issues; track issue.title) {
+      <div class="alert-item" [class]="getAlertClass(issue.type)">
+        <div class="alert-icon">{{ issue.icon }}</div>
+        <div class="alert-content">
+          <h4>{{ issue.title }}</h4>
+          <p>{{ issue.description }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="no-alerts" *ngIf="issues.length === 0">
+  <div class="no-alerts-content">
+    <span class="alert-icon">✅</span>
+    <h3>No Cycling Alerts</h3>
+    <p>All conditions look good for cycling! Enjoy your ride!</p>
+  </div>
+</div>

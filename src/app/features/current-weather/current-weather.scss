@@ -25,6 +25,55 @@
     gap: 2rem;
   }
 
+  // Cycling-specific sections
+  .cycling-score-section,
+  .cycling-alerts-section,
+  .air-quality-section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .air-quality-section {
+    .aq-card {
+      h3 {
+        font-size: 1.5rem;
+        color: #1e293b;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .aq-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+
+        .aq-stat {
+          background: #f7fafc;
+          padding: 1.25rem;
+          border-radius: 12px;
+          text-align: center;
+
+          .aq-label {
+            display: block;
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 0.5rem;
+          }
+
+          .aq-value {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2d3748;
+          }
+        }
+      }
+    }
+  }
+
   .forecast-section,
   .hourly-section {
     background: white;
@@ -43,5 +92,25 @@
 
   .hourly-section {
     overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .weather-container {
+    padding: 1rem;
+
+    .page-header {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .air-quality-section {
+      .aq-card {
+        .aq-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    }
   }
 }

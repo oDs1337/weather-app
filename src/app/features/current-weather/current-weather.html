@@ -1,6 +1,6 @@
 <div class="weather-container">
   <header class="page-header">
-    <h1>Weather in Katowice, Poland</h1>
+    <h1>🚴 Cycling Weather in {{ selectedCityName() }}</h1>
     @if (data()) {
       <p class="current-date">{{ todayDate() }}</p>
     }
@@ -10,8 +10,51 @@
     <app-loading />
   } @else if (error()) {
     <app-error [error]="error()!" />
-  } @else if (data()) {
+  } @else if (data() && cyclingScore()) {
     <div class="weather-content">
+      <!-- Cycling Score Card -->
+      <section class="cycling-score-section">
+        <app-cycling-score-card 
+          [score]="cyclingScore()!" 
+          [city]="selectedCityName()" 
+        />
+      </section>
+
+      <!-- Cycling Alerts -->
+      @if (cyclingIssues().length > 0) {
+        <section class="cycling-alerts-section">
+          <app-cycling-alerts [issues]="cyclingIssues()" />
+        </section>
+      }
+
+      <!-- Air Quality Info -->
+      @if (airQuality()) {
+        <section class="air-quality-section">
+          <div class="aq-card">
+            <h3>🌬️ Air Quality Details</h3>
+            <div class="aq-stats">
+              <div class="aq-stat">
+                <span class="aq-label">PM2.5</span>
+                <span class="aq-value">{{ airQuality()!.pm25 }} μg/m³</span>
+              </div>
+              <div class="aq-stat">
+                <span class="aq-label">PM10</span>
+                <span class="aq-value">{{ airQuality()!.pm10 }} μg/m³</span>
+              </div>
+              <div class="aq-stat">
+                <span class="aq-label">O₃</span>
+                <span class="aq-value">{{ airQuality()!.o3 }} μg/m³</span>
+              </div>
+              <div class="aq-stat">
+                <span class="aq-label">NO₂</span>
+                <span class="aq-value">{{ airQuality()!.no2 }} μg/m³</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      }
+
+      <!-- Regular Weather Info -->
       <app-current-weather-card [current]="data()!.current" />
 
       <section class="forecast-section">

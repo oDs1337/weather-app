@@ -1,0 +1,373 @@
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+
+interface GeoLocation {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  admin1?: string;
+}
+
+@Component({
+  selector: 'app-city-selector',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  templateUrl: './city-selector.html',
+  styles: [`
+    .city-selector-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem;
+
+      .selector-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        width: 100%;
+        padding: 2.5rem;
+
+        .header {
+          text-align: center;
+          margin-bottom: 2rem;
+
+          h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin: 0 0 0.5rem 0;
+          }
+
+          .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin: 0;
+          }
+        }
+
+        .search-form {
+          margin-bottom: 1.5rem;
+
+          .input-group {
+            display: flex;
+            gap: 0.75rem;
+
+            .city-input {
+              flex: 1;
+              padding: 1rem 1.25rem;
+              font-size: 1rem;
+              border: 2px solid #e2e8f0;
+              border-radius: 12px;
+              outline: none;
+              transition: all 0.3s ease;
+
+              &:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+              }
+
+              &::placeholder {
+                color: #a0aec0;
+              }
+            }
+
+            .search-btn {
+              padding: 1rem 1.5rem;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              border: none;
+              border-radius: 12px;
+              font-size: 1rem;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+
+              &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+              }
+
+              &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+              }
+            }
+          }
+        }
+
+        .error-message {
+          background: #fed7d7;
+          color: #c53030;
+          padding: 1rem;
+          border-radius: 10px;
+          margin-bottom: 1.5rem;
+          font-weight: 500;
+        }
+
+        .results-list {
+          max-height: 400px;
+          overflow-y: auto;
+          margin-bottom: 2rem;
+
+          .city-item {
+            width: 100%;
+            padding: 1.25rem;
+            background: #f7fafc;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &:hover {
+              background: #edf2f7;
+              border-color: #667eea;
+              transform: translateX(5px);
+            }
+
+            .city-name {
+              font-size: 1.1rem;
+              font-weight: 600;
+              color: #2d3748;
+            }
+
+            .city-location {
+              font-size: 0.9rem;
+              color: #718096;
+            }
+          }
+        }
+
+        .popular-section {
+          margin-bottom: 2rem;
+
+          h3 {
+            font-size: 1.25rem;
+            color: #4a5568;
+            margin: 0 0 1rem 0;
+          }
+
+          .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.75rem;
+
+            .popular-city-btn {
+              padding: 0.875rem;
+              background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+              border: 2px solid #667eea;
+              border-radius: 10px;
+              color: #667eea;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+              }
+            }
+          }
+        }
+
+        .features-info {
+          background: #f0fff4;
+          padding: 1.5rem;
+          border-radius: 12px;
+          border-left: 4px solid #48bb78;
+
+          h3 {
+            font-size: 1.1rem;
+            color: #2d3748;
+            margin: 0 0 1rem 0;
+          }
+
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+              padding: 0.5rem 0;
+              color: #4a5568;
+              font-size: 0.95rem;
+
+              &:not(:last-child) {
+                border-bottom: 1px solid #e2e8f0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      .city-selector-container {
+        padding: 1rem;
+
+        .selector-card {
+          padding: 1.5rem;
+
+          .header {
+            h1 {
+              font-size: 2rem;
+            }
+          }
+
+          .popular-grid {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+          }
+        }
+      }
+    }
+  `]
+})
+export class CitySelectorComponent implements OnInit {
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+
+  searchControl = new FormControl('', [Validators.required]);
+  cities = signal<GeoLocation[]>([]);
+  selectedCity = signal<GeoLocation | null>(null);
+  loading = signal(false);
+  error = signal<string | null>(null);
+  hasSearched = signal(false);
+
+  ngOnInit() {
+    // Add debounce to search
+    this.searchControl.valueChanges.subscribe(() => {
+      this.debouncedSearch();
+    });
+  }
+
+  private searchTimeout: any;
+  private debouncedSearch() {
+    clearTimeout(this.searchTimeout);
+    const query = this.searchControl.value?.trim();
+    
+    if (!query || query.length < 2) {
+      this.cities.set([]);
+      this.hasSearched.set(false);
+      return;
+    }
+
+    this.searchTimeout = setTimeout(() => {
+      this.performSearch(query);
+    }, 300);
+  }
+
+  private async performSearch(query: string) {
+    this.loading.set(true);
+    this.error.set(null);
+    
+    try {
+      const response = await this.http.get<any>(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=10&language=en&format=json`
+      ).toPromise();
+
+      if (response?.results) {
+        const locations: GeoLocation[] = response.results.map((r: any) => ({
+          id: r.id,
+          name: r.name,
+          latitude: r.latitude,
+          longitude: r.longitude,
+          country: r.country || '',
+          admin1: r.admin1 || ''
+        }));
+        this.cities.set(locations);
+        this.hasSearched.set(true);
+      } else {
+        this.cities.set([]);
+        this.hasSearched.set(true);
+        this.error.set('No cities found. Try a different search term.');
+      }
+    } catch (err) {
+      this.error.set('Failed to search cities. Please try again.');
+      console.error('Geo coding error:', err);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  selectCity(city: GeoLocation) {
+    this.selectedCity.set(city);
+    // Navigate to weather component with city params
+    this.router.navigate(['/weather'], {
+      queryParams: {
+        lat: city.latitude,
+        lon: city.longitude,
+        name: city.name
+      }
+    });
+  }
+
+  popularCitiesList = signal<string[]>([
+    'Warsaw', 'Krakow', 'Gdansk', 'Wroclaw', 
+    'Berlin', 'London', 'Paris', 'Amsterdam'
+  ]);
+
+  selectPopularCity(cityName: string) {
+    const cityMap: Record<string, { lat: number; lon: number }> = {
+      'Warsaw': { lat: 52.23, lon: 21.01 },
+      'Krakow': { lat: 50.06, lon: 19.94 },
+      'Gdansk': { lat: 54.35, lon: 18.65 },
+      'Wroclaw': { lat: 51.1, lon: 17.03 },
+      'Berlin': { lat: 52.52, lon: 13.41 },
+      'London': { lat: 51.51, lon: -0.13 },
+      'Paris': { lat: 48.86, lon: 2.34 },
+      'Amsterdam': { lat: 52.37, lon: 4.90 }
+    };
+
+    const city = cityMap[cityName];
+    if (city) {
+      this.loading.set(true);
+      this.error.set(null);
+      
+      this.router.navigate(['/weather'], {
+        queryParams: {
+          lat: city.lat,
+          lon: city.lon,
+          name: cityName
+        }
+      });
+    }
+  }
+
+  popularCities() {
+    const cities = [
+      { name: 'Warsaw', lat: 52.23, lon: 21.01 },
+      { name: 'Krakow', lat: 50.06, lon: 19.94 },
+      { name: 'Gdansk', lat: 54.35, lon: 18.65 },
+      { name: 'Wroclaw', lat: 51.1, lon: 17.03 },
+      { name: 'Poznan', lat: 52.41, lon: 16.93 },
+      { name: 'Berlin', lat: 52.52, lon: 13.41 },
+      { name: 'London', lat: 51.51, lon: -0.13 },
+      { name: 'Paris', lat: 48.86, lon: 2.34 },
+    ];
+    
+    this.loading.set(true);
+    this.error.set(null);
+    
+    // Fetch weather for selected city
+    const city = cities[Math.floor(Math.random() * cities.length)];
+    this.router.navigate(['/weather'], {
+      queryParams: {
+        lat: city.lat,
+        lon: city.lon,
+        name: city.name
+      }
+    });
+  }
+}

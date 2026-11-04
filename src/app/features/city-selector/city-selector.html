@@ -1,0 +1,82 @@
+<div class="city-selector-container">
+  <div class="selector-card">
+    <div class="header">
+      <h1>🚴 Cyclist Weather</h1>
+      <p class="subtitle">Find the perfect weather for your ride!</p>
+    </div>
+
+    <!-- Search Form -->
+    <form class="search-form" (ngSubmit)="performSearch(searchControl.value ?? '')">
+      <div class="input-group">
+        <input 
+          type="text" 
+          [formControl]="searchControl"
+          placeholder="Search for your city..."
+          class="city-input"
+          autocomplete="off"
+        />
+        <button 
+          type="submit" 
+          class="search-btn"
+          [disabled]="loading() || !searchControl.value?.trim()"
+        >
+          {{ loading() ? 'Searching...' : 'Search' }}
+        </button>
+      </div>
+    </form>
+
+    <!-- Error Message -->
+    @if (error()) {
+      <div class="error-message">
+        ⚠️ {{ error() }}
+      </div>
+    }
+
+    <!-- Search Results -->
+    @if (cities().length > 0) {
+      <div class="results-list">
+        @for (city of cities(); track city.id) {
+          <button 
+            class="city-item"
+            (click)="selectCity(city)"
+          >
+            <span class="city-name">{{ city.name }}</span>
+            <span class="city-location">
+              {{ city.admin1 ? city.admin1 + ', ' : '' }}{{ city.country }}
+            </span>
+          </button>
+        }
+      </div>
+    }
+
+    <!-- Popular Cities -->
+    @if (!hasSearched()) {
+      <div class="popular-section">
+        <h3>Popular Cycling Destinations</h3>
+        <div class="popular-grid">
+          @for (cityName of popularCitiesList(); track cityName) {
+            <button 
+              class="popular-city-btn"
+              (click)="selectPopularCity(cityName)"
+            >
+              {{ cityName }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Features Info -->
+    <div class="features-info">
+      <h3>What we check for you:</h3>
+      <ul>
+        <li>🌡️ Temperature & comfort level</li>
+        <li>💨 Wind speed & direction</li>
+        <li>🌧️ Precipitation probability</li>
+        <li>🌬️ Air quality index</li>
+        <li>☀️ UV index for sun protection</li>
+        <li>💧 Humidity comfort level</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,40 +1,99 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { WeatherService } from '../../../core/services/weather.service';
+import { CyclingScoringService } from '../../core/services/cycling-scoring.service';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 import { ErrorComponent } from '../../../shared/components/error/error.component';
 import { CurrentWeatherCardComponent } from './current-weather-card/current-weather-card.component';
 import { DailyForecastComponent } from './daily-forecast/daily-forecast.component';
 import { HourlyChartComponent } from './hourly-chart/hourly-chart.component';
-import { WeatherResponse } from '../../../core/models/weather.model';
+import { CyclingScoreCardComponent } from '../cycling-score-card/cycling-score-card.component';
+import { CyclingAlertsComponent } from '../cycling-alerts/cycling-alerts.component';
+import { WeatherResponse, CyclingScore, CyclingIssue } from '../../../core/models/weather.model';
 
 @Component({
   selector: 'app-current-weather',
-  imports: [LoadingComponent, ErrorComponent, CurrentWeatherCardComponent, DailyForecastComponent, HourlyChartComponent],
+  standalone: true,
+  imports: [
+    LoadingComponent, 
+    ErrorComponent, 
+    CurrentWeatherCardComponent, 
+    DailyForecastComponent, 
+    HourlyChartComponent,
+    CyclingScoreCardComponent,
+    CyclingAlertsComponent
+  ],
   templateUrl: './current-weather.html',
   styleUrl: './current-weather.scss',
 })
 export class CurrentWeatherComponent implements OnInit {
   private readonly weatherService = inject(WeatherService);
+  private readonly cyclingScoringService = inject(CyclingScoringService);
+  private readonly route = inject(ActivatedRoute);
 
   data = signal<WeatherResponse | null>(null);
+  airQuality = signal<any>(null);
   loading = signal(true);
   error = signal<string | null>(null);
+  
+  // Cycling-specific signals
+  cyclingScore = signal<CyclingScore | null>(null);
+  cyclingIssues = signal<CyclingIssue[]>([]);
+  selectedCityName = signal<string>('Your City');
 
-  protected readonly todayDate = signal<string>(new Date().toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  }));
+  protected readonly todayDate = computed(() => 
+    new Date().toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    })
+  );
 
   ngOnInit(): void {
-    this.fetchWeather();
+    this.route.queryParams.subscribe(params => {
+      const lat = parseFloat(params['lat']);
+      const lon = parseFloat(params['lon']);
+      const name = params['name'] || 'Your City';
+      
+      if (!isNaN(lat) && !isNaN(lon)) {
+        this.selectedCityName.set(name);
+        this.fetchCyclingWeather(lat, lon);
+      } else {
+        // Default to Katowice if no city selected
+        this.selectedCityName.set('Katowice');
+        this.fetchCyclingWeather(50.2649, 19.0238);
+      }
+    });
   }
 
-  private fetchWeather(): void {
-    this.weatherService.getWeatherKatowice().subscribe({
+  private fetchCyclingWeather(lat: number, lon: number): void {
+    this.loading.set(true);
+    this.error.set(null);
+    
+    this.weatherService.getCyclingWeather(lat, lon).subscribe({
       next: (response) => {
-        this.data.set(response);
+        this.data.set(response.weather);
+        this.airQuality.set(response.airQuality);
+        
+        // Calculate cycling score
+        const { score, issues } = this.cyclingScoringService.calculateCyclingScore(
+          response.weather.current,
+          response.weather.hourly,
+          response.weather.daily,
+          response.airQuality
+        );
+        
+        // Get additional forecast-based issues
+        const forecastIssues = this.cyclingScoringService.calculateForecastIssues(
+          response.weather.hourly,
+          response.weather.daily
+        );
+        
+        // Merge all issues
+        this.cyclingIssues.set([...issues, ...forecastIssues]);
+        this.cyclingScore.set(score);
+        
         this.loading.set(false);
       },
       error: (err) => {

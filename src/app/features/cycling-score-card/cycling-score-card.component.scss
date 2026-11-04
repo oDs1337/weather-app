@@ -1,0 +1,161 @@
+.score-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  .card-header {
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+    }
+
+    .city-name {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+  }
+
+  .overall-score {
+    padding: 2rem;
+    text-align: center;
+    color: white;
+
+    .score-circle {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 1.5rem;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .score-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+
+        .score-value {
+          display: block;
+          font-size: 2.5rem;
+          font-weight: bold;
+          line-height: 1;
+        }
+
+        .score-label {
+          display: block;
+          font-size: 0.9rem;
+          opacity: 0.9;
+        }
+      }
+    }
+
+    .score-message {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+  }
+
+  .individual-scores {
+    padding: 1.5rem 2rem;
+
+    .score-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      background: #f7fafc;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        transform: translateX(5px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .score-icon {
+        font-size: 1.5rem;
+        width: 40px;
+        text-align: center;
+      }
+
+      .score-info {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .score-title {
+          font-size: 0.9rem;
+          color: #718096;
+        }
+
+        .score-value {
+          font-weight: 700;
+          font-size: 1rem;
+        }
+      }
+
+      .score-status {
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        background: #e2e8f0;
+        color: #4a5568;
+      }
+
+      // Score class variants
+      &.excellent {
+        background: #c6f6d5;
+        
+        .score-status {
+          background: #48bb78;
+          color: white;
+        }
+      }
+
+      &.good {
+        background: #fefcbf;
+        
+        .score-status {
+          background: #ecc94b;
+          color: white;
+        }
+      }
+
+      &.fair {
+        background: #feebc8;
+        
+        .score-status {
+          background: #ed8936;
+          color: white;
+        }
+      }
+
+      &.poor {
+        background: #fed7d7;
+        
+        .score-status {
+          background: #e53e3e;
+          color: white;
+        }
+      }
+    }
+  }
+}
