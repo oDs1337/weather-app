@@ -1,0 +1,16 @@
+<div class="forecast-grid">
+  @for (day of daily(); track day.time) {
+    <div class="forecast-card">
+      <p class="day-name">{{ dayName(day.time) }}</p>
+      <span class="weather-icon">{{ day.weathercode | weatherIcon }}</span>
+      <div class="temps">
+        <span class="temp-max">{{ day.temperature_2m_max }}°</span>
+        <span class="temp-min">{{ day.temperature_2m_min }}°</span>
+      </div>
+      <div class="details">
+        <span class="detail">🌧️ {{ day.precipitation_sum }}mm</span>
+        <span class="detail">💨 {{ day.windspeed_10m_max }}km/h</span>
+      </div>
+    </div>
+  }
+</div>

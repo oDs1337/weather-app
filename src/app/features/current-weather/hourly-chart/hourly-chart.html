@@ -1,0 +1,12 @@
+<div class="hourly-scroll">
+  @for (hour of displayHours; track hour.time) {
+    <div class="hour-card">
+      <p class="hour-time">{{ hour.time }}</p>
+      <span class="weather-icon">{{ hour.icon | weatherIcon }}</span>
+      <span class="hour-temp">{{ hour.temp }}°</span>
+      @if (hour.precip > 0) {
+        <span class="precip-chance">💧{{ hour.precip }}%</span>
+      }
+    </div>
+  }
+</div>

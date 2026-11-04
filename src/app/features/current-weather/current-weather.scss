@@ -1,0 +1,47 @@
+.weather-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2.5rem;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .current-date {
+      font-size: 1.125rem;
+      color: #64748b;
+    }
+  }
+
+  .weather-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .forecast-section,
+  .hourly-section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    h2 {
+      font-size: 1.5rem;
+      color: #1e293b;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+  }
+
+  .hourly-section {
+    overflow-x: auto;
+  }
+}

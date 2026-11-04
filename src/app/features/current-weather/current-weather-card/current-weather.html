@@ -1,0 +1,40 @@
+<div class="current-card">
+  <div class="location-icon">📍</div>
+  <h2>Katowice, Poland</h2>
+  
+  <div class="weather-main">
+    <span class="weather-icon">{{ current().weathercode | weatherIcon }}</span>
+    <div class="temp-info">
+      <span class="temperature">{{ current().temperature }}°C</span>
+      <span class="feels-like">Feels like {{ current().apparent_temperature }}°C</span>
+    </div>
+  </div>
+
+  <p class="weather-description">
+    {{ current().weathercode | weatherCode }}
+  </p>
+
+  <div class="weather-details">
+    <div class="detail-item">
+      <span class="detail-icon">💧</span>
+      <div class="detail-info">
+        <span class="detail-label">Humidity</span>
+        <span class="detail-value">{{ current().relative_humidity_2m }}%</span>
+      </div>
+    </div>
+    <div class="detail-item">
+      <span class="detail-icon">💨</span>
+      <div class="detail-info">
+        <span class="detail-label">Wind Speed</span>
+        <span class="detail-value">{{ current().windspeed }} km/h</span>
+      </div>
+    </div>
+    <div class="detail-item">
+      <span class="detail-icon">🌧️</span>
+      <div class="detail-info">
+        <span class="detail-label">Precipitation</span>
+        <span class="detail-value">{{ current().precipitation }} mm</span>
+      </div>
+    </div>
+  </div>
+</div>
