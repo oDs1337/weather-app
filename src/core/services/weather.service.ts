@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { WeatherResponse } from '../models/weather.model';
+import { Observable, map } from 'rxjs';
+import { DailyWeather, WeatherResponse } from '../models/weather.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +22,28 @@ export class WeatherService {
       hourly: 'temperature_2m,weather_code,precipitation_probability',
       daily: 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max',
       timezone: 'Europe/Warsaw',
-      forecast_days: '1',
+      forecast_days: '6',
     });
 
-    return this.http.get<WeatherResponse>(`${this.baseUrl}?${params}`);
+    return this.http.get<any>(`${this.baseUrl}?${params}`).pipe(
+      map((response) => {
+        const dailyRaw = response.daily;
+        const daily: DailyWeather[] = dailyRaw.time.map((_: string, i: number) => ({
+          time: dailyRaw.time[i],
+          weather_code: dailyRaw.weather_code[i],
+          temperature_2m_max: dailyRaw.temperature_2m_max[i],
+          temperature_2m_min: dailyRaw.temperature_2m_min[i],
+          sunrise: dailyRaw.sunrise[i],
+          sunset: dailyRaw.sunset[i],
+          precipitation_sum: dailyRaw.precipitation_sum[i],
+          windspeed_10m_max: dailyRaw.windspeed_10m_max[i],
+        }));
+
+        return {
+          ...response,
+          daily,
+        };
+      }),
+    );
   }
 }
