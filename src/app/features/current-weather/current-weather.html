@@ -1,27 +1,27 @@
 <div class="weather-container">
   <header class="page-header">
     <h1>Weather in Katowice, Poland</h1>
-    @if (data) {
+    @if (data()) {
       <p class="current-date">{{ todayDate() }}</p>
     }
   </header>
 
-  @if (loading) {
+  @if (loading()) {
     <app-loading />
-  } @else if (error) {
-    <app-error [error]="error" />
-  } @else if (data) {
+  } @else if (error()) {
+    <app-error [error]="error()!" />
+  } @else if (data()) {
     <div class="weather-content">
-      <app-current-weather-card [current]="data.current" />
+      <app-current-weather-card [current]="data()!.current" />
 
       <section class="forecast-section">
         <h2>5-Day Forecast</h2>
-        <app-daily-forecast [daily]="data.daily" />
+        <app-daily-forecast [daily]="data()!.daily" />
       </section>
 
       <section class="hourly-section">
         <h2>Today's Hourly Weather</h2>
-        <app-hourly-chart [hourly]="data.hourly" />
+        <app-hourly-chart [hourly]="data()!.hourly" />
       </section>
     </div>
   }

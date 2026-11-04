@@ -16,9 +16,9 @@ import { WeatherResponse } from '../../../core/models/weather.model';
 export class CurrentWeatherComponent implements OnInit {
   private readonly weatherService = inject(WeatherService);
 
-  data: WeatherResponse | null = null;
-  loading = true;
-  error: string | null = null;
+  data = signal<WeatherResponse | null>(null);
+  loading = signal(true);
+  error = signal<string | null>(null);
 
   protected readonly todayDate = signal<string>(new Date().toLocaleDateString('en-US', { 
     weekday: 'long', 
@@ -34,12 +34,12 @@ export class CurrentWeatherComponent implements OnInit {
   private fetchWeather(): void {
     this.weatherService.getWeatherKatowice().subscribe({
       next: (response) => {
-        this.data = response;
-        this.loading = false;
+        this.data.set(response);
+        this.loading.set(false);
       },
       error: (err) => {
-        this.error = 'Failed to load weather data. Please try again later.';
-        this.loading = false;
+        this.error.set('Failed to load weather data. Please try again later.');
+        this.loading.set(false);
         console.error('Weather API Error:', err);
       },
     });
