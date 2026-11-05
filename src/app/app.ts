@@ -14,10 +14,11 @@ export class App implements OnInit {
   private translateService = inject(TranslateService);
 
   ngOnInit() {
-    // Connect TranslateService to LanguageService so translations can be applied
+    // Initialize translations and wait for it to complete, then load saved language preference
     this.languageService.initialize(this.translateService).then(() => {
-      // Load translations based on saved or system language
-      this.languageService.loadSavedLanguage();
+      return this.languageService.loadSavedLanguage();
+    }).catch((err) => {
+      console.error('Failed to initialize language:', err);
     });
   }
 }

@@ -34,18 +34,32 @@ export class LanguageService {
     (this as any).__translateService = service;
   }
 
+  private _initPromise: Promise<void> | null = null;
+
   /**
    * Initialize the service with TranslateService instance
    */
   async initialize(translate: any): Promise<void> {
     this._translate = translate;
-    if (translate) {
-      // Pre-load English translations as the default/fallback language
-      const enTranslations = await this.loadTranslationFile('en');
-      translate.setTranslation('en', enTranslations);
-      translate.setDefaultLang('en');
-      translate.use('en').subscribe();
+    
+    // If already initializing, return existing promise to avoid race conditions
+    if (this._initPromise) {
+      return this._initPromise;
     }
+
+    this._initPromise = new Promise((resolve, reject) => {
+      // Pre-load English translations as the default/fallback language
+      this.loadTranslationFile('en').then((enTranslations) => {
+        translate.setTranslation('en', enTranslations);
+        translate.setDefaultLang('en');
+        translate.use('en').subscribe({
+          next: () => resolve(),
+          error: (err: unknown) => reject(err),
+        });
+      }).catch(reject);
+    });
+
+    return this._initPromise;
   }
 
   /**
