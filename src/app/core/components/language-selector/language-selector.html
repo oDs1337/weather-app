@@ -1,0 +1,28 @@
+<div class="language-selector">
+  <div class="selector-header" (click)="toggleDropdown()">
+    <span class="current-lang">{{ languageService.getLanguageDisplayName(languageService.getLanguage()) }}</span>
+    <svg class="chevron-icon" [class.open]="isOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+
+  @if (isOpen) {
+    <div class="dropdown-menu">
+      @for (lang of languageService.getLanguages(); track lang.code) {
+        <button 
+          class="lang-option" 
+          [class.active]="languageService.getLanguage() === lang.code"
+          (click)="selectLanguage(lang.code)"
+        >
+          <span class="lang-flag">{{ lang.flag }}</span>
+          <span class="lang-name">{{ lang.nativeName }}</span>
+          @if (languageService.getLanguage() === lang.code) {
+            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          }
+        </button>
+      }
+    </div>
+  }
+</div>

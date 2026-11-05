@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { CyclingScore, CyclingScoreDetails, CurrentWeather, DailyWeather, HourlyWeather, AirQuality, CyclingIssue } from '../../../core/models/weather.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CyclingScoringService {
+  private translate = inject(TranslateService);
   
   /**
    * Calculate overall cycling suitability score based on multiple weather factors
@@ -68,8 +70,8 @@ export class CyclingScoringService {
       issues.push({
         type: 'warning',
         icon: '🌧️',
-        title: 'Rain Expected',
-        description: `Rain probability exceeds 50% in the next ${rainInNextHours.length} hour(s). Consider bringing rain gear or postponing your ride.`
+        title: this.translate.instant('alerts.rainExpected'),
+        description: this.translate.instant('alerts.rainExpectedDescription', { count: rainInNextHours.length })
       });
     }
     
@@ -82,8 +84,8 @@ export class CyclingScoringService {
       issues.push({
         type: 'danger',
         icon: '⛈️',
-        title: 'Thunderstorm Risk',
-        description: 'Potential thunderstorms detected in the forecast. For your safety, avoid cycling during electrical storms.'
+        title: this.translate.instant('alerts.thunderstormRisk'),
+        description: this.translate.instant('alerts.thunderstormRiskDescription')
       });
     }
     
@@ -93,8 +95,8 @@ export class CyclingScoringService {
       issues.push({
         type: 'warning',
         icon: '🌊',
-        title: 'Heavy Rain Expected',
-        description: 'Significant rainfall predicted. Road conditions may be hazardous.'
+        title: this.translate.instant('alerts.heavyRainExpected'),
+        description: this.translate.instant('alerts.heavyRainDescription')
       });
     }
     
@@ -104,8 +106,8 @@ export class CyclingScoringService {
       issues.push({
         type: 'warning',
         icon: '🔥',
-        title: 'Extreme Heat Warning',
-        description: 'Temperatures above 35°C predicted. Stay hydrated and consider early morning or evening rides.'
+        title: this.translate.instant('alerts.extremeHeatWarning'),
+        description: this.translate.instant('alerts.extremeHeatDescription')
       });
     }
     
@@ -114,8 +116,8 @@ export class CyclingScoringService {
       issues.push({
         type: 'danger',
         icon: '❄️',
-        title: 'Freezing Temperatures',
-        description: 'Sub-zero temperatures expected. Road ice may be present. Use appropriate winter cycling gear.'
+        title: this.translate.instant('alerts.freezingTemperatures'),
+        description: this.translate.instant('alerts.freezingTemperaturesDescription')
       });
     }
     
@@ -210,44 +212,32 @@ export class CyclingScoringService {
   // Helper methods for labels
   
   private getTemperatureLabel(score: number): string {
-    if (score >= 90) return 'Ideal';
-    if (score >= 70) return 'Good';
-    if (score >= 50) return 'Fair';
-    return 'Poor';
+    const key = score >= 90 ? 'ideal' : score >= 70 ? 'good' : score >= 50 ? 'fair' : 'poor';
+    return this.translate.instant(`scoreLabels.temperature.${key}`);
   }
 
   private getWindLabel(score: number): string {
-    if (score >= 90) return 'Calm';
-    if (score >= 70) return 'Light breeze';
-    if (score >= 50) return 'Moderate';
-    return 'Strong headwind risk';
+    const key = score >= 90 ? 'calm' : score >= 70 ? 'lightBreeze' : score >= 50 ? 'moderate' : 'strongHeadwind';
+    return this.translate.instant(`scoreLabels.wind.${key}`);
   }
 
   private getPrecipitationLabel(score: number): string {
-    if (score >= 90) return 'None';
-    if (score >= 70) return 'Low';
-    if (score >= 50) return 'Medium';
-    return 'High';
+    const key = score >= 90 ? 'none' : score >= 70 ? 'low' : score >= 50 ? 'medium' : 'high';
+    return this.translate.instant(`scoreLabels.precipitation.${key}`);
   }
 
   private getAirQualityLabel(score: number): string {
-    if (score >= 90) return 'Excellent';
-    if (score >= 70) return 'Good';
-    if (score >= 50) return 'Moderate';
-    return 'Unhealthy';
+    const key = score >= 90 ? 'excellent' : score >= 70 ? 'good' : score >= 50 ? 'moderate' : 'unhealthy';
+    return this.translate.instant(`scoreLabels.airQuality.${key}`);
   }
 
   private getUVLabel(score: number): string {
-    if (score >= 90) return 'Low';
-    if (score >= 70) return 'Moderate';
-    if (score >= 50) return 'High';
-    return 'Very high';
+    const key = score >= 90 ? 'low' : score >= 70 ? 'moderate' : score >= 50 ? 'high' : 'veryHigh';
+    return this.translate.instant(`scoreLabels.uvIndex.${key}`);
   }
 
   private getHumidityLabel(score: number): string {
-    if (score >= 90) return 'Comfortable';
-    if (score >= 70) return 'OK';
-    if (score >= 50) return 'Humid';
-    return 'Very humid';
+    const key = score >= 90 ? 'comfortable' : score >= 70 ? 'ok' : score >= 50 ? 'humid' : 'veryHumid';
+    return this.translate.instant(`scoreLabels.humidity.${key}`);
   }
 }

@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CyclingScore } from '../../../core/models/weather.model';
 
 @Component({
   selector: 'app-cycling-score-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './cycling-score-card.html',
   styles: [`
     .score-card {

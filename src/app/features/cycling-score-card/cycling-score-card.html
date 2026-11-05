@@ -1,6 +1,6 @@
 <div class="score-card">
   <div class="card-header">
-    <h2>🚴 Cycling Suitability</h2>
+    <h2>{{ 'cyclingScore.title' | translate }}</h2>
     <p class="city-name">{{ city }}</p>
   </div>
 
@@ -23,7 +23,7 @@
       </svg>
       <div class="score-text">
         <span class="score-value">{{ score.overall }}</span>
-        <span class="score-label">/100</span>
+        <span class="score-label">{{ 'cyclingScore.scoreOutOf100' | translate }}</span>
       </div>
     </div>
     <p class="score-message">{{ getScoreText(score.overall) }}</p>
@@ -34,7 +34,7 @@
     <div class="score-item" [class]="getScoreClass(score.temperature)">
       <div class="score-icon">🌡️</div>
       <div class="score-info">
-        <span class="score-title">Temperature</span>
+        <span class="score-title">{{ 'cyclingScore.temperature' | translate }}</span>
         <span class="score-value">{{ score.temperature }}/100</span>
       </div>
       <span class="score-status">{{ score.details.temperatureComfort }}</span>
@@ -43,7 +43,7 @@
     <div class="score-item" [class]="getScoreClass(score.wind)">
       <div class="score-icon">💨</div>
       <div class="score-info">
-        <span class="score-title">Wind</span>
+        <span class="score-title">{{ 'cyclingScore.wind' | translate }}</span>
         <span class="score-value">{{ score.wind }}/100</span>
       </div>
       <span class="score-status">{{ score.details.windCondition }}</span>
@@ -52,7 +52,7 @@
     <div class="score-item" [class]="getScoreClass(score.precipitation)">
       <div class="score-icon">🌧️</div>
       <div class="score-info">
-        <span class="score-title">Precipitation</span>
+        <span class="score-title">{{ 'cyclingScore.precipitation' | translate }}</span>
         <span class="score-value">{{ score.precipitation }}/100</span>
       </div>
       <span class="score-status">{{ score.details.precipitationRisk }}</span>
@@ -61,7 +61,7 @@
     <div class="score-item" [class]="getScoreClass(score.airQuality)">
       <div class="score-icon">🌬️</div>
       <div class="score-info">
-        <span class="score-title">Air Quality</span>
+        <span class="score-title">{{ 'cyclingScore.airQuality' | translate }}</span>
         <span class="score-value">{{ score.airQuality }}/100</span>
       </div>
       <span class="score-status">{{ score.details.airQualityStatus }}</span>
@@ -70,7 +70,7 @@
     <div class="score-item" [class]="getScoreClass(score.uvIndex)">
       <div class="score-icon">☀️</div>
       <div class="score-info">
-        <span class="score-title">UV Index</span>
+        <span class="score-title">{{ 'cyclingScore.uvIndex' | translate }}</span>
         <span class="score-value">{{ score.uvIndex }}/100</span>
       </div>
       <span class="score-status">{{ score.details.uvRiskLevel }}</span>
@@ -79,7 +79,7 @@
     <div class="score-item" [class]="getScoreClass(score.humidity)">
       <div class="score-icon">💧</div>
       <div class="score-info">
-        <span class="score-title">Humidity</span>
+        <span class="score-title">{{ 'cyclingScore.humidity' | translate }}</span>
         <span class="score-value">{{ score.humidity }}/100</span>
       </div>
       <span class="score-status">{{ score.details.humidityComfort }}</span>

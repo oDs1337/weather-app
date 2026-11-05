@@ -1,11 +1,13 @@
 import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { WeatherCodePipe } from '../../../../shared/pipes/weather-code.pipe';
 import { WeatherIconPipe } from '../../../../shared/pipes/weather-icon.pipe';
 import { CurrentWeather } from '../../../../core/models/weather.model';
 
 @Component({
   selector: 'app-current-weather-card',
-  imports: [WeatherCodePipe, WeatherIconPipe],
+  imports: [CommonModule, TranslatePipe, WeatherCodePipe, WeatherIconPipe],
   templateUrl: './current-weather.html',
   styleUrl: './current-weather.scss',
 })

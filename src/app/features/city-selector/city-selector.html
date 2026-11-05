@@ -3,8 +3,11 @@
     <!-- Header -->
     @if (!weatherData()) {
       <div class="card-header">
-        <h1>🚴 Cyclist Weather</h1>
-        <p class="subtitle">Find the perfect weather for your ride!</p>
+        <div class="header-top">
+          <h1>{{ 'citySelector.headerTitle' | translate }}</h1>
+          <app-language-selector />
+        </div>
+        <p class="subtitle">{{ 'citySelector.subtitle' | translate }}</p>
       </div>
     }
 
@@ -17,7 +20,7 @@
             <input 
               type="text" 
               [formControl]="searchControl"
-              placeholder="Search for your city..."
+              [placeholder]="'citySelector.searchPlaceholder' | translate"
               class="city-input"
               autocomplete="off"
             />
@@ -26,7 +29,7 @@
               class="search-btn"
               [disabled]="loading() || !searchControl.value?.trim()"
             >
-              {{ loading() ? 'Searching...' : 'Search' }}
+              {{ loading() ? ('citySelector.searching' | translate) : ('citySelector.searchButton' | translate) }}
             </button>
           </div>
         </form>
@@ -58,7 +61,7 @@
         <!-- Popular Cities -->
         @if (!hasSearched()) {
           <div class="popular-section">
-            <h3>Popular Cycling Destinations</h3>
+            <h3>{{ 'citySelector.popularDestinations' | translate }}</h3>
             <div class="popular-grid">
               @for (cityName of popularCitiesList(); track cityName) {
                 <button 
@@ -74,14 +77,14 @@
 
         <!-- Features Info -->
         <div class="features-info">
-          <h3>What we check for you:</h3>
+          <h3>{{ 'citySelector.featuresTitle' | translate }}</h3>
           <ul>
-            <li>🌡️ Temperature & comfort level</li>
-            <li>💨 Wind speed & direction</li>
-            <li>🌧️ Precipitation probability</li>
-            <li>🌬️ Air quality index</li>
-            <li>☀️ UV index for sun protection</li>
-            <li>💧 Humidity comfort level</li>
+            <li>{{ 'citySelector.featureTemperature' | translate }}</li>
+            <li>{{ 'citySelector.featureWind' | translate }}</li>
+            <li>{{ 'citySelector.featurePrecipitation' | translate }}</li>
+            <li>{{ 'citySelector.featureAirQuality' | translate }}</li>
+            <li>{{ 'citySelector.featureUV' | translate }}</li>
+            <li>{{ 'citySelector.featureHumidity' | translate }}</li>
           </ul>
         </div>
       </div>
@@ -94,7 +97,7 @@
           class="back-btn"
           (click)="goBack()"
         >
-          ← Back to City Selection
+          {{ 'citySelector.backToCities' | translate }}
         </button>
 
         <!-- Loading State -->
@@ -123,22 +126,22 @@
             @if (airQuality()) {
               <section class="air-quality-section">
                 <div class="aq-card">
-                  <h3>🌬️ Air Quality Details</h3>
+                  <h3>{{ 'airQuality.title' | translate }}</h3>
                   <div class="aq-stats">
                     <div class="aq-stat">
-                      <span class="aq-label">PM2.5</span>
+                      <span class="aq-label">{{ 'airQuality.pm25' | translate }}</span>
                       <span class="aq-value">{{ airQuality()!.pm25 }} μg/m³</span>
                     </div>
                     <div class="aq-stat">
-                      <span class="aq-label">PM10</span>
+                      <span class="aq-label">{{ 'airQuality.pm10' | translate }}</span>
                       <span class="aq-value">{{ airQuality()!.pm10 }} μg/m³</span>
                     </div>
                     <div class="aq-stat">
-                      <span class="aq-label">O₃</span>
+                      <span class="aq-label">{{ 'airQuality.o3' | translate }}</span>
                       <span class="aq-value">{{ airQuality()!.o3 }} μg/m³</span>
                     </div>
                     <div class="aq-stat">
-                      <span class="aq-label">NO₂</span>
+                      <span class="aq-label">{{ 'airQuality.no2' | translate }}</span>
                       <span class="aq-value">{{ airQuality()!.no2 }} μg/m³</span>
                     </div>
                   </div>

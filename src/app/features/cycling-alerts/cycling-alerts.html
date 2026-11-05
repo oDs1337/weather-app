@@ -1,7 +1,7 @@
 <div class="alerts-container" *ngIf="issues.length > 0">
   <div class="alerts-header">
-    <h3>🚨 Cycling Alerts & Warnings</h3>
-    <p>Important information for your ride safety</p>
+    <h3>{{ 'cyclingAlerts.alertsTitle' | translate }}</h3>
+    <p>{{ 'cyclingAlerts.alertsSubtitle' | translate }}</p>
   </div>
 
   <div class="alerts-list">
@@ -19,8 +19,8 @@
 
 <div class="no-alerts" *ngIf="issues.length === 0">
   <div class="no-alerts-content">
-    <span class="alert-icon">✅</span>
-    <h3>No Cycling Alerts</h3>
-    <p>All conditions look good for cycling! Enjoy your ride!</p>
+    <span class="alert-icon">{{ 'cyclingAlerts.noAlertsIcon' | translate }}</span>
+    <h3>{{ 'cyclingAlerts.noAlertsTitle' | translate }}</h3>
+    <p>{{ 'cyclingAlerts.noAlertsMessage' | translate }}</p>
   </div>
 </div>

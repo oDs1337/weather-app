@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { WeatherIconPipe } from '../../../../shared/pipes/weather-icon.pipe';
+import { TranslateService } from '@ngx-translate/core';
 import { DailyWeather } from '../../../../core/models/weather.model';
 
 @Component({
@@ -11,8 +12,11 @@ import { DailyWeather } from '../../../../core/models/weather.model';
 export class DailyForecastComponent {
   daily = input.required<DailyWeather[]>();
 
+  constructor(private translate: TranslateService) {}
+
   dayName(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { weekday: 'short' });
+    const currentLang = (this.translate.currentLang as any)()?.value || this.translate.currentLang || 'en';
+    return date.toLocaleDateString(currentLang, { weekday: 'short' });
   }
 }

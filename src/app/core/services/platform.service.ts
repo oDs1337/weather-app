@@ -1,6 +1,11 @@
+import { Injectable } from '@angular/core';
+
 /**
  * Detects if the app is running inside Capacitor (native) or in a browser/web environment.
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class PlatformService {
   private _isNative: boolean | null = null;
   private _platform: 'android' | 'ios' | 'web' | null = null;

@@ -1,0 +1,120 @@
+{
+  "app": {
+    "title": "Weather App - Cycling Forecast",
+    "name": "Cyclist Weather"
+  },
+  "citySelector": {
+    "headerTitle": "🚴 Cyclist Weather",
+    "subtitle": "Find the perfect weather for your ride!",
+    "searchPlaceholder": "Search for your city...",
+    "searchButton": "Search",
+    "searching": "Searching...",
+    "backToCities": "← Back to City Selection",
+    "popularDestinations": "Popular Cycling Destinations",
+    "featuresTitle": "What we check for you:",
+    "featureTemperature": "🌡️ Temperature & comfort level",
+    "featureWind": "💨 Wind speed & direction",
+    "featurePrecipitation": "🌧️ Precipitation probability",
+    "featureAirQuality": "🌬️ Air quality index",
+    "featureUV": "☀️ UV index for sun protection",
+    "featureHumidity": "💧 Humidity comfort level"
+  },
+  "weatherCard": {
+    "feelsLike": "Feels like {{temp}}°C",
+    "humidity": "Humidity",
+    "windSpeed": "Wind Speed",
+    "precipitation": "Precipitation"
+  },
+  "cyclingScore": {
+    "title": "🚴 Cycling Suitability",
+    "scoreOutOf100": "/100",
+    "temperature": "Temperature",
+    "wind": "Wind",
+    "precipitation": "Precipitation",
+    "airQuality": "Air Quality",
+    "uvIndex": "UV Index",
+    "humidity": "Humidity"
+  },
+  "cyclingAlerts": {
+    "alertsTitle": "🚨 Cycling Alerts & Warnings",
+    "alertsSubtitle": "Important information for your ride safety",
+    "noAlertsIcon": "✅",
+    "noAlertsTitle": "No Cycling Alerts",
+    "noAlertsMessage": "All conditions look good for cycling! Enjoy your ride!"
+  },
+  "airQuality": {
+    "title": "🌬️ Air Quality Details",
+    "pm25": "PM2.5",
+    "pm10": "PM10",
+    "o3": "O₃",
+    "no2": "NO₂"
+  },
+  "forecast": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "scoreLabels": {
+    "temperature": {
+      "ideal": "Ideal",
+      "good": "Good",
+      "fair": "Fair",
+      "poor": "Poor"
+    },
+    "wind": {
+      "calm": "Calm",
+      "lightBreeze": "Light breeze",
+      "moderate": "Moderate",
+      "strongHeadwind": "Strong headwind risk"
+    },
+    "precipitation": {
+      "none": "None",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "airQuality": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "moderate": "Moderate",
+      "unhealthy": "Unhealthy"
+    },
+    "uvIndex": {
+      "low": "Low",
+      "moderate": "Moderate",
+      "high": "High",
+      "veryHigh": "Very high"
+    },
+    "humidity": {
+      "comfortable": "Comfortable",
+      "ok": "OK",
+      "humid": "Humid",
+      "veryHumid": "Very humid"
+    }
+  },
+  "alerts": {
+    "rainExpected": "Rain Expected",
+    "rainExpectedDescription": "Rain probability exceeds 50% in the next {{count}} hour(s). Consider bringing rain gear or postponing your ride.",
+    "thunderstormRisk": "Thunderstorm Risk",
+    "thunderstormRiskDescription": "Potential thunderstorms detected in the forecast. For your safety, avoid cycling during electrical storms.",
+    "heavyRainExpected": "Heavy Rain Expected",
+    "heavyRainDescription": "Significant rainfall predicted. Road conditions may be hazardous.",
+    "extremeHeatWarning": "Extreme Heat Warning",
+    "extremeHeatDescription": "Temperatures above 35°C predicted. Stay hydrated and consider early morning or evening rides.",
+    "freezingTemperatures": "Freezing Temperatures",
+    "freezingTemperaturesDescription": "Sub-zero temperatures expected. Road ice may be present. Use appropriate winter cycling gear."
+  },
+  "hourlyChart": {
+    "precipitation": "Precipitation"
+  },
+  "language": {
+    "title": "Language",
+    "english": "English",
+    "polish": "Polski",
+    "systemDefault": "System Default"
+  }
+}

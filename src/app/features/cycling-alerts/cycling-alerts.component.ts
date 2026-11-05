@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CyclingIssue } from '../../../core/models/weather.model';
 
 @Component({
   selector: 'app-cycling-alerts',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './cycling-alerts.html',
   styles: [`
     .alerts-container {

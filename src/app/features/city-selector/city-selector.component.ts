@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { WeatherService } from '../../../core/services/weather.service';
 import { CyclingScoringService } from '../../core/services/cycling-scoring.service';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
@@ -12,6 +13,7 @@ import { HourlyChartComponent } from '../current-weather/hourly-chart/hourly-cha
 import { CyclingScoreCardComponent } from '../cycling-score-card/cycling-score-card.component';
 import { CyclingAlertsComponent } from '../cycling-alerts/cycling-alerts.component';
 import { WeatherResponse, CyclingScore, CyclingIssue } from '../../../core/models/weather.model';
+import { LanguageSelectorComponent } from '../../core/components/language-selector/language-selector.component';
 
 interface GeoLocation {
   id: number;
@@ -25,7 +27,7 @@ interface GeoLocation {
 @Component({
   selector: 'app-city-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, LoadingComponent, ErrorComponent, CurrentWeatherCardComponent, DailyForecastComponent, HourlyChartComponent, CyclingScoreCardComponent, CyclingAlertsComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslatePipe, LanguageSelectorComponent, LoadingComponent, ErrorComponent, CurrentWeatherCardComponent, DailyForecastComponent, HourlyChartComponent, CyclingScoreCardComponent, CyclingAlertsComponent],
   templateUrl: './city-selector.html',
   styles: [`
     .city-selector-container {
@@ -51,6 +53,21 @@ interface GeoLocation {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
           text-align: center;
+
+          .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+
+            h1 {
+              margin: 0;
+              font-size: 2rem;
+              font-weight: 700;
+              flex: 1;
+            }
+          }
 
           h1 {
             margin: 0 0 0.5rem 0;
@@ -283,6 +300,12 @@ interface GeoLocation {
 
           .card-header {
             padding: calc(env(safe-area-inset-top, 16px) + 1.5rem) 1.25rem 1.25rem;
+
+            .header-top {
+              h1 {
+                font-size: 1.5rem;
+              }
+            }
 
             h1 {
               font-size: 1.5rem;
