@@ -1,0 +1,122 @@
+{
+  "app": {
+    "title": "Погода — Прогноз для велосипедистов",
+    "name": "Погода для Велосипедиста"
+  },
+  "citySelector": {
+    "headerTitle": "🚴 Погода для Велосипедиста",
+    "subtitle": "Найдите идеальную погоду для вашей поездки!",
+    "searchPlaceholder": "Поиск вашего города...",
+    "searchButton": "Найти",
+    "searching": "Поиск...",
+    "backToCities": "← Назад к выбору города",
+    "popularDestinations": "Популярные направления для велосипедистов",
+    "featuresTitle": "Что мы проверяем:",
+    "featureTemperature": "🌡️ Температура и комфорт",
+    "featureWind": "💨 Скорость и направление ветра",
+    "featurePrecipitation": "🌧️ Вероятность осадков",
+    "featureAirQuality": "🌬️ Индекс качества воздуха",
+    "featureUV": "☀️ УФ-индекс для защиты от солнца",
+    "featureHumidity": "💧 Уровень влажности и комфорт"
+  },
+  "weatherCard": {
+    "feelsLike": "Ощущается как {{temp}}°C",
+    "humidity": "Влажность",
+    "windSpeed": "Скорость ветра",
+    "precipitation": "Осадки"
+  },
+  "cyclingScore": {
+    "title": "🚴 Пригодность для езды на велосипеде",
+    "scoreOutOf100": "/100",
+    "temperature": "Температура",
+    "wind": "Ветер",
+    "precipitation": "Осадки",
+    "airQuality": "Качество воздуха",
+    "uvIndex": "УФ-индекс",
+    "humidity": "Влажность"
+  },
+  "cyclingAlerts": {
+    "alertsTitle": "🚨 Предупреждения для велосипедистов",
+    "alertsSubtitle": "Важная информация для вашей безопасности",
+    "noAlertsIcon": "✅",
+    "noAlertsTitle": "Нет предупреждений",
+    "noAlertsMessage": "Все условия благоприятны для езды на велосипеде! Приятной поездки!"
+  },
+  "airQuality": {
+    "title": "🌬️ Детали качества воздуха",
+    "pm25": "PM2.5",
+    "pm10": "PM10",
+    "o3": "O₃",
+    "no2": "NO₂"
+  },
+  "forecast": {
+    "monday": "Понедельник",
+    "tuesday": "Вторник",
+    "wednesday": "Среда",
+    "thursday": "Четверг",
+    "friday": "Пятница",
+    "saturday": "Суббота",
+    "sunday": "Воскресенье"
+  },
+  "scoreLabels": {
+    "temperature": {
+      "ideal": "Идеальная",
+      "good": "Хорошая",
+      "fair": "Приемлемая",
+      "poor": "Плохая"
+    },
+    "wind": {
+      "calm": "Штиль",
+      "lightBreeze": "Лёгкий ветер",
+      "moderate": "Умеренный",
+      "strongHeadwind": "Сильный встречный ветер"
+    },
+    "precipitation": {
+      "none": "Нет",
+      "low": "Низкая",
+      "medium": "Средняя",
+      "high": "Высокая"
+    },
+    "airQuality": {
+      "excellent": "Отличное",
+      "good": "Хорошее",
+      "moderate": "Умеренное",
+      "unhealthy": "Вредное"
+    },
+    "uvIndex": {
+      "low": "Низкий",
+      "moderate": "Умеренный",
+      "high": "Высокий",
+      "veryHigh": "Очень высокий"
+    },
+    "humidity": {
+      "comfortable": "Комфортно",
+      "ok": "Нормально",
+      "humid": "Влажно",
+      "veryHumid": "Очень влажно"
+    }
+  },
+  "alerts": {
+    "rainExpected": "Ожидаются дожди",
+    "rainExpectedDescription": "Вероятность дождя превышает 50% в ближайшие {{count}} ч. Возьмите дождевую экипировку или отложите поездку.",
+    "thunderstormRisk": "Риск грозы",
+    "thunderstormRiskDescription": "В прогнозе обнаружены потенциальные грозы. Для вашей безопасности избегайте езды во время грозы.",
+    "heavyRainExpected": "Ожидаются сильные дожди",
+    "heavyRainDescription": "Прогнозируются значительные осадки. Дорожные условия могут быть опасными.",
+    "extremeHeatWarning": "Экстремальная жара",
+    "extremeHeatDescription": "Ожидается температура выше 35°C. Пейте больше воды и выбирайте утренние или вечерние поездки.",
+    "freezingTemperatures": "Мороз",
+    "freezingTemperaturesDescription": "Ожидаются температуры ниже нуля. На дорогах возможен лёд. Используйте зимнюю велосипедную экипировку."
+  },
+  "hourlyChart": {
+    "precipitation": "Осадки"
+  },
+  "language": {
+    "title": "Язык",
+    "english": "English",
+    "polish": "Polski",
+    "french": "Français",
+    "russian": "Русский",
+    "systemDefault": "Системный"
+  }
+}

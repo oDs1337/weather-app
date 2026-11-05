@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 
-export type LanguageCode = 'en' | 'pl' | 'fr';
+export type LanguageCode = 'en' | 'pl' | 'fr' | 'ru';
 
 export interface LanguageOption {
   code: LanguageCode;
@@ -21,6 +21,7 @@ export class LanguageService {
     { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
     { code: 'pl', name: 'Polish', nativeName: 'Polski', flag: '🇵🇱' },
     { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
+    { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺' },
   ];
 
   /**
