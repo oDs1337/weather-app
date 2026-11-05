@@ -1,0 +1,123 @@
+{
+  "app": {
+    "title": "Погода — Прогноз для веломандрівників",
+    "name": "Погода для Велосипедиста"
+  },
+  "citySelector": {
+    "headerTitle": "🚴 Погода для Велосипедиста",
+    "subtitle": "Знайдіть ідеальну погоду для вашої поїздки!",
+    "searchPlaceholder": "Пошук вашого міста...",
+    "searchButton": "Знайти",
+    "searching": "Пошук...",
+    "backToCities": "← Назад до вибору міста",
+    "popularDestinations": "Популярні напрямки для веломандрівників",
+    "featuresTitle": "Що ми перевіряємо:",
+    "featureTemperature": "🌡️ Температура та комфорт",
+    "featureWind": "💨 Швидкість і напрямок вітру",
+    "featurePrecipitation": "🌧️ Ймовірність опадів",
+    "featureAirQuality": "🌬️ Індекс якості повітря",
+    "featureUV": "☀️ УФ-індекс для захисту від сонця",
+    "featureHumidity": "💧 Рівень вологості та комфорт"
+  },
+  "weatherCard": {
+    "feelsLike": "Відчувається як {{temp}}°C",
+    "humidity": "Вологість",
+    "windSpeed": "Швидкість вітру",
+    "precipitation": "Опади"
+  },
+  "cyclingScore": {
+    "title": "🚴 придатність для їзди на велосипеді",
+    "scoreOutOf100": "/100",
+    "temperature": "Температура",
+    "wind": "Вітер",
+    "precipitation": "Опади",
+    "airQuality": "Якість повітря",
+    "uvIndex": "УФ-індекс",
+    "humidity": "Вологість"
+  },
+  "cyclingAlerts": {
+    "alertsTitle": "🚨 Попередження для веломандрівників",
+    "alertsSubtitle": "Важлива інформація для вашої безпеки",
+    "noAlertsIcon": "✅",
+    "noAlertsTitle": "Немає попереджень",
+    "noAlertsMessage": "Умови сприятливі для їзди на велосипеді! Приємної поїздки!"
+  },
+  "airQuality": {
+    "title": "🌬️ Деталі якості повітря",
+    "pm25": "PM2.5",
+    "pm10": "PM10",
+    "o3": "O₃",
+    "no2": "NO₂"
+  },
+  "forecast": {
+    "monday": "Понеділок",
+    "tuesday": "Вівторок",
+    "wednesday": "Середа",
+    "thursday": "Четвер",
+    "friday": "П'ятниця",
+    "saturday": "Субота",
+    "sunday": "Неділя"
+  },
+  "scoreLabels": {
+    "temperature": {
+      "ideal": "Ідеальна",
+      "good": "Добра",
+      "fair": "Прийнятна",
+      "poor": "Погана"
+    },
+    "wind": {
+      "calm": "Штиль",
+      "lightBreeze": "Легкий вітер",
+      "moderate": "Помірний",
+      "strongHeadwind": "Сильний зустрічний вітер"
+    },
+    "precipitation": {
+      "none": "Немає",
+      "low": "Низька",
+      "medium": "Середня",
+      "high": "Висока"
+    },
+    "airQuality": {
+      "excellent": "Чудова",
+      "good": "Добра",
+      "moderate": "Помірна",
+      "unhealthy": "Шкідлива"
+    },
+    "uvIndex": {
+      "low": "Низький",
+      "moderate": "Помірний",
+      "high": "Високий",
+      "veryHigh": "Дуже високий"
+    },
+    "humidity": {
+      "comfortable": "Комфортно",
+      "ok": "Нормально",
+      "humid": "Волого",
+      "veryHumid": "Дуже волого"
+    }
+  },
+  "alerts": {
+    "rainExpected": "Очікуються дощі",
+    "rainExpectedDescription": "Ймовірність дощу перевищує 50% протягом найближчих {{count}} год. Візьміть дощовий одяг або відкладіть поїздку.",
+    "thunderstormRisk": "Ризик грози",
+    "thunderstormRiskDescription": "У прогнозі виявлено потенційні грози. Для вашої безпеки уникайте їзди під час грози.",
+    "heavyRainExpected": "Очікуються сильні дощі",
+    "heavyRainDescription": "Прогнозуються значні опади. Дорожні умови можуть бути небезпечними.",
+    "extremeHeatWarning": "Екстремальна спека",
+    "extremeHeatDescription": "Очікується температура вище 35°C. Пийте більше води та обирайте ранкові або вечірні поїздки.",
+    "freezingTemperatures": "Мороз",
+    "freezingTemperaturesDescription": "Очікуються температури нижче нуля. На дорогах можливий лід. Використовуйте зимове велосипедне спорядження."
+  },
+  "hourlyChart": {
+    "precipitation": "Опади"
+  },
+  "language": {
+    "title": "Мова",
+    "english": "English",
+    "polish": "Polski",
+    "french": "Français",
+    "russian": "Русский",
+    "ukrainian": "Українська",
+    "systemDefault": "Системна"
+  }
+}
