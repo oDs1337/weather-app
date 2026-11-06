@@ -1,1 +1,8 @@
-<app-city-selector />
+@if (languageReady()) {
+  <app-city-selector />
+} @else {
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+}
