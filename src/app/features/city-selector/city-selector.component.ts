@@ -3,6 +3,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } 
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Capacitor } from '@capacitor/core';
 import { WeatherService } from '../../../core/services/weather.service';
 import { CyclingScoringService } from '../../core/services/cycling-scoring.service';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
@@ -35,6 +36,11 @@ export class CitySelectorComponent implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly weatherService = inject(WeatherService);
   private readonly cyclingScoringService = inject(CyclingScoringService);
+
+  // Show language selector only on web (not on iOS/Android where users use system Settings)
+  showLanguageSelector = computed(() => {
+    return !Capacitor.isNativePlatform();
+  });
 
   searchControl = new FormControl('', [Validators.required]);
   cities = signal<GeoLocation[]>([]);

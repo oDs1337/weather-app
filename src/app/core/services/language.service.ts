@@ -1,5 +1,7 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import { Capacitor } from '@capacitor/core';
+import { SettingsBridgeService } from './settings-bridge.service';
 
 export type LanguageCode = 'en' | 'pl' | 'fr' | 'ru' | 'uk';
 
@@ -15,6 +17,8 @@ export interface LanguageOption {
 })
 export class LanguageService {
   private readonly STORAGE_KEY = 'app-language';
+  private settingsBridge = inject(SettingsBridgeService);
+  private isNativeIOS = Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios';
   
   currentLanguage = signal<LanguageCode>('en');
   availableLanguages: LanguageOption[] = [
@@ -37,6 +41,55 @@ export class LanguageService {
     (this as any).__translateService = service;
   }
 
+  /**
+   * Check if the given language code is supported
+   */
+  private isSupportedLanguageCode(lang: string): boolean {
+    return this.availableLanguages.some(l => l.code === lang);
+  }
+
+  /**
+   * Load translations for a language and activate it.
+   */
+  private async switchToLanguage(lang: LanguageCode): Promise<void> {
+    // Step 1: Load translation file
+    const translations = await this.loadTranslationFile(lang);
+    
+    if (!translations || Object.keys(translations).length === 0) {
+      console.error(`[LanguageService] Failed to load translations for ${lang}`);
+      return;
+    }
+    
+    // Step 2: Set translations in translate service
+    if (this._translate) {
+      this._translate.setTranslation(lang, translations, { override: true });
+      
+      // Step 3: Activate the language - use() triggers translation updates
+      await this._translate.use(lang).toPromise();
+    }
+    
+    // Step 4: Update signal
+    this.currentLanguage.set(lang);
+    
+    console.log(`[LanguageService] Language switched to ${lang}`);
+    
+    // Record that user changed language (to prevent polling from reverting)
+    this.lastUserChangeTime = Date.now();
+    
+    // Step 5: Save preference after successful change
+    await this.saveLanguagePreference(lang);
+    
+    // Step 6: On iOS, also sync to native Settings.bundle so it shows in Settings app
+    if (this.isNativeIOS) {
+      try {
+        await this.settingsBridge.setLanguage(lang);
+        console.log(`[LanguageService] Synced language ${lang} to iOS Settings`);
+      } catch (e) {
+        console.warn('[LanguageService] Failed to sync to iOS Settings:', e);
+      }
+    }
+  }
+
   private _initPromise: Promise<void> | null = null;
 
   /**
@@ -50,16 +103,29 @@ export class LanguageService {
       return this._initPromise;
     }
 
-    this._initPromise = new Promise((resolve, reject) => {
-      // Pre-load English translations as the default/fallback language
-      this.loadTranslationFile('en').then((enTranslations) => {
+    this._initPromise = new Promise(async (resolve, reject) => {
+      try {
+        // Pre-load English translations as the default/fallback language
+        const enTranslations = await this.loadTranslationFile('en');
+        
+        if (!enTranslations || Object.keys(enTranslations).length === 0) {
+          console.error('[LanguageService] Failed to load English translations');
+          reject(new Error('Failed to load English translations'));
+          return;
+        }
+        
         translate.setTranslation('en', enTranslations);
         translate.setDefaultLang('en');
-        translate.use('en').subscribe({
-          next: () => resolve(),
-          error: (err: unknown) => reject(err),
-        });
-      }).catch(reject);
+        
+        // Activate English — wait for it to complete
+        await translate.use('en').toPromise();
+        
+        console.log('[LanguageService] Initialized with English translations');
+        resolve();
+      } catch (err) {
+        console.error('[LanguageService] Initialization failed:', err);
+        reject(err);
+      }
     });
 
     return this._initPromise;
@@ -70,13 +136,34 @@ export class LanguageService {
    */
   async loadSavedLanguage(): Promise<void> {
     try {
-      const { value } = await Preferences.get({ key: this.STORAGE_KEY });
-      if (value && this.isSupportedLanguage(value)) {
-        await this.setLanguage(value as LanguageCode);
-      } else {
-        // No saved preference, detect system language first
-        await this.detectAndSetSystemLanguage();
+      // On iOS, check native Settings.bundle first (user may have set it in Settings app)
+      if (this.isNativeIOS) {
+        const nativeLang = await this.settingsBridge.getLanguage();
+        if (nativeLang && this.isSupportedLanguageCode(nativeLang)) {
+          console.log(`[LanguageService] Using language from iOS Settings: ${nativeLang}`);
+          // Save to Preferences so we remember the choice
+          await Preferences.set({ key: this.STORAGE_KEY, value: nativeLang });
+          if (this.currentLanguage() !== nativeLang) {
+            await this.switchToLanguage(nativeLang as LanguageCode);
+          }
+          return;
+        }
       }
+
+      // Check local storage preference FIRST — user's in-app choice takes priority
+      const { value } = await Preferences.get({ key: this.STORAGE_KEY });
+      if (value && this.isSupportedLanguageCode(value)) {
+        console.log(`[LanguageService] Using saved language from Preferences: ${value}`);
+        // Only switch if different from current language to avoid unnecessary reloads
+        if (this.currentLanguage() !== value) {
+          await this.switchToLanguage(value as LanguageCode);
+        }
+        return;
+      }
+
+      // No saved preference, detect system language first
+      console.log('[LanguageService] No saved preference, detecting system language');
+      await this.detectAndSetSystemLanguage();
     } catch (error) {
       console.warn('No saved language preference found', error);
       // Fallback to system language
@@ -91,13 +178,77 @@ export class LanguageService {
     const systemLang = this.getSystemLanguage();
     
     if (this.availableLanguages.some(l => l.code === systemLang)) {
-      await this.setLanguage(systemLang as LanguageCode);
+      await this.switchToLanguage(systemLang as LanguageCode);
     } else {
-      // Fallback to English
-      if (this._translate) {
-        this._translate.use('en').subscribe();
+      // Fallback to English — ensure it's fully loaded before setting signal
+      if (!this.currentLanguage() || this.currentLanguage() !== 'en') {
+        const enTranslations = await this.loadTranslationFile('en');
+        if (this._translate) {
+          this._translate.setTranslation('en', enTranslations, { override: true });
+          this._translate.use('en');
+        }
+        this.currentLanguage.set('en');
       }
-      this.currentLanguage.set('en');
+    }
+  }
+
+  /**
+   * Start listening for language changes from iOS Settings.
+   * Polls UserDefaults periodically since Settings.bundle changes aren't reliably detected via notifications.
+   */
+  private pollingInterval: any;
+  private lastUserChangeTime = 0; // Track when user last changed language in-app
+
+  async startListeningForNativeChanges(): Promise<void> {
+    if (!this.isNativeIOS) return;
+
+    console.log('[LanguageService] Starting native language change listener');
+    
+    // Poll every 2 seconds to detect Settings.bundle changes
+    this.pollingInterval = setInterval(async () => {
+      try {
+        const nativeLang = await this.settingsBridge.getLanguage();
+        if (nativeLang && nativeLang !== this.currentLanguage()) {
+          // Check if user just changed language in-app within the last 3 seconds
+          // to avoid race condition where we revert immediately after sync
+          const timeSinceUserChange = Date.now() - this.lastUserChangeTime;
+          if (timeSinceUserChange < 3000) {
+            console.log(`[LanguageService] Ignoring native change - user just changed language ${timeSinceUserChange}ms ago`);
+            return;
+          }
+          
+          console.log(`[LanguageService] Detected native language change: ${this.currentLanguage()} → ${nativeLang}`);
+          await Preferences.set({ key: this.STORAGE_KEY, value: nativeLang });
+          await this.switchToLanguage(nativeLang as LanguageCode);
+        }
+      } catch (e) {
+        console.warn('[LanguageService] Error polling for language changes:', e);
+      }
+    }, 2000);
+  }
+
+  /**
+   * Stop the native language change listener.
+   */
+  stopListeningForNativeChanges(): void {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
+      this.pollingInterval = null;
+      console.log('[LanguageService] Stopped native language change listener');
+    }
+  }
+
+  /**
+   * Change the app language — public API for manual language switching
+   */
+  async setLanguage(lang: LanguageCode): Promise<void> {
+    try {
+      // Only switch if actually different
+      if (this.currentLanguage() === lang) return;
+      
+      await this.switchToLanguage(lang);
+    } catch (error) {
+      console.error('Failed to change language:', error);
     }
   }
 
@@ -109,34 +260,34 @@ export class LanguageService {
   }
 
   /**
-   * Change the app language
-   */
-  async setLanguage(lang: LanguageCode): Promise<void> {
-    try {
-      // Load translation file if not already loaded
-      const translations = await this.loadTranslationFile(lang);
-      if (this._translate) {
-        this._translate.setTranslation(lang, translations);
-        this._translate.use(lang).subscribe();
-      }
-      this.currentLanguage.set(lang);
-      // Save preference after successful language change
-      await this.saveLanguagePreference(lang);
-    } catch (error) {
-      console.error('Failed to change language:', error);
-    }
-  }
-
-  /**
    * Load translation file from assets
    */
   private async loadTranslationFile(lang: LanguageCode): Promise<Record<string, any>> {
     try {
-      // Use absolute path based on current origin to avoid relative URL issues across routes
-      const baseUrl = window.location.origin;
-      const response = await fetch(`${baseUrl}/assets/i18n/${lang}.json`);
-      if (!response.ok) throw new Error(`Failed to load ${lang} translations`);
-      return await response.json();
+      // Try multiple URL patterns to work across web and native (Capacitor)
+      const urlPatterns = [
+        `/assets/i18n/${lang}.json`,                                    // Relative path
+        `${window.location.origin}/assets/i18n/${lang}.json`,            // Absolute with origin
+        `file:///assets/i18n/${lang}.json`,                              // File protocol (Capacitor)
+      ];
+      
+      for (const url of urlPatterns) {
+        try {
+          console.log(`[LanguageService] Trying to load: ${url}`);
+          const response = await fetch(url);
+          if (response.ok) {
+            const translations = await response.json();
+            console.log(`[LanguageService] Successfully loaded ${lang} translations from ${url}`);
+            return translations;
+          }
+        } catch (e) {
+          console.warn(`[LanguageService] Failed to load from ${url}:`, e);
+          // Try next pattern
+        }
+      }
+      
+      console.error(`[LanguageService] All URL patterns failed for ${lang}`);
+      return {};
     } catch (error) {
       console.error(`Error loading translation file for ${lang}:`, error);
       return {};
@@ -157,12 +308,7 @@ export class LanguageService {
     }
   }
 
-  /**
-   * Check if a language code is supported
-   */
-  private isSupportedLanguage(lang: string): boolean {
-    return this.availableLanguages.some(l => l.code === lang);
-  }
+
 
   /**
    * Get display name for a language (e.g. "🇵🇱 Polski")

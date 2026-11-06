@@ -5,7 +5,9 @@
       <div class="card-header">
         <div class="header-top">
           <h1>{{ 'citySelector.headerTitle' | translate }}</h1>
-          <app-language-selector />
+          @if (showLanguageSelector()) {
+            <app-language-selector />
+          }
         </div>
         <p class="subtitle">{{ 'citySelector.subtitle' | translate }}</p>
       </div>
