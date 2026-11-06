@@ -4,4 +4,27 @@
     <string name="title_activity_main">weather-app</string>
     <string name="package_name">com.example.weatherapp</string>
     <string name="custom_url_scheme">com.example.weatherapp</string>
+
+    <!-- Settings (for Android 12 and below where per-app language is not natively supported) -->
+    <string name="settings_category_general">General</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_summary">Select app language</string>
+    <string name="settings_language_dialog_title">Select Language</string>
+
+    <!-- Language options for settings dropdown -->
+    <string-array name="language_names">
+        <item>English 🇬🇧</item>
+        <item>Polski 🇵🇱</item>
+        <item>Français 🇫🇷</item>
+        <item>Русский 🇷🇺</item>
+        <item>Українська 🇺🇦</item>
+    </string-array>
+
+    <string-array name="language_codes">
+        <item>en</item>
+        <item>pl</item>
+        <item>fr</item>
+        <item>ru</item>
+        <item>uk</item>
+    </string-array>
 </resources>

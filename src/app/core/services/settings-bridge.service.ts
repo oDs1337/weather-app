@@ -15,8 +15,7 @@ export interface LanguageChangedEvent {
 
 /**
  * Register the native AppSettingsPlugin with Capacitor v8 API.
- * Using 'any' type because Capacitor v8's Plugin interface is strict about addListener return types.
- * This must be called before using the plugin.
+ * This is used on iOS for Settings.bundle integration.
  */
 const AppSettings = registerPlugin('AppSettingsPlugin', {
   iOS: true,
@@ -39,6 +38,20 @@ const iOSLanguage = registerPlugin('iOSLanguage', {
   }),
 }) as any;
 
+/**
+ * Register the native AndroidLanguageSettings plugin with Capacitor v8 API.
+ * This plugin uses LocaleManager on Android 13+ for per-app locale settings,
+ * and falls back to SharedPreferences + Configuration update on older versions.
+ */
+const AndroidLanguage = registerPlugin('AndroidLanguageSettings', {
+  android: true,
+  web: () => ({
+    getLanguage: async () => ({ language: 'en' }),
+    setLanguage: async (params: SetLanguageParams) => ({ language: params.language }),
+    openSettings: async () => {},
+  }),
+}) as any;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -46,14 +59,16 @@ export class SettingsBridgeService {
   private static readonly SETTINGS_KEY = 'app_language';
 
   /**
-   * Read the current application language from native iOS APIs.
-   * Uses Bundle.main.preferredLocalizations.first which returns the app-specific language
-   * selected in iOS Settings → Apps → [App Name] → Language.
+   * Read the current application language from native platform APIs.
+   * 
+   * On iOS: Uses Bundle.main.preferredLocalizations.first (Settings.bundle)
+   * On Android: Uses LocaleManager.getApplicationLocales() on API 33+,
+   *             falls back to device-wide locale on older versions
    */
   async getLanguage(): Promise<string> {
     try {
-      // On iOS, use the new iOSLanguagePlugin which uses Bundle.main.preferredLocalizations.first
       if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
+        // iOS: Use the new iOSLanguagePlugin which uses Bundle.main.preferredLocalizations.first
         const result = await iOSLanguage.getLanguage() as GetLanguageResult;
         const languageTag = result.language || 'en';
         
@@ -62,6 +77,13 @@ export class SettingsBridgeService {
         
         console.log(`[SettingsBridge] Native iOS language: ${languageTag} → normalized: ${normalizedLang}`);
         return normalizedLang;
+      } else if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android') {
+        // Android: Use the native AndroidLanguageSettings plugin
+        const result = await AndroidLanguage.getLanguage() as GetLanguageResult;
+        const language = result.language || 'en';
+        
+        console.log(`[SettingsBridge] Native Android language: ${language}`);
+        return this.normalizeLanguageCode(language);
       }
       
       // Fallback for other platforms or if plugin fails
@@ -74,13 +96,21 @@ export class SettingsBridgeService {
   }
 
   /**
-   * Set the language preference in iOS Settings.bundle (NSUserDefaults).
+   * Set the language preference in native platform settings.
+   * 
+   * On iOS: Writes to NSUserDefaults (Settings.bundle)
+   * On Android 13+: Uses LocaleManager.setApplicationLocales() for per-app locale
+   * On Android < 13: Falls back to SharedPreferences + Configuration update
    */
   async setLanguage(language: string): Promise<void> {
     try {
-      await AppSettings.setLanguage({ language }) as any;
+      if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
+        await AppSettings.setLanguage({ language }) as any;
+      } else if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android') {
+        await AndroidLanguage.setLanguage({ language }) as any;
+      }
     } catch (error) {
-      console.warn('Failed to write language to Settings.bundle:', error);
+      console.warn('Failed to write language to native settings:', error);
     }
   }
 

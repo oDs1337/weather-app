@@ -89,7 +89,8 @@ export class LanguageService {
   }
 
   /**
-   * Save language preference to storage
+   * Save language preference to storage.
+   * Only used on Web platform where there's no native settings integration.
    */
   private async saveLanguagePreference(lang: LanguageCode): Promise<void> {
     try {
@@ -137,13 +138,23 @@ export class LanguageService {
 
   /**
    * Detect native OS language on Android.
-   * Uses navigator.language as fallback since Capacitor doesn't expose per-app locale directly.
+   * Uses the native AndroidLanguageSettings plugin which reads from LocaleManager
+   * on Android 13+ (per-app locale) or falls back to device-wide locale on older versions.
    */
   private async getNativeAndroidLanguage(): Promise<string | null> {
-    // On Android, the WebView inherits the app's locale which is set by the OS
-    const lang = this.getSystemLanguage();
-    if (this.isSupportedLanguageCode(lang)) {
-      return lang;
+    try {
+      const lang = await this.settingsBridge.getLanguage();
+      if (lang && this.isSupportedLanguageCode(lang)) {
+        console.log(`[LanguageService] Android native language detected: ${lang}`);
+        return lang;
+      }
+    } catch (e) {
+      console.warn('[LanguageService] Failed to get Android native language:', e);
+    }
+    // Fallback to navigator.language if plugin call fails
+    const fallbackLang = this.getSystemLanguage();
+    if (this.isSupportedLanguageCode(fallbackLang)) {
+      return fallbackLang;
     }
     return null;
   }
@@ -151,18 +162,23 @@ export class LanguageService {
   /**
    * Resolve the correct language based on platform and user preferences.
    * Returns a Promise that resolves to the detected language code.
+   * 
+   * Language precedence:
+   * - Android 13+: Native per-app locale (LocaleManager) is authoritative
+   * - iOS: Native app-specific language (Settings.bundle / preferredLocalizations) is authoritative
+   * - Web: Saved preference → Browser language → English fallback
    */
   async resolveInitialLanguage(): Promise<LanguageCode> {
     // Platform-specific language detection
     if (this.isNativeIOS) {
-      // iOS: Check Settings.bundle first, then fall back to English
+      // iOS: Check native app-specific language first (Settings bundle / preferredLocalizations)
       const nativeLang = await this.getNativeIOSLanguage();
       if (nativeLang) {
         console.log(`[LanguageService] iOS detected native language: ${nativeLang}`);
         return nativeLang as LanguageCode;
       }
     } else if (this.isNativeAndroid) {
-      // Android: Check system locale, then fall back to English
+      // Android: Check native per-app locale first (LocaleManager on API 33+, Configuration fallback)
       const androidLang = await this.getNativeAndroidLanguage();
       if (androidLang) {
         console.log(`[LanguageService] Android detected native language: ${androidLang}`);
@@ -230,12 +246,13 @@ export class LanguageService {
     // Load and activate the translations
     await this.loadAndActivateLanguage(initialLang, translate);
     
-    // Save to Preferences for Web (so dropdown selection persists)
+    // Save to Preferences only on Web (so dropdown selection persists)
+    // On native platforms, the native layer is authoritative — do NOT override it with Preferences
     if (this.isWeb) {
       await this.saveLanguagePreference(initialLang);
     }
     
-    // Setup Android system language listener
+    // Setup Android system language listener for runtime changes
     if (this.isNativeAndroid) {
       this.setupAndroidLanguageListener(translate);
     }
@@ -245,8 +262,8 @@ export class LanguageService {
   
   /**
    * Listen for Android system language changes.
-   * When user changes language in Settings → Languages, the native layer
-   * dispatches a 'android:languageChanged' event which we catch here.
+   * When user changes language in Settings → Apps → weather-app → Language, 
+   * the native layer dispatches a 'android:languageChanged' event which we catch here.
    */
   private setupAndroidLanguageListener(translate: TranslateService): void {
     this.ngZone.runOutsideAngular(() => {
@@ -280,8 +297,10 @@ export class LanguageService {
       
       await this.loadAndActivateLanguage(lang, translate);
       
-      // Save preference
-      await this.saveLanguagePreference(lang);
+      // Save preference on Web platform only
+      if (this.isWeb) {
+        await this.saveLanguagePreference(lang);
+      }
       
       // On iOS, also sync to native Settings.bundle so it shows in Settings app
       if (this.isNativeIOS) {
@@ -290,6 +309,16 @@ export class LanguageService {
           console.log(`[LanguageService] Synced language ${lang} to iOS Settings`);
         } catch (e) {
           console.warn('[LanguageService] Failed to sync to iOS Settings:', e);
+        }
+      }
+      
+      // On Android 13+, also set via native plugin for consistency
+      if (this.isNativeAndroid) {
+        try {
+          await this.settingsBridge.setLanguage(lang);
+          console.log(`[LanguageService] Synced language ${lang} to Android native settings`);
+        } catch (e) {
+          console.warn('[LanguageService] Failed to sync to Android native settings:', e);
         }
       }
     } catch (error) {
@@ -327,6 +356,21 @@ export class LanguageService {
    */
   getLanguages(): LanguageOption[] {
     return this.availableLanguages;
+  }
+  
+  /**
+   * Check if in-app language selection should be shown.
+   * On Android 13+ (API 33+), users manage language through system settings,
+   * so the in-app selector is hidden. On iOS and Web, it remains visible.
+   */
+  showLanguageSelector(): boolean {
+    // Hide on Android 13+ where per-app language is managed via system settings
+    if (this.isNativeAndroid) {
+      return false;
+    }
+    // Show on iOS (Settings.bundle integration)
+    // Show on Web (Preferences-based persistence)
+    return true;
   }
   
 }

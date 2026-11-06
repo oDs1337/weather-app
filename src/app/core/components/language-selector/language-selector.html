@@ -1,3 +1,4 @@
+@if (languageService.showLanguageSelector()) {
 <div class="language-selector">
   <div class="selector-header" (click)="toggleDropdown()">
     <span class="current-lang">{{ languageService.getLanguageDisplayName(languageService.getLanguage()) }}</span>
@@ -26,3 +27,9 @@
     </div>
   }
 </div>
+} @else {
+<!-- Language is managed via Android system settings on API 33+ -->
+<div class="language-selector" style="display: none;">
+  <span class="current-lang">{{ languageService.getLanguageDisplayName(languageService.getLanguage()) }}</span>
+</div>
+}
