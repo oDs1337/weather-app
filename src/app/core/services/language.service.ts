@@ -1,4 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, NgZone } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from '@capacitor/core';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
@@ -20,6 +20,7 @@ export interface LanguageOption {
 export class LanguageService {
   private readonly STORAGE_KEY = 'app-language';
   private settingsBridge = inject(SettingsBridgeService);
+  private ngZone = inject(NgZone);
   
   // Platform detection
   private isNativeIOS = Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios';
@@ -234,7 +235,39 @@ export class LanguageService {
       await this.saveLanguagePreference(initialLang);
     }
     
+    // Setup Android system language listener
+    if (this.isNativeAndroid) {
+      this.setupAndroidLanguageListener(translate);
+    }
+    
     console.log(`[LanguageService] ✓ Initialized with ${initialLang}`);
+  }
+  
+  /**
+   * Listen for Android system language changes.
+   * When user changes language in Settings → Languages, the native layer
+   * dispatches a 'android:languageChanged' event which we catch here.
+   */
+  private setupAndroidLanguageListener(translate: TranslateService): void {
+    this.ngZone.runOutsideAngular(() => {
+      const handler = (event: any) => {
+        console.log('[LanguageService] Android language change detected:', event.detail?.language);
+        
+        const newLang = event.detail?.language;
+        if (newLang && this.isSupportedLanguageCode(newLang)) {
+          // Run the language switch inside Angular zone to trigger UI updates
+          this.ngZone.run(async () => {
+            await this.loadAndActivateLanguage(newLang as LanguageCode, translate);
+            console.log(`[LanguageService] ✓ Android system language changed to ${newLang}`);
+          });
+        }
+      };
+      
+      window.addEventListener('android:languageChanged', handler);
+      
+      // Store for cleanup if needed
+      (window as any).__androidLanguageHandler = handler;
+    });
   }
 
   /**
