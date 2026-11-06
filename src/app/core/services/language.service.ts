@@ -118,12 +118,14 @@ export class LanguageService {
   }
 
   /**
-   * Detect native OS language on iOS from Settings.bundle.
+   * Detect native OS language on iOS using Bundle.main.preferredLocalizations.first.
+   * This returns the app-specific language selected in iOS Settings → Apps → [App] → Language.
    */
   private async getNativeIOSLanguage(): Promise<string | null> {
     try {
       const lang = await this.settingsBridge.getLanguage();
       if (lang && this.isSupportedLanguageCode(lang)) {
+        console.log(`[LanguageService] iOS native language detected: ${lang}`);
         return lang;
       }
     } catch (e) {

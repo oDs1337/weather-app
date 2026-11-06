@@ -1,0 +1,5 @@
+/* 
+ * Localizable.strings - pl.lproj
+ * Minimal localization file for iOS to recognize Polish as a supported language.
+ * This enables Bundle.main.preferredLocalizations.first to return "pl" when Polish is selected in Settings.
+ */
