@@ -18,9 +18,9 @@
       <div class="card-content">
         <!-- Search Form -->
         <form class="search-form" (ngSubmit)="performSearch(searchControl.value ?? '')">
-          <div class="input-group">
+          <div class="input-wrapper">
             <input 
-              type="text" 
+              type="search"
               [formControl]="searchControl"
               [placeholder]="'citySelector.searchPlaceholder' | translate"
               class="city-input"
@@ -28,10 +28,13 @@
             />
             <button 
               type="submit" 
-              class="search-btn"
+              class="search-icon-btn"
               [disabled]="loading() || !searchControl.value?.trim()"
             >
-              {{ loading() ? ('citySelector.searching' | translate) : ('citySelector.searchButton' | translate) }}
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
             </button>
           </div>
         </form>

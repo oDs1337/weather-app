@@ -1,13 +1,19 @@
 /* ============================================================
-   VELORA — City Selector Component Styles
+   VELORA — City Selector Component Styles (Updated)
    ============================================================ */
+
+$color-bg-primary: #111820;
+$color-accent: #D7F36A;
+$color-text-primary: #F4F5F2;
+$color-text-secondary: #87939D;
+$color-text-muted: #87939D;
 
 .city-selector-container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  background: var(--color-bg-primary);
+  background: $color-bg-primary;
   padding: 0;
 
   .selector-card {
@@ -32,7 +38,7 @@
         h1 {
           font-size: 2rem;
           letter-spacing: -0.03em;
-          color: var(--color-text-primary);
+          color: $color-text-primary;
         }
       }
 
@@ -41,7 +47,7 @@
         opacity: 0.7;
         font-size: 1rem;
         font-weight: 400;
-        color: var(--color-text-secondary);
+        color: $color-text-secondary;
       }
     }
 
@@ -52,54 +58,62 @@
       .search-form {
         margin-bottom: 2rem;
 
-        .input-group {
+        .input-wrapper {
+          position: relative;
           display: flex;
-          gap: var(--space-sm);
+          align-items: center;
+          width: 100%;
 
           .city-input {
-            flex: 1;
-            padding: 0.875rem 1.25rem;
+            width: 100%;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: $color-text-primary;
+            padding: 14px 50px 14px 20px;
             font-size: 1rem;
-            background: var(--color-bg-secondary);
-            border: 1px solid var(--color-border-medium);
-            border-radius: var(--radius-md);
-            color: var(--color-text-primary);
             outline: none;
             transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 
-            &:focus {
-              border-color: var(--color-accent);
-              box-shadow: 0 0 0 3px rgba(215, 243, 106, 0.1);
+            &::placeholder {
+              color: $color-text-secondary;
             }
 
-            &::placeholder {
-              color: var(--color-text-muted);
+            &:focus {
+              border-color: $color-accent;
+              box-shadow: 0 0 0 3px rgba(215, 243, 106, 0.1);
             }
           }
 
-          .search-btn {
-            padding: 0.875rem 1.5rem;
-            background: var(--color-accent);
-            color: #111820;
+          .search-icon-btn {
+            position: absolute;
+            right: 16px;
+            background: transparent;
             border: none;
-            border-radius: var(--radius-md);
-            font-size: 0.9375rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: opacity var(--transition-fast), transform var(--transition-fast);
+            color: $color-text-secondary;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            width: auto;
+            height: auto;
 
             &:hover:not(:disabled) {
-              opacity: 0.9;
-              transform: translateY(-1px);
+              color: $color-accent;
             }
 
             &:active:not(:disabled) {
-              transform: translateY(0);
+              transform: scale(0.95);
             }
 
             &:disabled {
-              opacity: 0.5;
+              opacity: 0.4;
               cursor: not-allowed;
+            }
+
+            svg {
+              pointer-events: none;
             }
           }
         }
@@ -107,8 +121,8 @@
 
       /* ---------- Error Message ---------- */
       .error-message {
-        background: var(--alert-danger-bg);
-        color: var(--alert-danger-border);
+        background: rgba(255, 82, 82, 0.1);
+        color: #FF5252;
         padding: 1rem;
         border-radius: var(--radius-md);
         margin-bottom: 1.5rem;
@@ -125,8 +139,8 @@
         .city-item {
           width: 100%;
           padding: 1.125rem 1.25rem;
-          background: var(--color-bg-secondary);
-          border: 1px solid var(--color-border-subtle);
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.06);
           border-radius: var(--radius-md);
           cursor: pointer;
           transition: all var(--transition-fast);
@@ -136,20 +150,20 @@
           align-items: center;
 
           &:hover {
-            background: var(--color-bg-tertiary);
-            border-color: var(--color-border-medium);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(215, 243, 106, 0.3);
             transform: translateX(4px);
           }
 
           .city-name {
             font-size: 1rem;
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: $color-text-primary;
           }
 
           .city-location {
             font-size: 0.875rem;
-            color: var(--color-text-secondary);
+            color: $color-text-secondary;
           }
         }
       }
@@ -161,7 +175,7 @@
         h3 {
           font-size: 1rem;
           font-weight: 600;
-          color: var(--color-text-secondary);
+          color: $color-text-secondary;
           text-transform: uppercase;
           letter-spacing: 0.05em;
           margin: 0 0 1rem 0;
@@ -169,25 +183,25 @@
 
         .popular-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-          gap: var(--space-sm);
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
 
           .popular-city-btn {
-            padding: 0.875rem;
-            background: var(--color-bg-secondary);
-            border: 1px solid var(--color-border-medium);
-            border-radius: var(--radius-md);
-            color: var(--color-text-primary);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            color: $color-text-primary;
+            padding: 12px;
+            text-align: center;
             font-weight: 500;
             cursor: pointer;
             transition: all var(--transition-fast);
 
             &:hover {
-              background: var(--color-accent);
-              color: #111820;
-              border-color: var(--color-accent);
+              background: rgba(215, 243, 106, 0.1);
+              border-color: rgba(215, 243, 106, 0.3);
               transform: translateY(-2px);
-              box-shadow: 0 4px 12px rgba(215, 243, 106, 0.2);
+              box-shadow: 0 4px 12px rgba(215, 243, 106, 0.15);
             }
 
             &:active {
@@ -197,17 +211,19 @@
         }
       }
 
-      /* ---------- Features Info ---------- */
+      /* ---------- Features Info (What Velora Checks) ---------- */
       .features-info {
-        background: var(--color-bg-secondary);
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        border-radius: 16px;
+        border-left: 4px solid $color-accent;
+        box-shadow: -15px 0 40px rgba(215, 243, 106, 0.15);
         padding: 1.5rem;
-        border-radius: var(--radius-lg);
-        border-left: 3px solid var(--color-accent);
 
         h3 {
           font-size: 0.9375rem;
           font-weight: 600;
-          color: var(--color-text-secondary);
+          color: $color-text-secondary;
           text-transform: uppercase;
           letter-spacing: 0.04em;
           margin: 0 0 1rem 0;
@@ -220,11 +236,11 @@
 
           li {
             padding: 0.5rem 0;
-            color: var(--color-text-primary);
+            color: $color-text-primary;
             font-size: 0.9375rem;
 
             &:not(:last-child) {
-              border-bottom: 1px solid var(--color-border-subtle);
+              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             }
           }
         }
@@ -244,10 +260,10 @@
       .back-btn {
         width: 100%;
         padding: 0.875rem 1rem;
-        background: var(--color-bg-secondary);
-        border: 1px solid var(--color-border-medium);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: var(--radius-md);
-        color: var(--color-text-primary);
+        color: $color-text-primary;
         font-weight: 600;
         cursor: pointer;
         transition: all var(--transition-fast);
@@ -256,8 +272,8 @@
         font-size: 0.9375rem;
 
         &:hover {
-          background: var(--color-bg-tertiary);
-          border-color: var(--color-accent);
+          background: rgba(255, 255, 255, 0.06);
+          border-color: $color-accent;
         }
       }
 
@@ -298,10 +314,10 @@
 
       .popular-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-sm);
+        gap: 12px;
 
         .popular-city-btn {
-          padding: 0.875rem;
+          padding: 12px;
           font-size: 0.9375rem;
           min-height: 48px;
         }
@@ -332,18 +348,15 @@
         padding: 1rem;
       }
 
-      .input-group {
-        flex-direction: column;
-
+      .input-wrapper {
         .city-input {
           min-height: 48px;
           font-size: 16px; /* Prevent iOS zoom */
+          padding-right: 50px;
         }
 
-        .search-btn {
-          width: 100%;
-          min-height: 48px;
-          font-size: 1rem;
+        .search-icon-btn {
+          right: 12px;
         }
       }
 
@@ -364,10 +377,10 @@
 
       .popular-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-xs);
+        gap: 12px;
 
         .popular-city-btn {
-          padding: 0.75rem;
+          padding: 12px;
           font-size: 0.875rem;
           min-height: 48px;
         }
