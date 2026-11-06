@@ -7,12 +7,6 @@
       "size" : "1024x1024"
     },
     {
-      "filename" : "AppIcon-256@2x.png",
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "512x512"
-    },
-    {
       "filename" : "AppIcon-60@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
@@ -49,15 +43,21 @@
       "size" : "29x29"
     },
     {
+      "filename" : "AppIcon-20@3x.png",
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "20x20"
+    },
+    {
       "filename" : "AppIcon-20@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "AppIcon-20@1.5x.png",
+      "filename" : "AppIcon-20@1x.png",
       "idiom" : "iphone",
-      "scale" : "1.5x",
+      "scale" : "1x",
       "size" : "20x20"
     }
   ],
