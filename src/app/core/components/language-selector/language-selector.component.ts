@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { LanguageService, LanguageCode } from '../../services/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-language-selector',
@@ -10,7 +11,8 @@ import { LanguageService, LanguageCode } from '../../services/language.service';
 })
 export class LanguageSelectorComponent implements OnInit {
   isOpen = false;
-  languageService = inject(LanguageService);
+  private languageService = inject(LanguageService);
+  private translateService = inject(TranslateService);
 
   ngOnInit() {
     // Close dropdown when clicking outside
@@ -26,7 +28,7 @@ export class LanguageSelectorComponent implements OnInit {
   }
 
   async selectLanguage(lang: LanguageCode) {
-    await this.languageService.setLanguage(lang);
+    await this.languageService.setLanguage(lang, this.translateService);
     this.isOpen = false;
   }
 
