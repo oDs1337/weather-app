@@ -1,3 +1,7 @@
+/* ============================================================
+   VELORA — Language Selector Component Styles
+   ============================================================ */
+
 .language-selector {
   position: relative;
   display: inline-block;
@@ -7,18 +11,19 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 2rem;
-  background: transparent;
-  border: none;
+  padding: 0.5rem 1.25rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-medium);
   cursor: pointer;
-  color: #4a5568;
-  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
   font-weight: 500;
-  border-radius: 8px;
-  transition: background-color 0.2s;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
 
   &:hover {
-    background: #f7fafc;
+    background: var(--color-bg-tertiary);
+    border-color: var(--color-accent);
   }
 
   .current-lang {
@@ -28,13 +33,19 @@
   }
 
   .chevron-icon {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.2s ease;
+    width: 14px;
+    height: 14px;
+    transition: transform var(--transition-fast);
+    color: var(--color-text-secondary);
   }
 
   &.open {
-    background: #edf2f7;
+    background: var(--color-bg-tertiary);
+    border-color: var(--color-accent);
+
+    .chevron-icon {
+      transform: rotate(180deg);
+    }
   }
 }
 
@@ -43,12 +54,13 @@
   top: calc(100% + 4px);
   right: 0;
   min-width: 180px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-medium);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated);
   padding: 0.375rem;
   z-index: 1000;
-  animation: dropdownFadeIn 0.2s ease-out;
+  animation: dropdownFadeIn var(--transition-base) ease-out;
 
   @keyframes dropdownFadeIn {
     from {
@@ -71,18 +83,18 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #4a5568;
-  font-size: 0.9375rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
 
   &:hover {
-    background: #f7fafc;
+    background: var(--color-bg-tertiary);
   }
 
   &.active {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-    color: #667eea;
+    background: rgba(215, 243, 106, 0.1);
+    color: var(--color-accent);
     font-weight: 600;
 
     .check-icon {
@@ -100,18 +112,19 @@
   }
 
   .check-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--transition-fast);
+    color: var(--color-accent);
   }
 }
 
 /* Mobile */
 @media (max-width: 480px) {
   .selector-header {
-    padding: 0.5rem 1.25rem;
-    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
   }
 
   .dropdown-menu {
@@ -120,7 +133,7 @@
 
   .lang-option {
     padding: 0.625rem 0.875rem;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     min-height: 44px;
   }
 }

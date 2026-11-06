@@ -1,62 +1,71 @@
 {
   "app": {
-    "title": "Погода — Прогноз для велосипедистов",
-    "name": "Погода для Велосипедиста"
+    "title": "VELORA — Погода на вашей стороне.",
+    "name": "VELORA"
   },
   "citySelector": {
-    "headerTitle": "🚴 Погода для Велосипедиста",
-    "subtitle": "Найдите идеальную погоду для вашей поездки!",
-    "searchPlaceholder": "Поиск вашего города...",
+    "headerTitle": "VELORA",
+    "subtitle": "Погода на вашей стороне.",
+    "searchPlaceholder": "Поиск города...",
     "searchButton": "Найти",
     "searching": "Поиск...",
-    "backToCities": "← Назад к выбору города",
-    "popularDestinations": "Популярные направления для велосипедистов",
-    "featuresTitle": "Что мы проверяем:",
-    "featureTemperature": "🌡️ Температура и комфорт",
-    "featureWind": "💨 Скорость и направление ветра",
-    "featurePrecipitation": "🌧️ Вероятность осадков",
-    "featureAirQuality": "🌬️ Индекс качества воздуха",
-    "featureUV": "☀️ УФ-индекс для защиты от солнца",
-    "featureHumidity": "💧 Уровень влажности и комфорт"
+    "backToCities": "← Назад",
+    "popularDestinations": "Популярные Города",
+    "featuresTitle": "Что проверяет VELORA:",
+    "featureTemperature": "Температура и комфорт",
+    "featureWind": "Скорость и порывы ветра",
+    "featurePrecipitation": "Вероятность осадков",
+    "featureAirQuality": "Индекс качества воздуха",
+    "featureUV": "УФ-индекс",
+    "featureHumidity": "Уровень влажности"
   },
   "weatherCard": {
     "feelsLike": "Ощущается как {{temp}}°C",
     "humidity": "Влажность",
-    "windSpeed": "Скорость ветра",
-    "precipitation": "Осадки"
+    "windSpeed": "Ветер",
+    "precipitation": "Осадки",
+    "currentConditions": "Текущие Условия",
+    "uvIndex": "УФ-индекс",
+    "sunshineDuration": "Солнечный свет"
   },
   "cyclingScore": {
-    "title": "🚴 Пригодность для езды на велосипеде",
+    "title": "Велосипедные Условия",
     "scoreOutOf100": "/100",
     "temperature": "Температура",
     "wind": "Ветер",
     "precipitation": "Осадки",
-    "airQuality": "Качество воздуха",
+    "airQuality": "Качество Воздуха",
     "uvIndex": "УФ-индекс",
-    "humidity": "Влажность"
+    "humidity": "Влажность",
+    "excellent": "Отличные условия для езды 🚴",
+    "good": "Хорошие условия для поездки 👍",
+    "moderate": "Средние — будьте осторожны ⚠️",
+    "poor": "Неидеально для велосипедной езды ❌"
   },
   "cyclingAlerts": {
-    "alertsTitle": "🚨 Предупреждения для велосипедистов",
-    "alertsSubtitle": "Важная информация для вашей безопасности",
-    "noAlertsIcon": "✅",
-    "noAlertsTitle": "Нет предупреждений",
-    "noAlertsMessage": "Все условия благоприятны для езды на велосипеде! Приятной поездки!"
+    "alertsTitle": "Погодные Предупреждения",
+    "alertsSubtitle": "Важные условия, о которых стоит знать",
+    "noAlertsIcon": "✓",
+    "noAlertsTitle": "Нет Активных Предупреждений",
+    "noAlertsMessage": "Условия благоприятны для езды на велосипеде. Приятной поездки!"
   },
   "airQuality": {
-    "title": "🌬️ Детали качества воздуха",
+    "title": "Качество Воздуха",
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
     "no2": "NO₂"
   },
   "forecast": {
-    "monday": "Понедельник",
-    "tuesday": "Вторник",
-    "wednesday": "Среда",
-    "thursday": "Четверг",
-    "friday": "Пятница",
-    "saturday": "Суббота",
-    "sunday": "Воскресенье"
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "monday": "Пн",
+    "tuesday": "Вт",
+    "wednesday": "Ср",
+    "thursday": "Чт",
+    "friday": "Пт",
+    "saturday": "Сб",
+    "sunday": "Вс"
   },
   "scoreLabels": {
     "temperature": {
@@ -97,19 +106,19 @@
     }
   },
   "alerts": {
-    "rainExpected": "Ожидаются дожди",
+    "rainExpected": "Ожидаются Дожди",
     "rainExpectedDescription": "Вероятность дождя превышает 50% в ближайшие {{count}} ч. Возьмите дождевую экипировку или отложите поездку.",
-    "thunderstormRisk": "Риск грозы",
-    "thunderstormRiskDescription": "В прогнозе обнаружены потенциальные грозы. Для вашей безопасности избегайте езды во время грозы.",
-    "heavyRainExpected": "Ожидаются сильные дожди",
+    "thunderstormRisk": "Риск Грозы",
+    "thunderstormRiskDescription": "В прогнозе обнаружены потенциальные грозы. Для безопасности избегайте езды во время грозы.",
+    "heavyRainExpected": "Ожидаются Сильные Дожди",
     "heavyRainDescription": "Прогнозируются значительные осадки. Дорожные условия могут быть опасными.",
-    "extremeHeatWarning": "Экстремальная жара",
+    "extremeHeatWarning": "Экстремальная Жара",
     "extremeHeatDescription": "Ожидается температура выше 35°C. Пейте больше воды и выбирайте утренние или вечерние поездки.",
     "freezingTemperatures": "Мороз",
     "freezingTemperaturesDescription": "Ожидаются температуры ниже нуля. На дорогах возможен лёд. Используйте зимнюю велосипедную экипировку."
   },
   "hourlyChart": {
-    "precipitation": "Осадки"
+    "precipitation": "Дождь"
   },
   "language": {
     "title": "Язык",
@@ -117,6 +126,16 @@
     "polish": "Polski",
     "french": "Français",
     "russian": "Русский",
+    "ukrainian": "Українська",
     "systemDefault": "Системный"
+  },
+  "loading": {
+    "weatherData": "Загрузка данных о погоде...",
+    "searching": "Поиск городов..."
+  },
+  "error": {
+    "default": "Что-то пошло не так. Пожалуйста, попробуйте снова.",
+    "noWeather": "Не удалось загрузить данные о погоде. Проверьте подключение и попробуйте снова.",
+    "noCityFound": "Город не найден. Попробуйте другой запрос."
   }
 }

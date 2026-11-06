@@ -1,62 +1,71 @@
 {
   "app": {
-    "title": "Application Météo - Prévisions Cyclisme",
-    "name": "Météo Cycliste"
+    "title": "VELORA — La météo à vos côtés.",
+    "name": "VELORA"
   },
   "citySelector": {
-    "headerTitle": "🚴 Météo Cycliste",
-    "subtitle": "Trouvez la météo parfaite pour votre balade !",
-    "searchPlaceholder": "Rechercher votre ville...",
+    "headerTitle": "VELORA",
+    "subtitle": "La météo à vos côtés.",
+    "searchPlaceholder": "Rechercher une ville...",
     "searchButton": "Rechercher",
     "searching": "Recherche...",
-    "backToCities": "← Retour à la Sélection de Ville",
-    "popularDestinations": "Destinations Cyclistes Populaires",
-    "featuresTitle": "Ce que nous vérifions pour vous :",
-    "featureTemperature": "🌡️ Température et niveau de confort",
-    "featureWind": "💨 Vitesse et direction du vent",
-    "featurePrecipitation": "🌧️ Probabilité de précipitations",
-    "featureAirQuality": "🌬️ Indice de qualité de l'air",
-    "featureUV": "☀️ Indice UV pour la protection solaire",
-    "featureHumidity": "💧 Niveau de confort d'humidité"
+    "backToCities": "← Retour",
+    "popularDestinations": "Villes Populaires",
+    "featuresTitle": "Ce que VELORA vérifie :",
+    "featureTemperature": "Température et confort",
+    "featureWind": "Vitesse et rafales de vent",
+    "featurePrecipitation": "Probabilité de précipitations",
+    "featureAirQuality": "Indice de qualité de l'air",
+    "featureUV": "Indice UV",
+    "featureHumidity": "Niveau d'humidité"
   },
   "weatherCard": {
     "feelsLike": "Senti {{temp}}°C",
     "humidity": "Humidité",
-    "windSpeed": "Vitesse du Vent",
-    "precipitation": "Précipitations"
+    "windSpeed": "Vent",
+    "precipitation": "Précipitations",
+    "currentConditions": "Conditions Actuelles",
+    "uvIndex": "Indice UV",
+    "sunshineDuration": "Ensoleillement"
   },
   "cyclingScore": {
-    "title": "🚴 Adaptabilité au Cyclisme",
+    "title": "Conditions Cyclistes",
     "scoreOutOf100": "/100",
     "temperature": "Température",
     "wind": "Vent",
     "precipitation": "Précipitations",
     "airQuality": "Qualité de l'Air",
     "uvIndex": "Indice UV",
-    "humidity": "Humidité"
+    "humidity": "Humidité",
+    "excellent": "Conditions excellentes pour le vélo 🚴",
+    "good": "Bonnes conditions pour rouler 👍",
+    "moderate": "Modéré — prudence ⚠️",
+    "poor": "Pas idéal pour le cyclisme ❌"
   },
   "cyclingAlerts": {
-    "alertsTitle": "🚨 Alertes et Avertissements Cyclisme",
-    "alertsSubtitle": "Informations importantes pour votre sécurité",
-    "noAlertsIcon": "✅",
-    "noAlertsTitle": "Aucune Alerte Cyclisme",
-    "noAlertsMessage": "Toutes les conditions sont bonnes pour le cyclisme ! Profitez de votre balade !"
+    "alertsTitle": "Alertes Météo",
+    "alertsSubtitle": "Conditions importantes à connaître",
+    "noAlertsIcon": "✓",
+    "noAlertsTitle": "Aucune Alerte Active",
+    "noAlertsMessage": "Les conditions sont favorables au vélo. Bonne balade !"
   },
   "airQuality": {
-    "title": "🌬️ Détails Qualité de l'Air",
+    "title": "Qualité de l'Air",
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
     "no2": "NO₂"
   },
   "forecast": {
-    "monday": "Lundi",
-    "tuesday": "Mardi",
-    "wednesday": "Mercredi",
-    "thursday": "Jeudi",
-    "friday": "Vendredi",
-    "saturday": "Samedi",
-    "sunday": "Dimanche"
+    "today": "Aujourd'hui",
+    "tomorrow": "Demain",
+    "monday": "Lun",
+    "tuesday": "Mar",
+    "wednesday": "Mer",
+    "thursday": "Jeu",
+    "friday": "Ven",
+    "saturday": "Sam",
+    "sunday": "Dim"
   },
   "scoreLabels": {
     "temperature": {
@@ -100,7 +109,7 @@
     "rainExpected": "Pluie Prévue",
     "rainExpectedDescription": "La probabilité de pluie dépasse 50 % dans les prochaines {{count}} heure(s). Pensez à prendre un équipement imperméable ou à reporter votre balade.",
     "thunderstormRisk": "Risque d'Orage",
-    "thunderstormRiskDescription": "Orages potentiels détectés dans les prévisions. Pour votre sécurité, évitez de faire du vélo pendant les orages électriques.",
+    "thunderstormRiskDescription": "Orages potentiels détectés. Pour votre sécurité, évitez de faire du vélo pendant les orages électriques.",
     "heavyRainExpected": "Fortes Pluies Prévues",
     "heavyRainDescription": "Des pluies importantes sont prévues. Les conditions routières peuvent être dangereuses.",
     "extremeHeatWarning": "Avertissement de Chaleur Extrême",
@@ -109,13 +118,24 @@
     "freezingTemperaturesDescription": "Températures négatives attendues. Du verglas peut être présent sur la route. Utilisez l'équipement hivernal adapté."
   },
   "hourlyChart": {
-    "precipitation": "Précipitations"
+    "precipitation": "Pluie"
   },
   "language": {
     "title": "Langue",
     "english": "English",
     "polish": "Polski",
     "french": "Français",
+    "russian": "Русский",
+    "ukrainian": "Українська",
     "systemDefault": "Défaut du Système"
+  },
+  "loading": {
+    "weatherData": "Chargement des données météo...",
+    "searching": "Recherche de villes..."
+  },
+  "error": {
+    "default": "Quelque chose s'est mal passé. Veuillez réessayer.",
+    "noWeather": "Impossible de charger les données météo. Vérifiez votre connexion et réessayez.",
+    "noCityFound": "Aucune ville trouvée. Essayez un autre terme."
   }
 }

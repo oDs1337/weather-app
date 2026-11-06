@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   template: `
     <div class="loading-container">
       <div class="spinner"></div>
-      <p>Loading weather data...</p>
+      <p>{{ loadingText }}</p>
     </div>
   `,
   styles: [`
@@ -20,12 +20,12 @@ import { Component } from '@angular/core';
     }
 
     .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-left-color: #3b82f6;
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--color-border-medium);
+      border-top-color: var(--color-accent);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 0.8s linear infinite;
     }
 
     @keyframes spin {
@@ -33,9 +33,11 @@ import { Component } from '@angular/core';
     }
 
     p {
-      color: #64748b;
-      font-size: 1rem;
+      color: var(--color-text-secondary);
+      font-size: 0.9375rem;
     }
   `]
 })
-export class LoadingComponent {}
+export class LoadingComponent {
+  loadingText = 'Loading weather data...';
+}

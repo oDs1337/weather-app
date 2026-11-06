@@ -5,16 +5,16 @@
   </div>
 
   <!-- Overall Score -->
-  <div class="overall-score" [style.background]="getScoreColor(score.overall)">
+  <div class="overall-score" [class]="getScoreClass(score.overall)">
     <div class="score-circle">
       <svg viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="54" fill="none" stroke="var(--color-border-medium)" stroke-width="8"/>
         <circle 
           cx="60" 
           cy="60" 
           r="54" 
           fill="none" 
-          stroke="white" 
+          stroke="var(--color-accent)" 
           stroke-width="8"
           [attr.stroke-dasharray]="`${(score.overall / 100) * 339.292} 339.292`"
           stroke-linecap="round"

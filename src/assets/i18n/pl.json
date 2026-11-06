@@ -1,62 +1,71 @@
 {
   "app": {
-    "title": "Aplikacja Pogoda - Prognoza dla Rowerzystów",
-    "name": "Pogoda dla Rowerzysty"
+    "title": "VELORA — Pogoda po Twojej stronie.",
+    "name": "VELORA"
   },
   "citySelector": {
-    "headerTitle": "🚴 Pogoda dla Rowerzysty",
-    "subtitle": "Znajdź idealną pogodę na Twoją przejażdżkę!",
-    "searchPlaceholder": "Wyszukaj swoje miasto...",
+    "headerTitle": "VELORA",
+    "subtitle": "Pogoda po Twojej stronie.",
+    "searchPlaceholder": "Wyszukaj miasto...",
     "searchButton": "Szukaj",
-    "searching": "Szukanie...",
-    "backToCities": "← Powrót do Wyboru Miasta",
-    "popularDestinations": "Popularne Kierunki Rowerowe",
-    "featuresTitle": "Co sprawdzamy dla Ciebie:",
-    "featureTemperature": "🌡️ Temperatura i komfort cieplny",
-    "featureWind": "💨 Prędkość i kierunek wiatru",
-    "featurePrecipitation": "🌧️ Prawdopodobność opadów",
-    "featureAirQuality": "🌬️ Jakość powietrza (AQI)",
-    "featureUV": "☀️ Indeks UV dla ochrony słonecznej",
-    "featureHumidity": "💧 Wilgotność i komfort"
+    "searching": "Wyszukiwanie...",
+    "backToCities": "← Wróć",
+    "popularDestinations": "Popularne Miasta",
+    "featuresTitle": "Co sprawdza VELORA:",
+    "featureTemperature": "Temperatura i komfort",
+    "featureWind": "Prędkość i podmuchy wiatru",
+    "featurePrecipitation": "Prawdopodobieństwo opadów",
+    "featureAirQuality": "Indeks jakości powietrza",
+    "featureUV": "Indeks UV",
+    "featureHumidity": "Poziom wilgotności"
   },
   "weatherCard": {
     "feelsLike": "Odczuwalna {{temp}}°C",
     "humidity": "Wilgotność",
     "windSpeed": "Wiatr",
-    "precipitation": "Opady"
+    "precipitation": "Opady",
+    "currentConditions": "Aktualne Warunki",
+    "uvIndex": "Indeks UV",
+    "sunshineDuration": "Nasłonecznienie"
   },
   "cyclingScore": {
-    "title": "🚴 Przydatność na Rower",
+    "title": "Warunki na Rower",
     "scoreOutOf100": "/100",
     "temperature": "Temperatura",
     "wind": "Wiatr",
     "precipitation": "Opady",
     "airQuality": "Jakość Powietrza",
     "uvIndex": "Indeks UV",
-    "humidity": "Wilgotność"
+    "humidity": "Wilgotność",
+    "excellent": "Świetne warunki na jazdę 🚴",
+    "good": "Dobre warunki na rower 👍",
+    "moderate": "Przeciętne — ostrożnie ⚠️",
+    "poor": "Nieidealne do jazdy ❌"
   },
   "cyclingAlerts": {
-    "alertsTitle": "🚨 Ostrzeżenia dla Rowerzystów",
-    "alertsSubtitle": "Ważne informacje dla bezpieczeństwa jazdy",
-    "noAlertsIcon": "✅",
-    "noAlertsTitle": "Brak Ostrzeżeń",
-    "noAlertsMessage": "Warunki są sprzyjające na rower! Miłej jazdy!"
+    "alertsTitle": "Ostrzeżenia Pogodowe",
+    "alertsSubtitle": "Ważne warunki, które warto znać",
+    "noAlertsIcon": "✓",
+    "noAlertsTitle": "Brak Aktywnych Ostrzeżeń",
+    "noAlertsMessage": "Warunki sprzyjają rowerowej jeździe. Miłej jazdy!"
   },
   "airQuality": {
-    "title": "🌬️ Szczegóły Jakości Powietrza",
+    "title": "Jakość Powietrza",
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
     "no2": "NO₂"
   },
   "forecast": {
-    "monday": "Poniedziałek",
-    "tuesday": "Wtorek",
-    "wednesday": "Środa",
-    "thursday": "Czwartek",
-    "friday": "Piątek",
-    "saturday": "Sobota",
-    "sunday": "Niedziela"
+    "today": "Dziś",
+    "tomorrow": "Jutro",
+    "monday": "Pon",
+    "tuesday": "Wto",
+    "wednesday": "Śro",
+    "thursday": "Czw",
+    "friday": "Pią",
+    "saturday": "Sob",
+    "sunday": "Ndz"
   },
   "scoreLabels": {
     "temperature": {
@@ -97,24 +106,36 @@
     }
   },
   "alerts": {
-    "rainExpected": "Oczekiwane opady deszczu",
+    "rainExpected": "Oczekiwane Opady Deszczu",
     "rainExpectedDescription": "Prawdopodobieństwo opadów przekracza 50% w ciągu następnych {{count}} godzin. Rozważ zabranie sprzętu przeciwdeszczowego lub przełożenie jazdy.",
-    "thunderstormRisk": "Ryzyko burzy",
-    "thunderstormRiskDescription": "Wykryto potencjalne burze w prognozie. Dla własnego bezpieczeństwa unikaj jazdy podczas burz z piorunami.",
-    "heavyRainExpected": "Oczekiwane silne opady deszczu",
+    "thunderstormRisk": "Ryzyko Burzy",
+    "thunderstormRiskDescription": "Wykryto potencjalne burze. Dla bezpieczeństwa unikaj jazdy podczas burz z piorunami.",
+    "heavyRainExpected": "Oczekiwane Silne Opady Deszczu",
     "heavyRainDescription": "Przewiduje się znaczne opady deszczu. Warunki na drodze mogą być niebezpieczne.",
-    "extremeHeatWarning": "Ostrzeżenie przed ekstremalnym upałem",
+    "extremeHeatWarning": "Ostrzeżenie Przed Ekstremalnym Upałem",
     "extremeHeatDescription": "Przewiduje się temperatury powyżej 35°C. Nawadniaj się regularnie i rozważ poranne lub wieczorne jazdy.",
-    "freezingTemperatures": "Zamrożone temperatury",
+    "freezingTemperatures": "Zamrożone Temperatury",
     "freezingTemperaturesDescription": "Oczekiwane temperatury poniżej zera. Na drogach może być lód. Używaj odpowiedniego zimowego sprzętu rowerowego."
   },
   "hourlyChart": {
-    "precipitation": "Opady"
+    "precipitation": "Deszcz"
   },
   "language": {
     "title": "Język",
     "english": "English",
     "polish": "Polski",
+    "french": "Français",
+    "russian": "Русский",
+    "ukrainian": "Українська",
     "systemDefault": "Domyślny Systemu"
+  },
+  "loading": {
+    "weatherData": "Ładowanie danych pogodowych...",
+    "searching": "Wyszukiwanie miast..."
+  },
+  "error": {
+    "default": "Coś poszło nie tak. Spróbuj ponownie.",
+    "noWeather": "Nie udało się załadować danych pogodowych. Sprawdź połączenie i spróbuj ponownie.",
+    "noCityFound": "Nie znaleziono miasta. Spróbuj innej nazwy."
   }
 }

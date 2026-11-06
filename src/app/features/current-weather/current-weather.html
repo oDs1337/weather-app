@@ -1,17 +1,10 @@
 <div class="weather-container">
-  <header class="page-header">
-    <h1>🚴 Cycling Weather in {{ selectedCityName() }}</h1>
-    @if (data()) {
-      <p class="current-date">{{ todayDate() }}</p>
-    }
-  </header>
-
   @if (loading()) {
     <app-loading />
   } @else if (error()) {
     <app-error [error]="error()!" />
   } @else if (data() && cyclingScore()) {
-    <div class="weather-content">
+    <div class="weather-content fade-in-up">
       <!-- Cycling Score Card -->
       <section class="cycling-score-section">
         <app-cycling-score-card 
@@ -31,22 +24,22 @@
       @if (airQuality()) {
         <section class="air-quality-section">
           <div class="aq-card">
-            <h3>🌬️ Air Quality Details</h3>
+            <h3>{{ 'airQuality.title' | translate }}</h3>
             <div class="aq-stats">
               <div class="aq-stat">
-                <span class="aq-label">PM2.5</span>
+                <span class="aq-label">{{ 'airQuality.pm25' | translate }}</span>
                 <span class="aq-value">{{ airQuality()!.pm25 }} μg/m³</span>
               </div>
               <div class="aq-stat">
-                <span class="aq-label">PM10</span>
+                <span class="aq-label">{{ 'airQuality.pm10' | translate }}</span>
                 <span class="aq-value">{{ airQuality()!.pm10 }} μg/m³</span>
               </div>
               <div class="aq-stat">
-                <span class="aq-label">O₃</span>
+                <span class="aq-label">{{ 'airQuality.o3' | translate }}</span>
                 <span class="aq-value">{{ airQuality()!.o3 }} μg/m³</span>
               </div>
               <div class="aq-stat">
-                <span class="aq-label">NO₂</span>
+                <span class="aq-label">{{ 'airQuality.no2' | translate }}</span>
                 <span class="aq-value">{{ airQuality()!.no2 }} μg/m³</span>
               </div>
             </div>
@@ -54,17 +47,19 @@
         </section>
       }
 
-      <!-- Regular Weather Info -->
+      <!-- Current Weather Card -->
       <app-current-weather-card [current]="data()!.current" />
 
-      <section class="forecast-section">
-        <h2>5-Day Forecast</h2>
-        <app-daily-forecast [daily]="data()!.daily" />
+      <!-- Hourly Forecast Chart -->
+      <section class="hourly-section">
+        <h3>{{ 'forecast.today' | translate }}</h3>
+        <app-hourly-chart [hourly]="data()!.hourly" />
       </section>
 
-      <section class="hourly-section">
-        <h2>Today's Hourly Weather</h2>
-        <app-hourly-chart [hourly]="data()!.hourly" />
+      <!-- Daily Forecast -->
+      <section class="daily-section">
+        <h3>{{ 'forecast.tomorrow' | translate }} +</h3>
+        <app-daily-forecast [daily]="data()!.daily" />
       </section>
     </div>
   }

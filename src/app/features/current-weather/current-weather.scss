@@ -1,92 +1,79 @@
 .weather-container {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
-
-  .page-header {
-    text-align: center;
-    margin-bottom: 2rem;
-
-    h1 {
-      font-size: 2.5rem;
-      color: #1e293b;
-      margin-bottom: 0.5rem;
-    }
-
-    .current-date {
-      font-size: 1.125rem;
-      color: #64748b;
-    }
-  }
+  padding: var(--space-md);
 
   .weather-content {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--space-md);
   }
 
   // Cycling-specific sections
   .cycling-score-section,
   .cycling-alerts-section,
   .air-quality-section {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
   }
 
   .air-quality-section {
     .aq-card {
+      padding: 1.25rem;
+
       h3 {
-        font-size: 1.5rem;
-        color: #1e293b;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #e2e8f0;
+        font-size: 1.0625rem;
+        color: var(--color-text-primary);
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
       }
 
       .aq-stats {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: var(--space-sm);
 
         .aq-stat {
-          background: #f7fafc;
-          padding: 1.25rem;
-          border-radius: 12px;
+          background: var(--color-bg-tertiary);
+          padding: 1rem;
+          border-radius: var(--radius-md);
           text-align: center;
 
           .aq-label {
             display: block;
-            font-size: 0.9rem;
-            color: #718096;
-            margin-bottom: 0.5rem;
+            font-size: 0.8125rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
           }
 
           .aq-value {
             display: block;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #2d3748;
+            font-size: 1.0625rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
           }
         }
       }
     }
   }
 
-  .forecast-section,
-  .hourly-section {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  .hourly-section,
+  .daily-section {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 1.25rem;
 
-    h2 {
-      font-size: 1.5rem;
-      color: #1e293b;
+    h3 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
       margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #e2e8f0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
   }
 
@@ -97,13 +84,7 @@
 
 @media (max-width: 768px) {
   .weather-container {
-    padding: 1rem;
-
-    .page-header {
-      h1 {
-        font-size: 2rem;
-      }
-    }
+    padding: var(--space-sm);
 
     .air-quality-section {
       .aq-card {

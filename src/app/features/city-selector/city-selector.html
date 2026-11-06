@@ -4,7 +4,7 @@
     @if (!weatherData()) {
       <div class="card-header">
         <div class="header-top">
-          <h1>{{ 'citySelector.headerTitle' | translate }}</h1>
+          <h1>{{ 'app.name' | translate }}</h1>
           @if (showLanguageSelector()) {
             <app-language-selector />
           }
@@ -39,7 +39,7 @@
         <!-- Error Message -->
         @if (error()) {
           <div class="error-message">
-            ⚠️ {{ error() }}
+            ⚠ {{ error() }}
           </div>
         }
 

@@ -1,4 +1,87 @@
-/* Global Styles */
+/* ============================================================
+   VELORA — Premium Cycling Weather Companion
+   Design System & Global Styles
+   ============================================================ */
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* Dark theme (default) */
+  --color-bg-primary: #111820;
+  --color-bg-secondary: #1B252F;
+  --color-bg-tertiary: #232D3A;
+  --color-accent: #D7F36A;
+  --color-text-primary: #F4F5F2;
+  --color-text-secondary: #87939D;
+  --color-text-muted: #5C6B78;
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-medium: rgba(255, 255, 255, 0.1);
+
+  /* Score colors */
+  --score-excellent: #D7F36A;
+  --score-good: #B8E054;
+  --score-fair: #E8C45A;
+  --score-poor: #E8735A;
+
+  /* Alert colors */
+  --alert-danger-bg: rgba(232, 115, 90, 0.1);
+  --alert-danger-border: #E8735A;
+  --alert-warning-bg: rgba(232, 196, 90, 0.1);
+  --alert-warning-border: #E8C45A;
+  --alert-info-bg: rgba(100, 160, 232, 0.1);
+  --alert-info-border: #64A0E8;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+}
+
+/* ---------- Light Theme ---------- */
+[data-theme="light"] {
+  --color-bg-primary: #F4F5F2;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-tertiary: #EAECE8;
+  --color-accent: #6B7C0A;
+  --color-text-primary: #111820;
+  --color-text-secondary: #5C6B78;
+  --color-text-muted: #87939D;
+  --color-border-subtle: rgba(0, 0, 0, 0.06);
+  --color-border-medium: rgba(0, 0, 0, 0.12);
+
+  --score-excellent: #6B7C0A;
+  --score-good: #8BA314;
+  --score-fair: #B8950A;
+  --score-poor: #C44E3A;
+
+  --alert-danger-bg: rgba(196, 78, 58, 0.08);
+  --alert-danger-border: #C44E3A;
+  --alert-warning-bg: rgba(184, 149, 10, 0.08);
+  --alert-warning-border: #B8950A;
+  --alert-info-bg: rgba(60, 120, 200, 0.08);
+  --alert-info-border: #3C78C8;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* ---------- Reset & Base ---------- */
 * {
   margin: 0;
   padding: 0;
@@ -14,11 +97,10 @@ html, body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #f1f5f9;
-  color: #1e293b;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   min-height: 100vh;
-  /* Support for notched phones (iOS/Android) */
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -29,51 +111,73 @@ body {
   flex-direction: column;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* ---------- Typography ---------- */
+h1 { font-size: 1.75rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+h2 { font-size: 1.375rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+h3 { font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-medium); border-radius: 2px; }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
+/* ---------- Mobile tap highlight ---------- */
+* { -webkit-tap-highlight-color: transparent; }
 
-/* Mobile tap highlight */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Focus outline for accessibility */
+/* ---------- Focus outline for accessibility ---------- */
 *:focus-visible {
-  outline: 2px solid #667eea;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-/* Loading spinner */
+/* ---------- Buttons ---------- */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input, textarea {
+  font-family: inherit;
+}
+
+/* ---------- Loading spinner ---------- */
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  gap: 16px;
+  gap: var(--space-md);
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #e2e8f0;
-  border-top-color: #667eea;
+  border: 3px solid var(--color-border-medium);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Fade-in animation ---------- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* ---------- Card base style ---------- */
+.velora-card {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
 }

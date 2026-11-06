@@ -1,25 +1,31 @@
+/* ============================================================
+   VELORA — Daily Forecast Component Styles
+   ============================================================ */
+
 .forecast-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 0.75rem;
+  gap: var(--space-sm);
 
   .forecast-card {
-    background: #f8fafc;
-    border-radius: 12px;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
     padding: 1rem;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     min-height: 48px;
 
     .day-name {
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--color-text-secondary);
       margin-bottom: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .weather-icon {
-      font-size: 2.25rem;
+      font-size: 2rem;
       display: block;
       margin-bottom: 0.625rem;
     }
@@ -27,68 +33,68 @@
     .temps {
       display: flex;
       justify-content: center;
-      gap: 0.625rem;
-      margin-bottom: 0.625rem;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
 
       .temp-max {
-        font-size: 1.125rem;
+        font-size: 1.0625rem;
         font-weight: 700;
-        color: #1e293b;
+        color: var(--color-text-primary);
       }
 
       .temp-min {
-        font-size: 1rem;
-        color: #64748b;
+        font-size: 0.9375rem;
+        color: var(--color-text-muted);
       }
     }
 
     .details {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.1875rem;
 
       .detail {
         font-size: 0.8125rem;
-        color: #64748b;
+        color: var(--color-text-secondary);
       }
     }
   }
 }
 
-/* Tablet+ */
+/* ---------- Tablet+ ---------- */
 @media (min-width: 768px) {
   .forecast-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-md);
 
     .forecast-card {
       padding: 1.25rem;
 
       &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-elevated);
       }
 
       .day-name {
-        font-size: 1rem;
+        font-size: 0.9375rem;
         margin-bottom: 0.75rem;
       }
 
       .weather-icon {
-        font-size: 2.5rem;
+        font-size: 2.25rem;
         margin-bottom: 0.75rem;
       }
 
       .temps {
-        gap: 0.75rem;
-        margin-bottom: 0.75rem;
+        gap: 0.625rem;
+        margin-bottom: 0.625rem;
 
         .temp-max {
-          font-size: 1.25rem;
+          font-size: 1.1875rem;
         }
 
         .temp-min {
-          font-size: 1.125rem;
+          font-size: 1rem;
         }
       }
 

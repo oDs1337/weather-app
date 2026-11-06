@@ -1,62 +1,71 @@
 {
   "app": {
-    "title": "Weather App - Cycling Forecast",
-    "name": "Cyclist Weather"
+    "title": "VELORA — Weather on your side.",
+    "name": "VELORA"
   },
   "citySelector": {
-    "headerTitle": "🚴 Cyclist Weather",
-    "subtitle": "Find the perfect weather for your ride!",
-    "searchPlaceholder": "Search for your city...",
+    "headerTitle": "VELORA",
+    "subtitle": "Weather on your side.",
+    "searchPlaceholder": "Search for a city...",
     "searchButton": "Search",
     "searching": "Searching...",
-    "backToCities": "← Back to City Selection",
-    "popularDestinations": "Popular Cycling Destinations",
-    "featuresTitle": "What we check for you:",
-    "featureTemperature": "🌡️ Temperature & comfort level",
-    "featureWind": "💨 Wind speed & direction",
-    "featurePrecipitation": "🌧️ Precipitation probability",
-    "featureAirQuality": "🌬️ Air quality index",
-    "featureUV": "☀️ UV index for sun protection",
-    "featureHumidity": "💧 Humidity comfort level"
+    "backToCities": "← Back",
+    "popularDestinations": "Popular Cities",
+    "featuresTitle": "What VELORA checks:",
+    "featureTemperature": "Temperature & comfort",
+    "featureWind": "Wind speed & gusts",
+    "featurePrecipitation": "Precipitation probability",
+    "featureAirQuality": "Air quality index",
+    "featureUV": "UV index",
+    "featureHumidity": "Humidity level"
   },
   "weatherCard": {
     "feelsLike": "Feels like {{temp}}°C",
     "humidity": "Humidity",
-    "windSpeed": "Wind Speed",
-    "precipitation": "Precipitation"
+    "windSpeed": "Wind",
+    "precipitation": "Precipitation",
+    "currentConditions": "Current Conditions",
+    "uvIndex": "UV Index",
+    "sunshineDuration": "Sunshine"
   },
   "cyclingScore": {
-    "title": "🚴 Cycling Suitability",
+    "title": "Cycling Conditions",
     "scoreOutOf100": "/100",
     "temperature": "Temperature",
     "wind": "Wind",
     "precipitation": "Precipitation",
     "airQuality": "Air Quality",
     "uvIndex": "UV Index",
-    "humidity": "Humidity"
+    "humidity": "Humidity",
+    "excellent": "Excellent conditions for riding 🚴",
+    "good": "Good conditions for a ride 👍",
+    "moderate": "Moderate — use caution ⚠️",
+    "poor": "Not ideal for cycling ❌"
   },
   "cyclingAlerts": {
-    "alertsTitle": "🚨 Cycling Alerts & Warnings",
-    "alertsSubtitle": "Important information for your ride safety",
-    "noAlertsIcon": "✅",
-    "noAlertsTitle": "No Cycling Alerts",
-    "noAlertsMessage": "All conditions look good for cycling! Enjoy your ride!"
+    "alertsTitle": "Weather Alerts",
+    "alertsSubtitle": "Important conditions to be aware of",
+    "noAlertsIcon": "✓",
+    "noAlertsTitle": "No Active Alerts",
+    "noAlertsMessage": "Conditions look good for cycling. Enjoy your ride!"
   },
   "airQuality": {
-    "title": "🌬️ Air Quality Details",
+    "title": "Air Quality",
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
     "no2": "NO₂"
   },
   "forecast": {
-    "monday": "Monday",
-    "tuesday": "Tuesday",
-    "wednesday": "Wednesday",
-    "thursday": "Thursday",
-    "friday": "Friday",
-    "saturday": "Saturday",
-    "sunday": "Sunday"
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
   },
   "scoreLabels": {
     "temperature": {
@@ -98,9 +107,9 @@
   },
   "alerts": {
     "rainExpected": "Rain Expected",
-    "rainExpectedDescription": "Rain probability exceeds 50% in the next {{count}} hour(s). Consider bringing rain gear or postponing your ride.",
+    "rainExpectedDescription": "Rain probability exceeds 50% in the next {{count}} hour(s). Consider rain gear or postponing your ride.",
     "thunderstormRisk": "Thunderstorm Risk",
-    "thunderstormRiskDescription": "Potential thunderstorms detected in the forecast. For your safety, avoid cycling during electrical storms.",
+    "thunderstormRiskDescription": "Potential thunderstorms detected. For safety, avoid cycling during electrical storms.",
     "heavyRainExpected": "Heavy Rain Expected",
     "heavyRainDescription": "Significant rainfall predicted. Road conditions may be hazardous.",
     "extremeHeatWarning": "Extreme Heat Warning",
@@ -109,12 +118,24 @@
     "freezingTemperaturesDescription": "Sub-zero temperatures expected. Road ice may be present. Use appropriate winter cycling gear."
   },
   "hourlyChart": {
-    "precipitation": "Precipitation"
+    "precipitation": "Rain"
   },
   "language": {
     "title": "Language",
     "english": "English",
     "polish": "Polski",
+    "french": "Français",
+    "russian": "Русский",
+    "ukrainian": "Українська",
     "systemDefault": "System Default"
+  },
+  "loading": {
+    "weatherData": "Loading weather data...",
+    "searching": "Searching cities..."
+  },
+  "error": {
+    "default": "Something went wrong. Please try again.",
+    "noWeather": "Failed to load weather data. Please check your connection and try again.",
+    "noCityFound": "No city found. Try a different search term."
   }
 }
