@@ -9,6 +9,7 @@ import { DailyForecastComponent } from './daily-forecast/daily-forecast.componen
 import { HourlyChartComponent } from './hourly-chart/hourly-chart.component';
 import { CyclingScoreCardComponent } from '../cycling-score-card/cycling-score-card.component';
 import { CyclingAlertsComponent } from '../cycling-alerts/cycling-alerts.component';
+import { AirQualityComponent } from '../air-quality/air-quality.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { WeatherResponse, CyclingScore, CyclingIssue } from '../../../core/models/weather.model';
 
@@ -23,6 +24,7 @@ import { WeatherResponse, CyclingScore, CyclingIssue } from '../../../core/model
     HourlyChartComponent,
     CyclingScoreCardComponent,
     CyclingAlertsComponent,
+    AirQualityComponent,
     TranslatePipe
   ],
   templateUrl: './current-weather.html',

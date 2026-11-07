@@ -9,55 +9,17 @@
     gap: var(--space-md);
   }
 
-  // Cycling-specific sections
-  .cycling-score-section,
-  .cycling-alerts-section,
-  .air-quality-section {
-    background: var(--color-bg-secondary);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+  // Cycling-specific sections - each handles its own card styling
+  .cycling-score-section {
+    // cycling-score-card handles its own design
+  }
+
+  .cycling-alerts-section {
+    // No extra wrapper styling - alerts-container handles its own design
   }
 
   .air-quality-section {
-    .aq-card {
-      padding: 1.25rem;
-
-      h3 {
-        font-size: 1.0625rem;
-        color: var(--color-text-primary);
-        margin-bottom: 1rem;
-        letter-spacing: -0.01em;
-      }
-
-      .aq-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: var(--space-sm);
-
-        .aq-stat {
-          background: var(--color-bg-tertiary);
-          padding: 1rem;
-          border-radius: var(--radius-md);
-          text-align: center;
-
-          .aq-label {
-            display: block;
-            font-size: 0.8125rem;
-            color: var(--color-text-secondary);
-            margin-bottom: 0.375rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-          }
-
-          .aq-value {
-            display: block;
-            font-size: 1.0625rem;
-            font-weight: 600;
-            color: var(--color-text-primary);
-          }
-        }
-      }
-    }
+    // air-quality component handles its own design
   }
 
   .hourly-section,
@@ -86,11 +48,9 @@
   .weather-container {
     padding: var(--space-sm);
 
-    .air-quality-section {
-      .aq-card {
-        .aq-stats {
-          grid-template-columns: repeat(2, 1fr);
-        }
+    .aq-card {
+      .aq-stats {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   }

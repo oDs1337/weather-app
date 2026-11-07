@@ -18,11 +18,10 @@ export class HourlyChartComponent {
     // Show every 3rd hour for readability (8 time points)
     for (let i = 0; i < hours.length && result.length < 8; i += 3) {
       const date = new Date(hours[i].time);
-      const hour = date.getHours();
-      const displayHour = hour === 0 ? '12 AM' : hour < 12 ? `${hour} AM` : hour === 12 ? '12 PM' : `${hour - 12} PM`;
+      const hour = String(date.getHours()).padStart(2, '0');
       
       result.push({
-        time: displayHour,
+        time: hour,
         temp: hours[i].temperature_2m,
         icon: hours[i].weather_code,
         precip: hours[i].precipitation_probability ?? 0,

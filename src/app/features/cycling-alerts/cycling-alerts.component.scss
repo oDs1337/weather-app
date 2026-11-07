@@ -9,7 +9,7 @@
   overflow: hidden;
 
   .alerts-header {
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.5rem 0.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,7 +30,7 @@
   }
 
   .alerts-list {
-    padding: 1.25rem 1.5rem;
+    padding: 0.25rem 1.5rem 1.5rem;
 
     .alert-item {
       display: flex;
@@ -134,7 +134,7 @@
     box-shadow: var(--shadow-elevated);
 
     .alerts-header {
-      padding: 1.5rem 2rem;
+      padding: 1.25rem 2rem 0.25rem;
 
       h3 {
         font-size: 1.25rem;
@@ -146,7 +146,7 @@
     }
 
     .alerts-list {
-      padding: 1.5rem 2rem;
+      padding: 0.75rem 2rem 2rem;
 
       .alert-item {
         gap: var(--space-lg);

@@ -1,4 +1,18 @@
 {
+  "months": {
+    "january": "Styczeń",
+    "february": "Luty",
+    "march": "Marzec",
+    "april": "Kwiecień",
+    "may": "Maj",
+    "june": "Czerwiec",
+    "july": "Lipiec",
+    "august": "Sierpień",
+    "september": "Wrzesień",
+    "october": "Październik",
+    "november": "Listopad",
+    "december": "Grudzień"
+  },
   "app": {
     "title": "VELORA — Pogoda po Twojej stronie.",
     "name": "VELORA"
@@ -20,13 +34,39 @@
     "featureHumidity": "Poziom wilgotności"
   },
   "weatherCard": {
-    "feelsLike": "Odczuwalna {{temp}}°C",
+    "feelsLike": "Odczuwalna {{temp}} °C",
     "humidity": "Wilgotność",
     "windSpeed": "Wiatr",
     "precipitation": "Opady",
     "currentConditions": "Aktualne Warunki",
     "uvIndex": "Indeks UV",
-    "sunshineDuration": "Nasłonecznienie"
+    "sunshineDuration": "Nasłonecznienie",
+    "unitPercent": "%",
+    "unitKmh": "km/h",
+    "unitMm": "mm"
+  },
+  "weatherCodes": {
+    "0": "Bezchmurnie",
+    "1": "Głównie bezchmurnie",
+    "2": "Częściowe zachmurzenie",
+    "3": "Pochmurno",
+    "45": "Mgła",
+    "48": "Mgła z osadzaniem się szadzi",
+    "51": "Lekka mżawka",
+    "53": "Umiarkowana mżawka",
+    "55": "Gęsta mżawka",
+    "61": "Lekki deszcz",
+    "63": "Umiarkowany deszcz",
+    "65": "Silny deszcz",
+    "71": "Lekkie opady śniegu",
+    "73": "Umiarkowane opady śniegu",
+    "75": "Silne opady śniegu",
+    "80": "Lekkie przelotne deszcze",
+    "81": "Umiarkowane przelotne deszcze",
+    "82": "Gwałtowne przelotne deszcze",
+    "95": "Burza",
+    "96": "Burza z lekkim gradem",
+    "99": "Burza z silnym gradem"
   },
   "cyclingScore": {
     "title": "Warunki na Rower",

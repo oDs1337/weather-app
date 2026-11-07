@@ -1,11 +1,11 @@
 <div class="current-card">
   <div class="location-icon">📍</div>
-  <h2>{{ current().time | date:'EEEE, MMMM d' }}</h2>
+  <h2>{{ current().time || '' | localizedDate }}</h2>
   
   <div class="weather-main">
     <span class="weather-icon">{{ current().weather_code | weatherIcon }}</span>
     <div class="temp-info">
-      <span class="temperature">{{ current().temperature_2m }}°C</span>
+      <span class="temperature">{{ current().temperature_2m }} <span class="unit">°C</span></span>
       <span class="feels-like">{{ 'weatherCard.feelsLike' | translate: { temp: current().apparent_temperature } }}</span>
     </div>
   </div>
@@ -19,21 +19,21 @@
       <span class="detail-icon">💧</span>
       <div class="detail-info">
         <span class="detail-label">{{ 'weatherCard.humidity' | translate }}</span>
-        <span class="detail-value">{{ current().relative_humidity_2m }}%</span>
+        <span class="detail-value">{{ current().relative_humidity_2m }} <span class="unit">{{ 'weatherCard.unitPercent' | translate }}</span></span>
       </div>
     </div>
     <div class="detail-item">
       <span class="detail-icon">💨</span>
       <div class="detail-info">
         <span class="detail-label">{{ 'weatherCard.windSpeed' | translate }}</span>
-        <span class="detail-value">{{ current().windspeed_10m }} km/h</span>
+        <span class="detail-value">{{ current().windspeed_10m }} <span class="unit">{{ 'weatherCard.unitKmh' | translate }}</span></span>
       </div>
     </div>
     <div class="detail-item">
       <span class="detail-icon">🌧️</span>
       <div class="detail-info">
         <span class="detail-label">{{ 'weatherCard.precipitation' | translate }}</span>
-        <span class="detail-value">{{ current().precipitation }} mm</span>
+        <span class="detail-value">{{ current().precipitation }} <span class="unit">{{ 'weatherCard.unitMm' | translate }}</span></span>
       </div>
     </div>
   </div>

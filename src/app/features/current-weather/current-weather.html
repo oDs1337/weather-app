@@ -23,30 +23,10 @@
       <!-- Air Quality Info -->
       @if (airQuality()) {
         <section class="air-quality-section">
-          <div class="aq-card">
-            <h3>{{ 'airQuality.title' | translate }}</h3>
-            <div class="aq-stats">
-              <div class="aq-stat">
-                <span class="aq-label">{{ 'airQuality.pm25' | translate }}</span>
-                <span class="aq-value">{{ airQuality()!.pm25 }} μg/m³</span>
-              </div>
-              <div class="aq-stat">
-                <span class="aq-label">{{ 'airQuality.pm10' | translate }}</span>
-                <span class="aq-value">{{ airQuality()!.pm10 }} μg/m³</span>
-              </div>
-              <div class="aq-stat">
-                <span class="aq-label">{{ 'airQuality.o3' | translate }}</span>
-                <span class="aq-value">{{ airQuality()!.o3 }} μg/m³</span>
-              </div>
-              <div class="aq-stat">
-                <span class="aq-label">{{ 'airQuality.no2' | translate }}</span>
-                <span class="aq-value">{{ airQuality()!.no2 }} μg/m³</span>
-              </div>
-            </div>
-          </div>
+          <app-air-quality [data]="airQuality()!" />
         </section>
       }
-
+      
       <!-- Current Weather Card -->
       <app-current-weather-card [current]="data()!.current" />
 
