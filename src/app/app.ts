@@ -1,14 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
-import { CitySelectorComponent } from './features/city-selector/city-selector.component';
+import { RouterOutlet } from '@angular/router';
 import { LanguageService } from './core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
-  imports: [CitySelectorComponent],
+  imports: [RouterOutlet],
   template: `
     @if (languageReady()) {
-      <app-city-selector />
+      <router-outlet />
     } @else {
       <div class="loading-container">
         <div class="spinner"></div>

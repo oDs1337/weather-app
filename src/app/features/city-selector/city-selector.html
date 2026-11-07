@@ -1,8 +1,7 @@
 <div class="city-selector-container">
   <div class="selector-card">
     <!-- Header -->
-    @if (!weatherData()) {
-      <header class="brand-header">
+    <header class="brand-header">
         <div class="logo-v">
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 20 L45 80 L85 20 L65 20 L45 60 L30 20 Z" fill="#D7F36A"/>
@@ -15,10 +14,8 @@
         }
         <p class="subtitle">{{ 'citySelector.subtitle' | translate }}</p>
       </header>
-    }
 
-    <!-- Content Section (shown when no weather data) -->
-    @if (!weatherData()) {
+      <!-- Content Section -->
       <div class="card-content">
         <!-- Search Form -->
         <form class="search-form" (ngSubmit)="performSearch(searchControl.value ?? '')">
@@ -115,82 +112,5 @@
           </ul>
         </div>
       </div>
-    }
-
-    <!-- Weather Section (shown when city is selected) -->
-    @if (weatherData()) {
-      <div class="weather-section">
-        <button 
-          class="back-btn"
-          (click)="goBack()"
-        >
-          {{ 'citySelector.backToCities' | translate }}
-        </button>
-
-        <!-- Loading State -->
-        @if (loading()) {
-          <app-loading />
-        } @else if (error()) {
-          <app-error [error]="error()!" />
-        } @else if (weatherData() && cyclingScore()) {
-          <div class="weather-content">
-            <!-- Cycling Score Card -->
-            <section class="cycling-score-section">
-              <app-cycling-score-card 
-                [score]="cyclingScore()!" 
-                [city]="selectedCityName()" 
-              />
-            </section>
-            
-            <!-- Cycling Alerts -->
-            @if (cyclingIssues().length > 0) {
-              <section class="cycling-alerts-section">
-                <app-cycling-alerts [issues]="cyclingIssues()" />
-              </section>
-            }
-
-            <!-- Air Quality Info -->
-            @if (airQuality()) {
-              <section class="air-quality-section">
-                <div class="aq-card">
-                  <h3>{{ 'airQuality.title' | translate }}</h3>
-                  <div class="aq-stats">
-                    <div class="aq-stat">
-                      <span class="aq-label">{{ 'airQuality.pm25' | translate }}</span>
-                      <span class="aq-value">{{ airQuality()!.pm25 }} μg/m³</span>
-                    </div>
-                    <div class="aq-stat">
-                      <span class="aq-label">{{ 'airQuality.pm10' | translate }}</span>
-                      <span class="aq-value">{{ airQuality()!.pm10 }} μg/m³</span>
-                    </div>
-                    <div class="aq-stat">
-                      <span class="aq-label">{{ 'airQuality.o3' | translate }}</span>
-                      <span class="aq-value">{{ airQuality()!.o3 }} μg/m³</span>
-                    </div>
-                    <div class="aq-stat">
-                      <span class="aq-label">{{ 'airQuality.no2' | translate }}</span>
-                      <span class="aq-value">{{ airQuality()!.no2 }} μg/m³</span>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            }
-
-            <!-- Current Weather Card -->
-            <app-current-weather-card [current]="weatherData()!.current" />
-
-            <!-- Hourly Forecast Chart -->
-            <app-hourly-chart 
-              [hourly]="weatherData()!.hourly" 
-            />
-
-            <!-- Daily Forecast -->
-            <app-daily-forecast 
-              [daily]="weatherData()!.daily" 
-            />
-          </div>
-        }
-      </div>
-    }
   </div>
 </div>

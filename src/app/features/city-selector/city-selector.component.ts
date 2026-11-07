@@ -1,19 +1,10 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { Component, inject, signal, computed } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
-import { WeatherService } from '../../../core/services/weather.service';
-import { CyclingScoringService } from '../../core/services/cycling-scoring.service';
-import { LoadingComponent } from '../../../shared/components/loading/loading.component';
-import { ErrorComponent } from '../../../shared/components/error/error.component';
-import { CurrentWeatherCardComponent } from '../current-weather/current-weather-card/current-weather-card.component';
-import { DailyForecastComponent } from '../current-weather/daily-forecast/daily-forecast.component';
-import { HourlyChartComponent } from '../current-weather/hourly-chart/hourly-chart.component';
-import { CyclingScoreCardComponent } from '../cycling-score-card/cycling-score-card.component';
-import { CyclingAlertsComponent } from '../cycling-alerts/cycling-alerts.component';
-import { WeatherResponse, CyclingScore, CyclingIssue } from '../../../core/models/weather.model';
 import { LanguageSelectorComponent } from '../../core/components/language-selector/language-selector.component';
 
 interface GeoLocation {
@@ -28,14 +19,13 @@ interface GeoLocation {
 @Component({
   selector: 'app-city-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslatePipe, LanguageSelectorComponent, LoadingComponent, ErrorComponent, CurrentWeatherCardComponent, DailyForecastComponent, HourlyChartComponent, CyclingScoreCardComponent, CyclingAlertsComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslatePipe, LanguageSelectorComponent],
   templateUrl: './city-selector.html',
   styleUrls: ['./city-selector.component.scss']
 })
-export class CitySelectorComponent implements OnInit {
+export class CitySelectorComponent {
   private readonly http = inject(HttpClient);
-  private readonly weatherService = inject(WeatherService);
-  private readonly cyclingScoringService = inject(CyclingScoringService);
+  private readonly router = inject(Router);
 
   // Show language selector only on web (not on iOS/Android where users use system Settings)
   showLanguageSelector = computed(() => {
@@ -44,28 +34,11 @@ export class CitySelectorComponent implements OnInit {
 
   searchControl = new FormControl('', [Validators.required]);
   cities = signal<GeoLocation[]>([]);
-  selectedCity = signal<GeoLocation | null>(null);
   loading = signal(false);
   error = signal<string | null>(null);
   hasSearched = signal(false);
 
-  // Weather data signals for inline display
-  weatherData = signal<WeatherResponse | null>(null);
-  airQuality = signal<any>(null);
-  cyclingScore = signal<CyclingScore | null>(null);
-  cyclingIssues = signal<CyclingIssue[]>([]);
-  selectedCityName = signal<string>('Your City');
-
-  protected readonly todayDate = computed(() => 
-    new Date().toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    })
-  );
-
-  ngOnInit() {
+  constructor() {
     this.searchControl.valueChanges.subscribe(() => {
       this.debouncedSearch();
     });
@@ -121,8 +94,13 @@ export class CitySelectorComponent implements OnInit {
   }
 
   selectCity(city: GeoLocation) {
-    this.selectedCity.set(city);
-    this.fetchWeatherData(city.latitude, city.longitude, city.name);
+    this.router.navigate(['/weather'], {
+      queryParams: {
+        lat: city.latitude,
+        lon: city.longitude,
+        name: city.name
+      }
+    });
   }
 
   popularCitiesList = signal<string[]>([
@@ -144,69 +122,15 @@ export class CitySelectorComponent implements OnInit {
 
     const city = cityMap[cityName];
     if (city) {
-      this.fetchWeatherData(city.lat, city.lon, cityName);
+      this.router.navigate(['/weather'], {
+        queryParams: {
+          lat: city.lat,
+          lon: city.lon,
+          name: cityName
+        }
+      });
     }
   }
 
-  popularCities() {
-    const cities = [
-      { name: 'Warsaw', lat: 52.23, lon: 21.01 },
-      { name: 'Krakow', lat: 50.06, lon: 19.94 },
-      { name: 'Gdansk', lat: 54.35, lon: 18.65 },
-      { name: 'Wroclaw', lat: 51.1, lon: 17.03 },
-      { name: 'Poznan', lat: 52.41, lon: 16.93 },
-      { name: 'Berlin', lat: 52.52, lon: 13.41 },
-      { name: 'London', lat: 51.51, lon: -0.13 },
-      { name: 'Paris', lat: 48.86, lon: 2.34 },
-    ];
-    
-    const city = cities[Math.floor(Math.random() * cities.length)];
-    this.fetchWeatherData(city.lat, city.lon, city.name);
-  }
 
-  private fetchWeatherData(lat: number, lon: number, cityName: string): void {
-    this.loading.set(true);
-    this.error.set(null);
-    this.selectedCityName.set(cityName);
-    
-    this.weatherService.getCyclingWeather(lat, lon).subscribe({
-      next: (response) => {
-        this.weatherData.set(response.weather);
-        this.airQuality.set(response.airQuality);
-        
-        const { score, issues } = this.cyclingScoringService.calculateCyclingScore(
-          response.weather.current,
-          response.weather.hourly,
-          response.weather.daily,
-          response.airQuality
-        );
-        
-        const forecastIssues = this.cyclingScoringService.calculateForecastIssues(
-          response.weather.hourly,
-          response.weather.daily
-        );
-        
-        this.cyclingIssues.set([...issues, ...forecastIssues]);
-        this.cyclingScore.set(score);
-        
-        this.loading.set(false);
-      },
-      error: (err) => {
-        this.error.set('Failed to load weather data. Please try again later.');
-        this.loading.set(false);
-        console.error('Weather API Error:', err);
-      }
-    });
-  }
-
-  goBack() {
-    this.weatherData.set(null);
-    this.airQuality.set(null);
-    this.cyclingScore.set(null);
-    this.cyclingIssues.set([]);
-    this.selectedCity.set(null);
-    this.searchControl.reset();
-    this.cities.set([]);
-    this.hasSearched.set(false);
-  }
 }
