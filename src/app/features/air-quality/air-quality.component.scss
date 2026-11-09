@@ -27,11 +27,22 @@
     }
   }
 
+  .aq-content {
+    padding: 0.25rem 1.5rem 0.25rem;
+
+    @media (min-width: 768px) {
+      padding: 0.75rem 2rem 0.75rem;
+    }
+  }
+
   .aq-overview {
-    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 1rem;
     border-radius: var(--radius-md);
-    margin-bottom: 0.25rem;
-    text-align: center;
+    margin-bottom: var(--space-sm);
+    text-align: left;
 
     .aq-status-text {
       font-size: 0.9375rem;
@@ -40,30 +51,46 @@
     }
   }
 
-  // Air quality overview color variants
+  // Air quality overview color variants — matching alert styling
   &.aq-good .aq-overview,
   &.aq-moderate .aq-overview {
     background: rgba(215, 243, 106, 0.1);
     color: var(--score-excellent);
+    border-left: 3px solid var(--score-excellent);
   }
 
   &.aq-moderate .aq-overview {
     background: rgba(184, 224, 84, 0.1);
     color: #B8E054;
+    border-left-color: #B8E054;
   }
 
   &.aq-unhealthy-sensitive .aq-overview {
-    background: rgba(232, 196, 90, 0.1);
+    background: var(--alert-warning-bg);
     color: var(--score-fair);
+    border-left: 3px solid var(--alert-warning-border);
+
+    .aq-status-text {
+      color: var(--alert-warning-border);
+    }
   }
 
-  &.aq-unhealthy .aq-overview {
-    background: rgba(232, 115, 90, 0.1);
+  &.aq-unhealthy .aq-overview,
+  &.aq-very-unhealthy .aq-overview {
+    background: var(--alert-danger-bg);
     color: var(--score-poor);
+    border-left: 3px solid var(--alert-danger-border);
+
+    .aq-status-text {
+      color: var(--alert-danger-border);
+    }
   }
 
   .aq-stats {
-    padding: 0.25rem 1.5rem 1.5rem;
+    padding-top: 0.25rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: var(--space-sm);
@@ -115,12 +142,11 @@
       }
     }
 
-    .aq-overview {
-      padding: 0.75rem 2rem;
-    }
-
     .aq-stats {
-      padding: 0.75rem 2rem 2rem;
+      padding-top: 0.25rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-bottom: 2rem;
       grid-template-columns: repeat(4, 1fr);
     }
   }

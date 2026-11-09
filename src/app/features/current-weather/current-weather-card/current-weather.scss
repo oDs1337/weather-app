@@ -86,13 +86,19 @@
         margin-bottom: 0.125rem;
       }
 
+      .detail-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
       .detail-label {
         font-size: 0.75rem;
         opacity: 0.6;
         text-transform: uppercase;
         letter-spacing: 0.04em;
         color: var(--color-text-secondary);
-        margin-bottom: 0.375rem;
+        margin-bottom: 0;
       }
 
       .detail-value {
