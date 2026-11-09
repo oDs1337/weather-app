@@ -54,7 +54,12 @@
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
-    "no2": "NO₂"
+    "no2": "NO₂",
+    "good": "Хорошее",
+    "moderate": "Умеренное",
+    "unhealthySensitive": "Вредное для чувствительных групп",
+    "unhealthy": "Вредное",
+    "veryUnhealthy": "Очень вредное"
   },
   "forecast": {
     "today": "Сегодня",

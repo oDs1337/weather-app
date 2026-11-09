@@ -94,7 +94,12 @@
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
-    "no2": "NO₂"
+    "no2": "NO₂",
+    "good": "Good",
+    "moderate": "Moderate",
+    "unhealthySensitive": "Unhealthy for Sensitive Groups",
+    "unhealthy": "Unhealthy",
+    "veryUnhealthy": "Very Unhealthy"
   },
   "forecast": {
     "today": "Today",

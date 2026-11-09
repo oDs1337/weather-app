@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AirQuality } from '../../../core/models/weather.model';
 
 @Component({
@@ -12,6 +12,8 @@ import { AirQuality } from '../../../core/models/weather.model';
 })
 export class AirQualityComponent {
   @Input() data!: AirQuality;
+
+  constructor(private translateService: TranslateService) {}
 
   getAqClass(pm25: number): string {
     if (pm25 <= 12) return 'aq-good';
@@ -30,10 +32,7 @@ export class AirQualityComponent {
   }
 
   getAqStatus(pm25: number): string {
-    if (pm25 <= 12) return 'Good';
-    if (pm25 <= 35.4) return 'Moderate';
-    if (pm25 <= 55.4) return 'Unhealthy for Sensitive Groups';
-    if (pm25 <= 150.4) return 'Unhealthy';
-    return 'Very Unhealthy';
+    const status = pm25 <= 12 ? 'good' : pm25 <= 35.4 ? 'moderate' : pm25 <= 55.4 ? 'unhealthySensitive' : pm25 <= 150.4 ? 'unhealthy' : 'veryUnhealthy';
+    return this.translateService.instant(`airQuality.${status}`);
   }
 }

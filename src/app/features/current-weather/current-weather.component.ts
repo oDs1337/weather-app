@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WeatherService } from '../../../core/services/weather.service';
 import { CyclingScoringService } from '../../core/services/cycling-scoring.service';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
@@ -34,6 +34,7 @@ export class CurrentWeatherComponent implements OnInit {
   private readonly weatherService = inject(WeatherService);
   private readonly cyclingScoringService = inject(CyclingScoringService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   data = signal<WeatherResponse | null>(null);
   airQuality = signal<any>(null);
@@ -74,12 +75,12 @@ export class CurrentWeatherComponent implements OnInit {
   private fetchCyclingWeather(lat: number, lon: number): void {
     this.loading.set(true);
     this.error.set(null);
-    
+
     this.weatherService.getCyclingWeather(lat, lon).subscribe({
       next: (response) => {
         this.data.set(response.weather);
         this.airQuality.set(response.airQuality);
-        
+
         // Calculate cycling score
         const { score, issues } = this.cyclingScoringService.calculateCyclingScore(
           response.weather.current,
@@ -87,17 +88,17 @@ export class CurrentWeatherComponent implements OnInit {
           response.weather.daily,
           response.airQuality
         );
-        
+
         // Get additional forecast-based issues
         const forecastIssues = this.cyclingScoringService.calculateForecastIssues(
           response.weather.hourly,
           response.weather.daily
         );
-        
+
         // Merge all issues
         this.cyclingIssues.set([...issues, ...forecastIssues]);
         this.cyclingScore.set(score);
-        
+
         this.loading.set(false);
       },
       error: (err) => {
@@ -106,5 +107,9 @@ export class CurrentWeatherComponent implements OnInit {
         console.error('Weather API Error:', err);
       },
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }

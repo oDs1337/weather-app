@@ -5,6 +5,11 @@
     <app-error [error]="error()!" />
   } @else if (data() && cyclingScore()) {
     <div class="weather-content fade-in-up">
+      <!-- Back Button -->
+      <button class="back-btn" (click)="goBack()">
+        ← {{ 'citySelector.backToCities' | translate }}
+      </button>
+
       <!-- Cycling Score Card -->
       <section class="cycling-score-section">
         <app-cycling-score-card 
