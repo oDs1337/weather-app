@@ -35,4 +35,12 @@ export class AirQualityComponent {
     const status = pm25 <= 12 ? 'good' : pm25 <= 35.4 ? 'moderate' : pm25 <= 55.4 ? 'unhealthySensitive' : pm25 <= 150.4 ? 'unhealthy' : 'veryUnhealthy';
     return this.translateService.instant(`airQuality.${status}`);
   }
+
+  getAqIcon(pm25: number): string {
+    if (pm25 <= 12) return '🌿';
+    if (pm25 <= 35.4) return '⚠️';
+    if (pm25 <= 55.4) return '⚠️';
+    if (pm25 <= 150.4) return '🔴';
+    return '🛑';
+  }
 }

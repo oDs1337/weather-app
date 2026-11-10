@@ -44,6 +44,18 @@
     margin-bottom: var(--space-sm);
     text-align: left;
 
+    .aq-status-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    @media (min-width: 768px) {
+      .aq-status-icon {
+        font-size: 1.75rem;
+      }
+    }
+
     .aq-status-text {
       font-size: 0.9375rem;
       font-weight: 600;

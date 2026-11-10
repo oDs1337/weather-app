@@ -5,6 +5,7 @@
 
   <div class="aq-content">
     <div class="aq-overview" [class]="getAqClass(data.pm25)">
+      <span class="aq-status-icon">{{ getAqIcon(data.pm25) }}</span>
       <span class="aq-status-text">{{ getAqStatus(data.pm25) }}</span>
     </div>
   </div>

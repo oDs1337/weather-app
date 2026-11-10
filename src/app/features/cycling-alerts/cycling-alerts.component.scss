@@ -34,6 +34,7 @@
 
     .alert-item {
       display: flex;
+      align-items: center;
       gap: var(--space-md);
       padding: 1rem;
       margin-bottom: var(--space-sm);
@@ -149,6 +150,8 @@
       padding: 0.75rem 2rem 2rem;
 
       .alert-item {
+        display: flex;
+        align-items: center;
         gap: var(--space-lg);
         padding: 1.125rem;
         margin-bottom: 0.75rem;
@@ -156,6 +159,7 @@
         .alert-icon {
           font-size: 1.75rem;
           width: 40px;
+          text-align: center;
         }
 
         h4 {
