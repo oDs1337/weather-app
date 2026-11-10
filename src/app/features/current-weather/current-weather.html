@@ -16,6 +16,12 @@
           [score]="cyclingScore()!" 
           [city]="selectedCityName()" 
         />
+        <!-- Dynamic Advice Box -->
+        @if (dynamicAdvice()) {
+          <div class="dynamic-advice-box fade-in-up">
+            <p>{{ dynamicAdvice() }}</p>
+          </div>
+        }
       </section>
 
       <!-- Cycling Alerts -->

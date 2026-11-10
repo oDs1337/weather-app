@@ -154,7 +154,7 @@ export class CyclingScoringService {
     const forecastIssues = this.calculateForecastIssues(
       current, hourlyForecast, dailyForecast, effectiveWind, aqi
     );
-    
+
     return { score, issues: forecastIssues };
   }
 
@@ -406,5 +406,93 @@ export class CyclingScoringService {
     const key = score >= 90 ? 'comfortable' : score >= 70 ? 'ok' 
               : score >= 50  ? 'humid' : 'veryHumid';
     return this.translate.instant(`scoreLabels.humidity.${key}`);
+  }
+
+  // ========================================================================
+  // Dynamic Advice — user-facing explanation of why the score is what it is
+  // ========================================================================
+
+  /**
+   * Generate a contextual advisory message explaining the score.
+   * Uses a priority hierarchy (danger → health → weather → comfort) so that
+   * the most critical issue always takes the spotlight in the UI.
+   */
+  private getDynamicAdvice(
+    overall: number,
+    realTemp: number,
+    apparentTemp: number,
+    effectiveWind: number,
+    currentPrecip: number,
+    maxProb3h: number,
+    aqi: number | undefined
+  ): string {
+
+    // ==========================================================================
+    // NEGATIVE HIERARCHY — most dangerous → least severe. First match wins.
+    // ==========================================================================
+
+    // 1️⃣ Ice risk: sub-zero + (rain OR high precip prob)
+    if (realTemp < 0 && (currentPrecip > 0 || maxProb3h >= 40)) {
+      return this.translate.instant('advice.icyRoad');
+    }
+
+    // 2️⃣ Toxic air: AQI > 150 — hazardous for anyone
+    if (aqi !== undefined && aqi > 150) {
+      return this.translate.instant('advice.toxicAir');
+    }
+
+    // 3️⃣ Unhealthy air: AQI 100–150 — caution during intense exercise
+    if (aqi !== undefined && aqi <= 150 && aqi > 100) {
+      return this.translate.instant('advice.moderateAir');
+    }
+
+    // 4️⃣ Heavy rain now: ≥1mm = wet asphalt right now
+    if (currentPrecip >= 1.0) {
+      return this.translate.instant('advice.heavyRainNow');
+    }
+
+    // 5️⃣ Very high rain probability coming: ≥75% in next 3h
+    if (maxProb3h >= 75) {
+      return this.translate.instant('advice.highRainRisk');
+    }
+
+    // 6️⃣ Extreme heat: feels-like > 35°C — dehydration risk
+    if (apparentTemp > 35 || realTemp > 35) {
+      return this.translate.instant('advice.extremeHeat');
+    }
+
+    // 7️⃣ Extreme wind: ≥40 km/h — survival mode for cyclists
+    if (effectiveWind >= 40) {
+      return this.translate.instant('advice.extremeWind');
+    }
+
+    // 8️⃣ Strong wind: 30–39.9 km/h — hold the handlebars tight
+    if (effectiveWind >= 30) {
+      return this.translate.instant('advice.strongWindAdvice');
+    }
+
+    // 9️⃣ Cold (no ice risk): <5°C — dress in layers
+    if (realTemp < 5 || apparentTemp < 5) {
+      return this.translate.instant('advice.cold');
+    }
+
+    // ==========================================================================
+    // POSITIVE MESSAGES — when overall >= 70 and no major issues detected
+    // ==========================================================================
+
+    if (overall >= 90) {
+      return this.translate.instant('advice.perfectConditions');
+    }
+
+    // 70–89: good conditions, sub-conditions apply
+    if (overall >= 70) {
+      if (apparentTemp > 28) {
+        return this.translate.instant('advice.warmHydrate');
+      }
+      return this.translate.instant('advice.greatWeather');
+    }
+
+    // Fallback: score ~40–69, not covered by specific negative rules.
+    return this.translate.instant('advice.mixedConditions');
   }
 }

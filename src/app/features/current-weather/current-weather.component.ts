@@ -44,6 +44,7 @@ export class CurrentWeatherComponent implements OnInit {
   // Cycling-specific signals
   cyclingScore = signal<CyclingScore | null>(null);
   cyclingIssues = signal<CyclingIssue[]>([]);
+  dynamicAdvice = signal<string>('');
   selectedCityName = signal<string>('Your City');
 
   protected readonly todayDate = computed(() => 
@@ -81,8 +82,8 @@ export class CurrentWeatherComponent implements OnInit {
         this.data.set(response.weather);
         this.airQuality.set(response.airQuality);
 
-        // Calculate cycling score
-        const { score, issues } = this.cyclingScoringService.calculateCyclingScore(
+        // Calculate cycling score (now also returns dynamicAdvice)
+        const { score, issues, dynamicAdvice } = this.cyclingScoringService.calculateCyclingScore(
           response.weather.current,
           response.weather.hourly,
           response.weather.daily,
@@ -95,9 +96,10 @@ export class CurrentWeatherComponent implements OnInit {
           response.weather.daily
         );
 
-        // Merge all issues
+        // Merge all issues and dynamic advice
         this.cyclingIssues.set([...issues, ...forecastIssues]);
         this.cyclingScore.set(score);
+        this.dynamicAdvice.set(dynamicAdvice);
 
         this.loading.set(false);
       },
