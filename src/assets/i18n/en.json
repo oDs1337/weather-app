@@ -160,7 +160,13 @@
     "extremeHeatWarning": "Extreme Heat Warning",
     "extremeHeatDescription": "Temperatures above 35°C predicted. Stay hydrated and consider early morning or evening rides.",
     "freezingTemperatures": "Freezing Temperatures",
-    "freezingTemperaturesDescription": "Sub-zero temperatures expected. Road ice may be present. Use appropriate winter cycling gear."
+    "freezingTemperaturesDescription": "Sub-zero temperatures expected. Road ice may be present. Use appropriate winter cycling gear.",
+    "airQualityWarning": "😷 Poor Air Quality (Smog)",
+    "airQualityWarningDescription": "Current air pollution levels are high. Cycling increases oxygen intake — consider postponing your ride or changing your route.",
+    "strongWind": "💨 Strong Wind",
+    "strongWindDescription": "Strong wind gusts expected (≥30 km/h). Be cautious, especially on exposed sections and bridges.",
+    "iceRisk": "🧊 Ice Risk",
+    "iceRiskDescription": "Near-freezing temperatures with high humidity or precipitation increase ice risk on roads. Avoid sudden maneuvers."
   },
   "hourlyChart": {
     "precipitation": "Rain"

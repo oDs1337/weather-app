@@ -120,7 +120,13 @@
     "extremeHeatWarning": "Avertissement de Chaleur Extrême",
     "extremeHeatDescription": "Températures supérieures à 35°C prévues. Hydratez-vous régulièrement et privilégiez les balades matinales ou du soir.",
     "freezingTemperatures": "Températures Glaciales",
-    "freezingTemperaturesDescription": "Températures négatives attendues. Du verglas peut être présent sur la route. Utilisez l'équipement hivernal adapté."
+    "freezingTemperaturesDescription": "Températures négatives attendues. Du verglas peut être présent sur la route. Utilisez l'équipement hivernal adapté.",
+    "airQualityWarning": "😷 Mauvaise Qualité de l'Air (Smog)",
+    "airQualityWarningDescription": "Le niveau actuel de pollution est élevé. Le vélo augmente l'oxygénation — envisagez de reporter votre sortie ou de changer de trajet.",
+    "strongWind": "💨 Vent Fort",
+    "strongWindDescription": "Rafales de vent fortes attendues (≥30 km/h). Faites attention, surtout sur les sections exposées et les ponts.",
+    "iceRisk": "🧊 Risque de Verglas",
+    "iceRiskDescription": "Températures proches de zéro avec humidité ou précipitations augmentent le risque de verglas. Évitez les manœuvres brusques."
   },
   "hourlyChart": {
     "precipitation": "Pluie"

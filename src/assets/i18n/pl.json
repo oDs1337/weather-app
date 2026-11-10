@@ -160,7 +160,13 @@
     "extremeHeatWarning": "Ostrzeżenie Przed Ekstremalnym Upałem",
     "extremeHeatDescription": "Przewiduje się temperatury powyżej 35°C. Nawadniaj się regularnie i rozważ poranne lub wieczorne jazdy.",
     "freezingTemperatures": "Zamrożone Temperatury",
-    "freezingTemperaturesDescription": "Oczekiwane temperatury poniżej zera. Na drogach może być lód. Używaj odpowiedniego zimowego sprzętu rowerowego."
+    "freezingTemperaturesDescription": "Oczekiwane temperatury poniżej zera. Na drogach może być lód. Używaj odpowiedniego zimowego sprzętu rowerowego.",
+    "airQualityWarning": "😷 Zła Jakość Powietrza (Smog)",
+    "airQualityWarningDescription": "Obecny poziom zanieczyszczenia powietrza jest wysoki. Jazda na rowerze zwiększa ilość wchłanianego powietrza — rozważ przełożenie treningu lub zmień trasę.",
+    "strongWind": "💨 Silny Wiatr",
+    "strongWindDescription": "Przewidywane są silne podmuchy wiatru (≥30 km/h). Zachowaj ostrożność, szczególnie na otwartych odcinkach i mostkach.",
+    "iceRisk": "🧊 Ryzyko Gołoledzi",
+    "iceRiskDescription": "Temperatura w pobliżu zera oraz wysoka wilgotność/opady zwiększają ryzyko gołoledzi na drodze. Unikaj gwałtownych manewrów."
   },
   "hourlyChart": {
     "precipitation": "Deszcz"
