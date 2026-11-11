@@ -1,16 +1,38 @@
-<div class="forecast-grid">
+<div class="daily-list" role="list" aria-label="Daily forecast">
+
   @for (day of daily(); track day.time) {
-    <div class="forecast-card">
-      <p class="day-name">{{ dayName(day.time) }}</p>
-      <span class="weather-icon">{{ day.weather_code | weatherIcon }}</span>
+    <div class="day-row" role="listitem">
+
+      <!-- Day label + date -->
+      <div class="day-label">
+        <span class="day-name">{{ dayName(day.time) }}</span>
+        <span class="day-date">{{ dayDate(day.time) }}</span>
+      </div>
+
+      <!-- Weather icon — inline SVG, no emoji -->
+      <span class="weather-icon" aria-hidden="true" [innerHTML]="iconSvg(day.weather_code)"></span>
+
+      <!-- High / Low temperatures (tabular numerals for alignment) -->
       <div class="temps">
         <span class="temp-max">{{ day.temperature_2m_max }}°</span>
         <span class="temp-min">{{ day.temperature_2m_min }}°</span>
       </div>
-      <div class="details">
-        <span class="detail">🌧️ {{ day.precipitation_sum }} <span class="unit">mm</span></span>
-        <span class="detail">💨 {{ day.windspeed_10m_max }} <span class="unit">km/h</span></span>
-      </div>
+
+      <!-- Precipitation (when > 0) -->
+      @if (day.precipitation_sum != null && day.precipitation_sum > 0) {
+        <span class="detail detail--precip">
+          {{ day.precipitation_sum }} <span class="unit">mm</span>
+        </span>
+      }
+
+      <!-- Max wind speed (when > 0) -->
+      @if (day.windspeed_10m_max != null && day.windspeed_10m_max > 0) {
+        <span class="detail detail--wind">
+          {{ day.windspeed_10m_max }} <span class="unit">km/h</span>
+        </span>
+      }
+
     </div>
   }
+
 </div>

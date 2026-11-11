@@ -1,11 +1,15 @@
 <div class="current-card">
-  <div class="location-icon">📍</div>
-  <h2>{{ current().time || '' | localizedDate }}</h2>
-  
+  <!-- Location indicator -->
+  <div class="location-indicator" aria-hidden="true">
+    <svg viewBox="0 0 64 64" fill="none" stroke="var(--color-text-secondary)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M52 27c0 15-20 31-20 31S12 42 12 27a20 20 0 1 1 40 0Z"/><circle cx="32" cy="27" r="6"/></svg>
+    <span class="location-text">{{ 'weatherCard.currentConditions' | translate }}</span>
+  </div>
+
   <div class="weather-main">
+    <!-- Weather icon (pipe) -->
     <span class="weather-icon">{{ current().weather_code | weatherIcon }}</span>
     <div class="temp-info">
-      <span class="temperature">{{ current().temperature_2m }} <span class="unit">°C</span></span>
+      <span class="temperature">{{ current().temperature_2m }}<span class="unit">°C</span></span>
       <span class="feels-like">{{ 'weatherCard.feelsLike' | translate: { temp: current().apparent_temperature } }}</span>
     </div>
   </div>
@@ -14,26 +18,38 @@
     {{ current().weather_code | weatherCode }}
   </p>
 
-  <div class="weather-details">
+  <!-- Detail grid -->
+  <div class="detail-grid">
     <div class="detail-item">
-      <span class="detail-icon">💧</span>
-      <div class="detail-info">
+      <!-- Drop icon -->
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M32 5S15 27 15 38a17 17 0 0 0 34 0C49 27 32 5 32 5Z"/><path d="M24 40a8 8 0 0 0 8 8"/></svg>
+      </span>
+      <div class="detail-content">
         <span class="detail-label">{{ 'weatherCard.humidity' | translate }}</span>
-        <span class="detail-value">{{ current().relative_humidity_2m }} <span class="unit">{{ 'weatherCard.unitPercent' | translate }}</span></span>
+        <span class="detail-value">{{ current().relative_humidity_2m }}<span class="unit">{{ 'weatherCard.unitPercent' | translate }}</span></span>
       </div>
     </div>
+
     <div class="detail-item">
-      <span class="detail-icon">💨</span>
-      <div class="detail-info">
+      <!-- Wind icon -->
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h36a8 8 0 1 0-8-8M5 32h46a7 7 0 1 1-7 7M5 42h25"/></svg>
+      </span>
+      <div class="detail-content">
         <span class="detail-label">{{ 'weatherCard.windSpeed' | translate }}</span>
-        <span class="detail-value">{{ current().windspeed_10m }} <span class="unit">{{ 'weatherCard.unitKmh' | translate }}</span></span>
+        <span class="detail-value">{{ current().windspeed_10m }}<span class="unit">{{ 'weatherCard.unitKmh' | translate }}</span></span>
       </div>
     </div>
+
     <div class="detail-item">
-      <span class="detail-icon">🌧️</span>
-      <div class="detail-info">
+      <!-- Rain icon -->
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 37h28a10 10 0 0 0 1-20 15 15 0 0 0-28-2 11 11 0 0 0-1 22Z"/><path d="m20 44-4 8M34 44l-4 8M48 44l-4 8"/></svg>
+      </span>
+      <div class="detail-content">
         <span class="detail-label">{{ 'weatherCard.precipitation' | translate }}</span>
-        <span class="detail-value">{{ current().precipitation }} <span class="unit">{{ 'weatherCard.unitMm' | translate }}</span></span>
+        <span class="detail-value">{{ current().precipitation }}<span class="unit">{{ 'weatherCard.unitMm' | translate }}</span></span>
       </div>
     </div>
   </div>

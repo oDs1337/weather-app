@@ -1,173 +1,201 @@
 /* ============================================================
-   VELORA — Cycling Alerts Component Styles
+   VELORA — Cycling Alerts Component Styles (Phase 4)
+   Alpine Precision: compact, accessible, severity-first
    ============================================================ */
 
-.alerts-container {
+.alerts-wrapper {
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
   overflow: hidden;
 
   .alerts-header {
-    padding: 1rem 1.5rem 0.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: var(--space-md) var(--space-xl) var(--space-xs);
 
     h3 {
       margin: 0;
-      font-size: 1.125rem;
+      font-size: var(--text-lg);
       color: var(--color-text-primary);
+      font-weight: 600;
       letter-spacing: -0.01em;
-    }
-
-    p {
-      margin: 0;
-      opacity: 0.6;
-      font-size: 0.875rem;
-      color: var(--color-text-secondary);
     }
   }
 
   .alerts-list {
-    padding: 0.25rem 1.5rem 1.5rem;
+    padding: 0 var(--space-md) var(--space-xl);
 
     .alert-item {
       display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      padding: 1rem;
-      margin-bottom: var(--space-sm);
+      align-items: flex-start;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      margin-bottom: var(--space-xs);
       border-radius: var(--radius-md);
-      transition: all var(--transition-fast);
+      transition: background-color var(--transition-fast), transform var(--transition-fast);
 
       &:last-child {
         margin-bottom: 0;
       }
 
-      .alert-icon {
-        font-size: 1.5rem;
-        flex-shrink: 0;
-        width: 36px;
-        text-align: center;
+      @media (hover: hover) {
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.03);
+        }
       }
 
+      /* ---------- Severity Badge ---------- */
+      .severity-badge {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border-radius: var(--radius-md);
+
+        svg {
+          width: 16px !important;
+          height: 16px !important;
+        }
+      }
+
+      /* ---------- Alert Content Column ---------- */
       .alert-content {
         flex: 1;
+        min-width: 0; // prevent overflow on small screens
+
+        .severity-label {
+          display: inline-block;
+          font-size: var(--text-xs);
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin-bottom: 2px;
+        }
 
         h4 {
-          margin: 0 0 0.25rem 0;
-          font-size: 0.9375rem;
+          margin: 0 0 4px;
+          font-size: var(--text-sm);
           font-weight: 600;
+          color: var(--color-text-primary);
+          line-height: 1.35;
         }
 
         p {
           margin: 0;
           line-height: 1.5;
           color: var(--color-text-secondary);
-          font-size: 0.875rem;
+          font-size: var(--text-sm);
         }
       }
+    }
 
-      &.alert-danger {
-        background: var(--alert-danger-bg);
-        border-left: 3px solid var(--alert-danger-border);
+    /* Critical severity variant */
+    .alert-item.is-critical {
+      .severity-badge {
+        background: rgba(240, 128, 104, 0.15);
+        color: var(--color-critical);
+      }
+      .severity-label {
+        color: var(--color-critical);
+      }
+    }
 
-        h4 {
-          color: var(--alert-danger-border);
-        }
+    /* Warning severity variant */
+    .alert-item.is-warning {
+      .severity-badge {
+        background: rgba(233, 198, 106, 0.15);
+        color: var(--color-warning);
+      }
+      .severity-label {
+        color: var(--color-warning);
+      }
+    }
+
+    /* Informational (default) severity variant */
+    .alert-item:not(.is-critical):not(.is-warning) {
+      .severity-badge {
+        background: rgba(155, 215, 232, 0.15);
+        color: var(--color-weather);
       }
 
-      &.alert-warning {
-        background: var(--alert-warning-bg);
-        border-left: 3px solid var(--alert-warning-border);
-
-        h4 {
-          color: var(--alert-warning-border);
-        }
-      }
-
-      &.alert-info {
-        background: var(--alert-info-bg);
-        border-left: 3px solid var(--alert-info-border);
-
-        h4 {
-          color: var(--alert-info-border);
-        }
+      .severity-label {
+        color: var(--color-text-muted);
       }
     }
   }
 }
 
+/* ---------- No Alerts State ---------- */
 .no-alerts {
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  padding: 2.5rem 1.5rem;
+  padding: var(--space-xl) var(--space-md);
   text-align: center;
 
-  .no-alerts-content {
-    .alert-icon {
-      font-size: 2.5rem;
-      display: block;
-      margin-bottom: 0.75rem;
-      color: var(--color-accent);
-    }
+  .no-alerts-icon {
+    display: inline-block;
+    margin-bottom: var(--space-sm);
+    color: var(--color-accent);
+    width: 32px !important;
+    height: 32px !important;
+  }
 
-    h3 {
-      margin: 0 0 0.375rem 0;
-      color: var(--color-text-primary);
-      font-size: 1.125rem;
-    }
+  .no-alerts-label {
+    display: block;
+    font-size: var(--text-md);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
 
-    p {
-      margin: 0;
-      color: var(--color-text-secondary);
-      font-size: 0.9375rem;
-    }
+  .no-alerts-message {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
   }
 }
 
 /* ---------- Tablet+ ---------- */
 @media (min-width: 768px) {
-  .alerts-container {
+  .alerts-wrapper {
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-elevated);
 
     .alerts-header {
-      padding: 1.25rem 2rem 0.25rem;
+      padding: var(--space-lg) var(--space-2xl) var(--space-xs);
 
       h3 {
-        font-size: 1.25rem;
-      }
-
-      p {
-        font-size: 0.9375rem;
+        font-size: var(--text-xl);
       }
     }
 
     .alerts-list {
-      padding: 0.75rem 2rem 2rem;
+      padding: 0 var(--space-xl) var(--space-2xl);
 
       .alert-item {
-        display: flex;
-        align-items: center;
-        gap: var(--space-lg);
-        padding: 1.125rem;
-        margin-bottom: 0.75rem;
+        padding: var(--space-lg);
+        margin-bottom: var(--space-sm);
+        gap: var(--space-md);
+        min-height: var(--touch-min, 44px);
 
-        .alert-icon {
-          font-size: 1.75rem;
-          width: 40px;
-          text-align: center;
+        .severity-badge {
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
+
+          svg {
+            width: 18px !important;
+            height: 18px !important;
+          }
         }
 
         h4 {
-          font-size: 1rem;
+          font-size: var(--text-md);
         }
 
         p {
-          font-size: 0.9375rem;
+          font-size: var(--text-sm);
         }
       }
     }
@@ -175,19 +203,19 @@
 
   .no-alerts {
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-elevated);
-    padding: 3rem 2rem;
+    padding: var(--space-2xl) var(--space-2xl);
 
-    .alert-icon {
-      font-size: 3rem;
+    .no-alert-icon {
+      width: 40px !important;
+      height: 40px !important;
     }
 
-    h3 {
-      font-size: 1.25rem;
+    .no-alerts-label {
+      font-size: var(--text-lg);
     }
 
-    p {
-      font-size: 1rem;
+    .no-alerts-message {
+      font-size: var(--text-md);
     }
   }
 }

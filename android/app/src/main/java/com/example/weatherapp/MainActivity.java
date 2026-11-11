@@ -2,12 +2,17 @@ package com.example.weatherapp;
 
 import android.app.LocaleManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.LocaleList;
-import android.util.Log;
+import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.getcapacitor.BridgeActivity;
 
@@ -24,6 +29,10 @@ import java.util.Objects;
  * 
  * When the user changes language in Android system settings, the activity is recreated
  * with the new locale. This class detects the change and notifies the Angular app.
+ * 
+ * Edge-to-edge behavior:
+ * - System bars (status bar + navigation bar) are transparent so content extends behind them.
+ * - Window insets are configured on API 30+ for proper gesture navigation handling.
  */
 public class MainActivity extends BridgeActivity {
 
@@ -44,8 +53,50 @@ public class MainActivity extends BridgeActivity {
         // Detect and store initial language after bridge is ready
         String initialLanguage = getEffectiveAppLocale();
         lastDetectedLanguage = initialLanguage;
+
+        // Configure edge-to-edge behavior for modern Android (API 21+)
+        setupEdgeToEdge();
         
         Log.d(TAG, "Initial app locale detected: " + initialLanguage);
+    }
+
+    /**
+     * Configure edge-to-edge display and system bar appearance.
+     * - Transparent status bar and navigation bar backgrounds
+     * - Dark icons for light content on dark background
+     */
+    private void setupEdgeToEdge() {
+        // Enable edge-to-edge layout
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // API 30+: Use windowInsetsController for system bar appearance
+            WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+            
+            // Make system bars transparent
+            controller.setAppearanceLightStatusBars(false);     // Light status bar icons (for dark background)
+            controller.setAppearanceLightNavigationBars(false); // Light nav bar icons
+            
+            // Hide system bars for immersive feel, but keep them tappable to show
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // API 21-29: Use legacy flags
+            WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+            
+            // Set system bar colors to transparent via direct color setting
+            int transparentColor = Color.TRANSPARENT;
+            try {
+                getWindow().setStatusBarColor(transparentColor);
+                controller.setAppearanceLightStatusBars(false);
+                
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    getWindow().setNavigationBarColor(transparentColor);
+                    controller.setAppearanceLightNavigationBars(false);
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "Failed to set transparent system bar colors", e);
+            }
+        }
     }
 
     /**

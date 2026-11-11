@@ -1,152 +1,155 @@
 /* ============================================================
-   VELORA — Air Quality Component Styles
+   VELORA — Air Quality Component Styles (Phase 4)
+   Alpine Precision: compact, accessible, data-first
    ============================================================ */
 
 .aq-card {
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
   overflow: hidden;
 
   .aq-header {
-    padding: 1rem 1.5rem 0.25rem;
+    padding: var(--space-md) var(--space-xl) var(--space-xs);
     display: flex;
     align-items: center;
     gap: var(--space-sm);
 
-    .aq-icon {
-      font-size: 1.5rem;
-      line-height: 1;
+    svg {
+      width: 20px !important;
+      height: 20px !important;
+      color: var(--color-text-secondary);
+      flex-shrink: 0;
     }
 
     h3 {
       margin: 0;
-      font-size: 1.125rem;
+      font-size: var(--text-lg);
       color: var(--color-text-primary);
+      font-weight: 600;
       letter-spacing: -0.01em;
     }
   }
 
-  .aq-content {
-    padding: 0.25rem 1.5rem 1.5rem;
-
-    @media (min-width: 768px) {
-      padding: 0.75rem 2rem 2rem;
-    }
-  }
-
+  /* ---------- AQ Overview — level bar + status text ---------- */
   .aq-overview {
     display: flex;
     align-items: center;
     gap: var(--space-md);
-    padding: 1rem;
-    margin-bottom: var(--space-sm);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-    text-align: left;
+    padding: var(--space-sm) var(--space-xl) var(--space-lg);
 
-    .aq-status-icon {
-      font-size: 1.5rem;
+    /* Level dots bar */
+    .aq-level-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       flex-shrink: 0;
-      width: 36px;
-      text-align: center;
-    }
 
-    @media (min-width: 768px) {
-      gap: var(--space-lg);
-      padding: 1.125rem;
+      .aq-level-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--color-border-medium, rgba(244, 247, 245, 0.15));
 
-      .aq-status-icon {
-        font-size: 1.75rem;
-        width: 40px;
+        &.active:not(.critical) {
+          background-color: #6BCB77;
+        }
+
+        &.active.critical {
+          background-color: var(--color-critical);
+        }
       }
     }
 
     .aq-status-text {
       flex: 1;
 
-      span {
+      .aq-status-label {
         display: block;
-        font-size: 0.9375rem;
+        font-size: var(--text-sm);
         font-weight: 600;
         letter-spacing: -0.01em;
+        color: var(--color-text-primary);
       }
     }
   }
 
-  // Air quality overview color variants — matching alert styling
-  &.aq-good .aq-overview,
-  &.aq-moderate .aq-overview {
-    background: rgba(215, 243, 106, 0.1);
-    color: var(--score-excellent);
-    border-left: 3px solid var(--score-excellent);
-  }
-
-  &.aq-moderate .aq-overview {
-    background: rgba(184, 224, 84, 0.1);
-    color: #B8E054;
-    border-left-color: #B8E054;
-  }
-
-  &.aq-unhealthy-sensitive .aq-overview {
-    background: var(--alert-warning-bg);
-    color: var(--score-fair);
-    border-left: 3px solid var(--alert-warning-border);
-
-    .aq-status-text {
-      color: var(--alert-warning-border);
-    }
-  }
-
-  &.aq-unhealthy .aq-overview,
-  &.aq-very-unhealthy .aq-overview {
-    background: var(--alert-danger-bg);
-    color: var(--score-poor);
-    border-left: 3px solid var(--alert-danger-border);
-
-    .aq-status-text {
-      color: var(--alert-danger-border);
-    }
-  }
-
-  .aq-stats {
-    padding-top: 0.25rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-bottom: 1.5rem;
+  /* ---------- AQ Detail Grid ---------- */
+  .aq-details {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-sm);
+    padding: 0 var(--space-md) var(--space-xl);
 
-    .aq-stat {
+    .aq-detail-item {
       background: var(--color-bg-tertiary);
-      padding: 1rem;
+      padding: var(--space-md);
       border-radius: var(--radius-md);
-      text-align: center;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 72px;
 
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      @media (hover: hover) {
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.03);
+        }
       }
 
-      .aq-label {
-        display: block;
-        font-size: 0.75rem;
+      .aq-detail-label {
+        font-size: var(--text-xs);
         color: var(--color-text-secondary);
-        margin-bottom: 0.375rem;
         text-transform: uppercase;
         letter-spacing: 0.06em;
         font-weight: 500;
       }
 
-      .aq-value {
+      .aq-detail-value {
         display: block;
-        font-size: 1.125rem;
+        font-size: var(--text-xl);
         font-weight: 700;
         color: var(--color-text-primary);
-        letter-spacing: -0.01em;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+
+        small {
+          font-size: var(--text-xs);
+          font-weight: 500;
+          color: var(--color-text-secondary);
+          margin-left: 2px;
+        }
       }
+
+      .aq-detail-status {
+        font-size: var(--text-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: 1;
+      }
+
+      // Primary metric — PM2.5 highlighted with accent border
+      &.aq-primary {
+        grid-column: span 2;
+        padding: var(--space-lg);
+        min-height: auto;
+        background: transparent;
+        border-left: 3px solid var(--score-excellent);
+
+        .aq-detail-value {
+          font-size: 2rem;
+        }
+      }
+
+      // Stat-level colour variants for status labels (applies to all detail items)
+      &.aq-good .aq-detail-status { color: #6BCB77; }
+
+      &.aq-moderate .aq-detail-status { color: var(--score-fair); }
+
+      &.aq-unhealthy-sensitive .aq-detail-status { color: var(--color-warning); }
+
+      // The class on the detail item itself drives the text colour
+      &.aq-unhealthy .aq-detail-status,
+      &.aq-very-unhealthy .aq-detail-status { color: var(--color-critical); }
     }
   }
 }
@@ -155,22 +158,28 @@
 @media (min-width: 768px) {
   .aq-card {
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-elevated);
 
     .aq-header {
-      padding: 1.25rem 2rem 0.25rem;
+      padding: var(--space-lg) var(--space-2xl) var(--space-xs);
 
       h3 {
-        font-size: 1.25rem;
+        font-size: var(--text-xl);
       }
     }
 
-    .aq-stats {
-      padding-top: 0.25rem;
-      padding-left: 2rem;
-      padding-right: 2rem;
-      padding-bottom: 2rem;
+    .aq-overview {
+      gap: var(--space-lg);
+      padding: var(--space-md) var(--space-2xl) var(--space-xl);
+    }
+
+    .aq-details {
       grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      padding: 0 var(--space-2xl) var(--space-2xl);
+
+      .aq-detail-item.aq-primary {
+        grid-column: span 2;
+      }
     }
   }
 }

@@ -1,26 +1,57 @@
-<div class="alerts-container" *ngIf="issues.length > 0">
+<div class="alerts-wrapper" *ngIf="issues.length > 0">
   <div class="alerts-header">
     <h3>{{ 'cyclingAlerts.alertsTitle' | translate }}</h3>
-    <p>{{ 'cyclingAlerts.alertsSubtitle' | translate }}</p>
   </div>
 
   <div class="alerts-list">
     @for (issue of issues; track issue.title) {
-      <div class="alert-item" [class]="getAlertClass(issue.type)">
-        <div class="alert-icon">{{ issue.icon }}</div>
+      <div class="alert-item" [class.is-critical]="isCritical(issue.type)" [class.is-warning]="isWarning(issue.type)">
+        <!-- Severity badge: always shown, text + icon -->
+        <span class="severity-badge" aria-hidden="true">
+          @if (isCritical(issue.type)) {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          } @else if (isWarning(issue.type)) {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12.01" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          } @else {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          }
+        </span>
+
         <div class="alert-content">
+          <!-- Severity label always visible -->
+          <span class="severity-label">{{ getSeverityLabel(issue.type) }}</span>
+
+          <!-- Title with cyclist impact emphasis -->
           <h4>{{ issue.title }}</h4>
-          <p>{{ issue.description }}</p>
+
+          <!-- Description -->
+          @if (issue.description) {
+            <p>{{ issue.description }}</p>
+          }
         </div>
       </div>
     }
   </div>
 </div>
 
+<!-- No alerts state — clean, compact, positive -->
 <div class="no-alerts" *ngIf="issues.length === 0">
-  <div class="no-alerts-content">
-    <span class="alert-icon">{{ 'cyclingAlerts.noAlertsIcon' | translate }}</span>
-    <h3>{{ 'cyclingAlerts.noAlertsTitle' | translate }}</h3>
-    <p>{{ 'cyclingAlerts.noAlertsMessage' | translate }}</p>
-  </div>
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="no-alerts-icon" aria-hidden="true">
+    <path d="M9 11l3 3L22 4"/>
+    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+  </svg>
+  <span class="no-alerts-label">{{ 'cyclingAlerts.noAlertsTitle' | translate }}</span>
+  <p class="no-alerts-message">{{ 'cyclingAlerts.noAlertsMessage' | translate }}</p>
 </div>

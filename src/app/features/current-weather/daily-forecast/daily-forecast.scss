@@ -1,113 +1,193 @@
 /* ============================================================
-   VELORA — Daily Forecast Component Styles
+   VELORA — Daily Forecast Component Styles (Phase 5)
+   Clean row-based cards with tabular numerals.
+   No hover-dependent interactions; mobile-first grid.
    ============================================================ */
 
-.forecast-grid {
+.daily-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.day-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  /* Day label | Icon + Temps | Details column */
+  grid-template-columns: auto minmax(72px, max-content) 1fr;
+  align-items: center;
   gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  min-height: calc(var(--touch-min) + 16px); /* touch-friendly */
+  /* Tabular numerals for temperature alignment across rows */
+  font-variant-numeric: tabular-nums;
+}
 
-  .forecast-card {
-    background: var(--color-bg-secondary);
-    border-radius: var(--radius-md);
-    padding: 1rem;
-    text-align: center;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    min-height: 48px;
+/* ---------- Day Label (left column) ---------- */
 
-    .day-name {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--color-text-secondary);
-      margin-bottom: 0.625rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
+.day-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 60px;
 
-    .weather-icon {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 0.625rem;
-    }
+  .day-name {
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+  }
 
-    .temps {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-
-      .temp-max {
-        font-size: 1.0625rem;
-        font-weight: 700;
-        color: var(--color-text-primary);
-      }
-
-      .temp-min {
-        font-size: 0.9375rem;
-        color: var(--color-text-muted);
-      }
-    }
-
-    .details {
-      display: flex;
-      flex-direction: column;
-      gap: 0.1875rem;
-
-      .detail {
-        font-size: 0.8125rem;
-        color: var(--color-text-secondary);
-
-        .unit {
-          margin-left: 0.25rem;
-          opacity: 0.7;
-        }
-      }
-    }
+  .day-date {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
   }
 }
 
+/* ---------- Weather Icon (middle column) ---------- */
+
+.weather-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ---------- Temperatures (middle column, below icon) ---------- */
+
+.temps {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  min-width: 72px;
+
+  .temp-max {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    /* Tabular numerals */
+    font-variant-numeric: tabular-nums;
+  }
+
+  .temp-min {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    /* Tabular numerals */
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------- Detail Rows (right column) ---------- */
+
+.detail {
+  display: inline-block;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  /* Tabular numerals */
+  font-variant-numeric: tabular-nums;
+
+  .unit {
+    margin-left: 2px;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+}
+
+.detail--precip {
+  color: var(--color-weather);
+}
+
+.detail--wind {
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
 /* ---------- Tablet+ ---------- */
+
 @media (min-width: 768px) {
-  .forecast-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  .day-row {
+    grid-template-columns: auto minmax(80px, max-content) 1fr;
     gap: var(--space-md);
+    padding: var(--space-lg);
+    min-height: calc(var(--touch-min) + 24px);
+  }
 
-    .forecast-card {
-      padding: 1.25rem;
+  .day-label {
+    .day-name {
+      font-size: var(--text-lg);
+    }
 
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-elevated);
-      }
-
-      .day-name {
-        font-size: 0.9375rem;
-        margin-bottom: 0.75rem;
-      }
-
-      .weather-icon {
-        font-size: 2.25rem;
-        margin-bottom: 0.75rem;
-      }
-
-      .temps {
-        gap: 0.625rem;
-        margin-bottom: 0.625rem;
-
-        .temp-max {
-          font-size: 1.1875rem;
-        }
-
-        .temp-min {
-          font-size: 1rem;
-        }
-      }
-
-      .details {
-        .detail {
-          font-size: 0.875rem;
-        }
-      }
+    .day-date {
+      font-size: var(--text-xs);
     }
   }
+
+  .weather-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .temps {
+    min-width: 80px;
+
+    .temp-max {
+      font-size: 1.1875rem;
+    }
+
+    .temp-min {
+      font-size: 1rem;
+    }
+  }
+
+  .detail {
+    font-size: var(--text-sm);
+  }
+}
+
+/* ---------- Small screens (≤360px) ---------- */
+
+@media (max-width: 360px) {
+  .day-row {
+    grid-template-columns: auto minmax(64px, max-content) 1fr;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .weather-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .temps {
+    min-width: 64px;
+
+    .temp-max {
+      font-size: 1rem;
+    }
+
+    .temp-min {
+      font-size: var(--text-sm);
+    }
+  }
+
+  .detail {
+    font-size: var(--text-xs);
+  }
+}
+
+/* ---------- Reduced Motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  /* No animations defined in this file — safe to keep empty block for consistency */
 }

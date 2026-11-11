@@ -1,27 +1,31 @@
-import { Component, input, inject } from '@angular/core';
-import { WeatherIconPipe } from '../../../../shared/pipes/weather-icon.pipe';
-import { TranslatePipe } from '@ngx-translate/core';
+import { Component, inject, input } from '@angular/core';
+import { WeatherIconService } from '../../../../app/core/utils/weather-icon-svg.service';
 import { LanguageService } from '../../../../app/core/services/language.service';
 import { DailyWeather } from '../../../../core/models/weather.model';
 
 @Component({
   selector: 'app-daily-forecast',
   standalone: true,
-  imports: [WeatherIconPipe],
+  imports: [],
   templateUrl: './daily-forecast.html',
   styleUrl: './daily-forecast.scss',
 })
 export class DailyForecastComponent {
-  daily = input.required<DailyWeather[]>();
-
+  private iconService = inject(WeatherIconService);
   private languageService = inject(LanguageService);
 
+  daily = input.required<DailyWeather[]>();
+
+  /** Render inline SVG for a weather code. */
+  readonly iconSvg = (code: number) => this.iconService.renderIcon(code, 28);
+
+  /** Day name in the user's language. */
   dayName(dateString: string): string {
-    const date = new Date(dateString);
+    const date = new Date(dateString + 'T00:00:00'); // force midnight local to avoid timezone shift
     if (isNaN(date.getTime())) return '';
-    
+
     const lang = this.languageService.getLanguage();
-    
+
     switch (lang) {
       case 'pl':
         return this.getDayPolish(date.getDay());
@@ -35,6 +39,16 @@ export class DailyForecastComponent {
         return this.getDayEnglish(date.getDay());
     }
   }
+
+  /** Month/day label (e.g. "Nov 12") for secondary date info on each card. */
+  dayDate(dateString: string): string {
+    const date = new Date(dateString + 'T00:00:00');
+    if (isNaN(date.getTime())) return '';
+
+    return date.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+  }
+
+  // ---- Localised day names (unchanged logic from previous phases) ----
 
   private getDayEnglish(dayIndex: number): string {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];

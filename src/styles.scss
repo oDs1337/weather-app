@@ -297,8 +297,21 @@ textarea:focus-visible,
 * { -webkit-tap-highlight-color: transparent; }
 
 body {
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  /* Capacitor applies native padding for safe areas on iOS. We apply CSS fallbacks here
+     for PWA/web contexts where env() is the only source of truth. Using a thin wrapper
+     selector avoids double-padding when Capacitor's own safe-area patch is active. */
+  @supports (padding-top: env(safe-area-inset-top)) {
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Horizontal safe-area inset — useful for devices with rounded corners (iPad Pro) */
+#root {
+  @supports (padding-left: env(safe-area-inset-left)) {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
 }
 
 /* Ensure interactive elements meet minimum touch targets */
@@ -309,6 +322,13 @@ input[type="reset"],
 a[role="button"],
 [role="button"] {
   min-height: var(--touch-min);
+}
+
+/* Bottom safe area for sticky bottom bars / input fields — prevents content from being hidden behind the home indicator or keyboard */
+.content-with-bottom-safe-area {
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
 }
 
 /* ============================================================

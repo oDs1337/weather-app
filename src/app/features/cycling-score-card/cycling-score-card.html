@@ -1,88 +1,71 @@
-<div class="score-card">
-  <div class="card-header">
+<div class="cycling-score-card">
+  <!-- Compact header -->
+  <div class="card-header" aria-label="{{ 'cyclingScore.title' | translate }}">
     <h2>{{ 'cyclingScore.title' | translate }}</h2>
-    <p class="city-name">{{ city }}</p>
+    <span class="city-name">{{ city() }}</span>
   </div>
 
-  <!-- Overall Score -->
-  <div class="overall-score" [class]="getScoreClass(score.overall)">
-    <div class="score-circle">
-      <svg viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="54" fill="none" stroke="var(--color-border-medium)" stroke-width="8"/>
+  <!-- Hero score area -->
+  <section class="hero-score">
+    <div class="score-ring" [class]="scoreGroup()">
+      <svg viewBox="0 0 140 140" aria-hidden="true">
+        <circle cx="70" cy="70" r="62" fill="none" stroke="var(--color-border-medium)" stroke-width="7"/>
         <circle 
-          cx="60" 
-          cy="60" 
-          r="54" 
-          fill="none" 
-          stroke="var(--color-accent)" 
-          stroke-width="8"
-          [attr.stroke-dasharray]="`${(score.overall / 100) * 339.292} 339.292`"
+          cx="70" 
+          cy="70" 
+          r="62" 
+          fill="none"
+          class="ring-progress"
+          [attr.stroke-dasharray]="`${((score().overall ?? 0) / 100) * 389.56} 389.56`"
           stroke-linecap="round"
-          transform="rotate(-90 60 60)"
+          stroke-width="7"
+          transform="rotate(-90 70 70)"
         />
       </svg>
-      <div class="score-text">
-        <span class="score-value">{{ score.overall }}</span>
-        <span class="score-label">{{ 'cyclingScore.scoreOutOf100' | translate }}</span>
+      <div class="score-display">
+        <span class="score-number">{{ score().overall ?? 0 }}</span>
+        <span class="score-suffix">{{ 'cyclingScore.scoreOutOf100' | translate }}</span>
       </div>
-    </div>
-    <p class="score-message">{{ getScoreText(score.overall) }}</p>
-  </div>
-
-  <!-- Individual Scores -->
-  <div class="individual-scores">
-    <div class="score-item" [class]="getScoreClass(score.temperature)">
-      <div class="score-icon">🌡️</div>
-      <div class="score-info">
-        <span class="score-title">{{ 'cyclingScore.temperature' | translate }}</span>
-        <span class="score-value">{{ score.temperature }}/100</span>
-      </div>
-      <span class="score-status">{{ score.details.temperatureComfort }}</span>
     </div>
 
-    <div class="score-item" [class]="getScoreClass(score.wind)">
-      <div class="score-icon">💨</div>
-      <div class="score-info">
-        <span class="score-title">{{ 'cyclingScore.wind' | translate }}</span>
-        <span class="score-value">{{ score.wind }}/100</span>
-      </div>
-      <span class="score-status">{{ score.details.windCondition }}</span>
-    </div>
+    <!-- Rating label -->
+    <p class="rating-label" [class]="scoreGroup()">{{ getOverallLabel() }}</p>
+  </section>
 
-    <div class="score-item" [class]="getScoreClass(score.precipitation)">
-      <div class="score-icon">🌧️</div>
-      <div class="score-info">
-        <span class="score-title">{{ 'cyclingScore.precipitation' | translate }}</span>
-        <span class="score-value">{{ score.precipitation }}/100</span>
-      </div>
-      <span class="score-status">{{ score.details.precipitationRisk }}</span>
-    </div>
+  <!-- Subscores grid -->
+  <section class="subscores">
+    @for (item of subscores(); track item.key) {
+      <div class="subscore-item" [class]="item.group">
+        <!-- SVG icon -->
+        <span class="icon-wrapper" aria-hidden="true">
+          @if (item.icon === 'temperature') {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.67V6a2 2 0 1 0-4 0v8.67"/><path d="M12 10.5V19a4 4 0 1 0 4 0V10.5h-4z"/><line x1="8" y1="4" x2="16" y2="4"/></svg>
+          } @else if (item.icon === 'wind') {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 7.36H3a3 3 0 0 0 0 5.8h6.5"/><path d="M14.24 7.36H21a3 3 0 0 1 0 5.8h-6.76"/><polyline points="9.5 10.96 12.17 8 9.5 5.04"/></svg>
+          } @else if (item.icon === 'precipitation') {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16a3 3 0 1 0 4 0c0-1.95-2-3-2-5.5 0-2.87-2.5-5-5-5 0 3.27 4 4 4 7 0 2.5-2 3.5-2 5.5z"/><path d="M16 16v2"/><path d="M8 19v2"/></svg>
+          } @else if (item.icon === 'airQuality') {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3m0 12v3M3 12h3m12 0h3"/></svg>
+          } @else if (item.icon === 'uvIndex') {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 3v2m0 14v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M3 12h2m14 0h2"/></svg>
+          } @else {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4 7 11 7 11s7-7 11-11a7 7 0 0 0-7-7z"/><path d="M9 10a1.5 1.5 0 0 0 3 0 1.5 1.5 0 0 0-3 0"/></svg>
+          }
+        </span>
 
-    <div class="score-item" [class]="getScoreClass(score.airQuality)">
-      <div class="score-icon">🌬️</div>
-      <div class="score-info">
-        <span class="score-title">{{ 'cyclingScore.airQuality' | translate }}</span>
-        <span class="score-value">{{ score.airQuality }}/100</span>
+        <!-- Label and value -->
+        <div class="subscore-info">
+          <span class="subscore-title">{{ item.titleKey | translate }}</span>
+        </div>
+        <span class="subscore-score" aria-label="{{ item.value }} out of 100">{{ item.value }}/100</span>
       </div>
-      <span class="score-status">{{ score.details.airQualityStatus }}</span>
-    </div>
+    }
+  </section>
 
-    <div class="score-item" [class]="getScoreClass(score.uvIndex)">
-      <div class="score-icon">☀️</div>
-      <div class="score-info">
-        <span class="score-title">{{ 'cyclingScore.uvIndex' | translate }}</span>
-        <span class="score-value">{{ score.uvIndex }}/100</span>
-      </div>
-      <span class="score-status">{{ score.details.uvRiskLevel }}</span>
-    </div>
-
-    <div class="score-item" [class]="getScoreClass(score.humidity)">
-      <div class="score-icon">💧</div>
-      <div class="score-info">
-        <span class="score-title">{{ 'cyclingScore.humidity' | translate }}</span>
-        <span class="score-value">{{ score.humidity }}/100</span>
-      </div>
-      <span class="score-status">{{ score.details.humidityComfort }}</span>
-    </div>
-  </div>
+  <!-- Status badges row -->
+  <section class="status-badges">
+    @for (item of subscores(); track item.key) {
+      <span class="badge" [class]="item.group">{{ item.status }}</span>
+    }
+  </section>
 </div>
