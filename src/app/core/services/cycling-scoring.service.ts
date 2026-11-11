@@ -20,7 +20,7 @@ export class CyclingScoringService {
     hourlyForecast: HourlyWeather[],
     dailyForecast: DailyWeather[],
     airQuality?: any
-  ): { score: CyclingScore; issues: CyclingIssue[] } {
+  ): { score: CyclingScore; issues: CyclingIssue[]; dynamicAdvice?: string } {
 
     const issues: CyclingIssue[] = [];
 
@@ -150,12 +150,19 @@ export class CyclingScoringService {
       details 
     };
 
+    // Generate dynamic advice for this score context
+    const apparentTemp = current.apparent_temperature ?? temp;
+    const dynamicAdviceMessage = this.getDynamicAdvice(
+      overall, temp, apparentTemp, effectiveWind,
+      currentPrecip, maxProb3h, aqi
+    );
+
     // Generate forecast-based issues/warnings
     const forecastIssues = this.calculateForecastIssues(
       current, hourlyForecast, dailyForecast, effectiveWind, aqi
     );
 
-    return { score, issues: forecastIssues };
+    return { score, issues: forecastIssues, dynamicAdvice: dynamicAdviceMessage };
   }
 
   /**

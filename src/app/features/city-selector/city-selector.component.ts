@@ -37,6 +37,8 @@ export class CitySelectorComponent {
   loading = signal(false);
   error = signal<string | null>(null);
   hasSearched = signal(false);
+  // Track whether the user has focused and started typing in the search field.
+  isSearchFocused = signal(false);
 
   constructor() {
     this.searchControl.valueChanges.subscribe(() => {
@@ -45,13 +47,27 @@ export class CitySelectorComponent {
   }
 
   private searchTimeout: any;
+
+  onFocusChange(focused: boolean) {
+    this.isSearchFocused.set(focused);
+    if (focused) {
+      // When user focuses, show popular cities again so they can pick one without typing.
+      if (!this.hasSearched()) {
+        this.isSearchFocused.set(true);
+      }
+    } else {
+      this.isSearchFocused.set(false);
+    }
+  }
+
   private debouncedSearch() {
     clearTimeout(this.searchTimeout);
     const query = this.searchControl.value?.trim();
-    
+
     if (!query || query.length < 2) {
+      // Clear results but keep hasSearched so we don't flicker popular cities back.
       this.cities.set([]);
-      this.hasSearched.set(false);
+      this.error.set(null);
       return;
     }
 
@@ -63,13 +79,13 @@ export class CitySelectorComponent {
   private async performSearch(query: string) {
     this.loading.set(true);
     this.error.set(null);
-    
+
     try {
       const response = await this.http.get<any>(
         `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=10&language=en&format=json`
       ).toPromise();
 
-      if (response?.results) {
+      if (response?.results && response.results.length > 0) {
         const locations: GeoLocation[] = response.results.map((r: any) => ({
           id: r.id,
           name: r.name,
@@ -80,12 +96,15 @@ export class CitySelectorComponent {
         }));
         this.cities.set(locations);
         this.hasSearched.set(true);
+        this.error.set(null);
       } else {
         this.cities.set([]);
         this.hasSearched.set(true);
         this.error.set('No cities found. Try a different search term.');
       }
     } catch (err) {
+      this.cities.set([]);
+      this.hasSearched.set(true);
       this.error.set('Failed to search cities. Please try again.');
       console.error('Geo coding error:', err);
     } finally {
@@ -104,7 +123,7 @@ export class CitySelectorComponent {
   }
 
   popularCitiesList = signal<string[]>([
-    'Warsaw', 'Krakow', 'Gdansk', 'Wroclaw', 
+    'Warsaw', 'Krakow', 'Gdansk', 'Wroclaw',
     'Berlin', 'London', 'Paris', 'Amsterdam'
   ]);
 

@@ -1,36 +1,53 @@
 /* ============================================================
    VELORA — Premium Cycling Weather Companion
    Design System & Global Styles
+   Phase 1: Foundation tokens, themes, accessibility
    ============================================================ */
 
-/* ---------- Design Tokens ---------- */
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+
 :root {
-  /* Dark theme (default) */
-  --color-bg-primary: #111820;
-  --color-bg-secondary: #1B252F;
-  --color-bg-tertiary: #232D3A;
-  --color-accent: #D7F36A;
-  --color-text-primary: #F4F5F2;
-  --color-text-secondary: #87939D;
-  --color-text-muted: #5C6B78;
+  /* ---------- Colors (dark theme defaults) ---------- */
+  /* Background surfaces */
+  --color-bg-primary: #111820;         /* Midnight — page background */
+  --color-bg-secondary: #202F3A;       /* Secondary surface */
+  --color-bg-tertiary: #182530;        /* Elevated surface (cards, panels) */
+
+  /* Text */
+  --color-text-primary: #F4F7F5;       /* Primary text */
+  --color-text-secondary: #91A0AA;     /* Secondary / muted heading text */
+  --color-text-muted: #667782;         /* Tertiary / disabled text */
+
+  /* Brand accents */
+  --color-accent: #D7F36A;             /* Electric Lime — primary brand accent */
+  --color-weather: #9BD7E8;            /* Weather accent (wind, precipitation) */
+
+  /* Semantic / status colors */
+  --color-critical: #F08068;           /* Critical errors, danger alerts */
+  --color-warning: #E9C66A;            /* Warnings, caution states */
+  --color-positive: #D7F36A;           /* Positive outcomes (same as accent) */
+
+  /* Borders & dividers */
   --color-border-subtle: rgba(255, 255, 255, 0.06);
   --color-border-medium: rgba(255, 255, 255, 0.1);
 
-  /* Score colors */
+  /* Score colors (dark) */
   --score-excellent: #D7F36A;
   --score-good: #B8E054;
-  --score-fair: #E8C45A;
-  --score-poor: #E8735A;
+  --score-fair: #E9C66A;
+  --score-poor: #F08068;
 
-  /* Alert colors */
-  --alert-danger-bg: rgba(232, 115, 90, 0.1);
-  --alert-danger-border: #E8735A;
-  --alert-warning-bg: rgba(232, 196, 90, 0.1);
-  --alert-warning-border: #E8C45A;
-  --alert-info-bg: rgba(100, 160, 232, 0.1);
-  --alert-info-border: #64A0E8;
+  /* Alert surfaces (dark) */
+  --alert-danger-bg: rgba(240, 128, 104, 0.1);
+  --alert-danger-border: #F08068;
+  --alert-warning-bg: rgba(233, 198, 106, 0.1);
+  --alert-warning-border: #E9C66A;
+  --alert-info-bg: rgba(155, 215, 232, 0.1);
+  --alert-info-border: #9BD7E8;
 
-  /* Spacing */
+  /* ---------- Spacing ---------- */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -38,112 +55,308 @@
   --space-xl: 32px;
   --space-2xl: 48px;
 
-  /* Border radius */
+  /* ---------- Border radius ---------- */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
 
-  /* Shadows */
+  /* ---------- Shadows ---------- */
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
 
-  /* Transitions */
+  /* ---------- Transitions ---------- */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
+
+  /* ---------- Typography scale tokens (mobile-first) ---------- */
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.375rem;
+  --text-3xl: 1.75rem;
+
+  /* ---------- Minimum touch target ---------- */
+  --touch-min: 44px;
 }
 
-/* ---------- Light Theme ---------- */
-[data-theme="light"] {
-  --color-bg-primary: #F4F5F2;
-  --color-bg-secondary: #FFFFFF;
-  --color-bg-tertiary: #EAECE8;
-  --color-accent: #6B7C0A;
-  --color-text-primary: #111820;
-  --color-text-secondary: #5C6B78;
-  --color-text-muted: #87939D;
-  --color-border-subtle: rgba(0, 0, 0, 0.06);
-  --color-border-medium: rgba(0, 0, 0, 0.12);
+/* ============================================================
+   LIGHT THEME — intentionally designed, not inverted
+   ============================================================ */
 
-  --score-excellent: #6B7C0A;
-  --score-good: #8BA314;
-  --score-fair: #B8950A;
+[data-theme="light"] {
+  /* Background surfaces */
+  --color-bg-primary: #F7FAF9;         /* Light neutral with slight cool tint */
+  --color-bg-secondary: #FFFFFF;       /* Card / panel white surface */
+  --color-bg-tertiary: #ECF2EF;        /* Subtle elevated surface */
+
+  /* Text — high contrast for outdoor readability */
+  --color-text-primary: #0B1117;       /* Obsidian — near-black on light bg */
+  --color-text-secondary: #4A5C68;     /* Muted dark text */
+  --color-text-muted: #667782;         /* Tertiary / disabled text (same hue as dark) */
+
+  /* Brand accents — adjusted for light background legibility */
+  --color-accent: #6B7C0A;             /* Electric Lime, darker variant on light bg */
+  --color-weather: #3D8FA0;            /* Weather accent, deeper blue-green */
+
+  /* Semantic / status colors (light) */
+  --color-critical: #C44E3A;           /* Critical — deeper red */
+  --color-warning: #B8950A;            /* Warning — rich gold */
+  --color-positive: #6B7C0A;           /* Positive (same as accent) */
+
+  /* Borders & dividers (light) */
+  --color-border-subtle: rgba(11, 17, 23, 0.06);
+  --color-border-medium: rgba(11, 17, 23, 0.12);
+
+  /* Score colors (light) — same hues as dark for brand consistency */
+  --score-excellent: #D7F36A;
+  --score-good: #B8E054;
+  --score-fair: #C9A34A;               /* Warmed slightly on light bg */
   --score-poor: #C44E3A;
 
+  /* Alert surfaces (light) */
   --alert-danger-bg: rgba(196, 78, 58, 0.08);
   --alert-danger-border: #C44E3A;
   --alert-warning-bg: rgba(184, 149, 10, 0.08);
   --alert-warning-border: #B8950A;
-  --alert-info-bg: rgba(60, 120, 200, 0.08);
-  --alert-info-border: #3C78C8;
+  --alert-info-bg: rgba(61, 143, 160, 0.08);
+  --alert-info-border: #3D8FA0;
 
+  /* Shadows (light) */
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+
+  /* Safe-area text contrast boost (outdoor readability) */
+  --color-text-primary: #1A2632;       /* Slightly lighter for outdoor screen glare */
 }
 
-/* ---------- Reset & Base ---------- */
-* {
+/* ============================================================
+   FALLBACK TOKENS FOR COMPONENT COMPATIBILITY
+   Prevents build errors if components reference these vars.
+   ============================================================ */
+
+html {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
+
+body {
+  color: inherit;
+  background-color: var(--color-bg-primary);
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
+  width: 100%;
   min-height: 100vh;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 #root {
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* ---------- Typography ---------- */
-h1 { font-size: 1.75rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
-h2 { font-size: 1.375rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
-h3 { font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
+/* ============================================================
+   TYPOGRAPHY — default element styles + utility classes
+   ============================================================ */
 
-/* ---------- Scrollbar ---------- */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border-medium); border-radius: 2px; }
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
 
-/* ---------- Mobile tap highlight ---------- */
-* { -webkit-tap-highlight-color: transparent; }
+h1 {
+  font-size: var(--text-3xl);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
 
-/* ---------- Focus outline for accessibility ---------- */
+h2 {
+  font-size: var(--text-2xl);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: var(--text-xl);
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+p, span, div {
+  color: inherit;
+}
+
+/* ---------- Typography utility classes ---------- */
+
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-md { font-size: var(--text-md); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted   { color: var(--color-text-muted); }
+.text-accent  { color: var(--color-accent); }
+.text-weather { color: var(--color-weather); }
+.text-critical { color: var(--color-critical); }
+.text-warning { color: var(--color-warning); }
+
+/* ============================================================
+   ACCESSIBILITY — focus-visible states
+   ============================================================ */
+
 *:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-/* ---------- Buttons ---------- */
+/* Remove outline on mouse interaction (keep for keyboard) */
+*:not(:focus-visible):focus {
+  outline: none;
+}
+
+/* ============================================================
+   PREFERS-REDUCED-MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .spinner {
+    animation: none;
+    border-top-color: var(--color-accent);
+    opacity: 0.85;
+  }
+
+  .fade-in-up {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR STYLING (webkit)
+   ============================================================ */
+
+::-webkit-scrollbar { width: 6px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-medium);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ============================================================
+   MOBILE — tap highlight, safe areas, touch targets
+   ============================================================ */
+
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Ensure interactive elements meet minimum touch targets */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+a[role="button"],
+[role="button"] {
+  min-height: var(--touch-min);
+}
+
+/* ============================================================
+   INTERACTIVE CONTROLS — sensible defaults
+   ============================================================ */
+
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
-  background: none;
+  background: transparent;
   color: inherit;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-input, textarea {
+input, textarea, select {
   font-family: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* ---------- Loading spinner ---------- */
+/* Input focus states */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   CARD BASE (shared design primitive)
+   ============================================================ */
+
+.velora-card {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -164,20 +377,15 @@ input, textarea {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ---------- Fade-in animation ---------- */
+/* ============================================================
+   ANIMATIONS — fade-in-up (used by city-selector, etc.)
+   ============================================================ */
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in-up {
   animation: fadeInUp 0.4s ease-out;
-}
-
-/* ---------- Card base style ---------- */
-.velora-card {
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
 }

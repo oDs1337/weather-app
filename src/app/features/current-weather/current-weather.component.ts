@@ -90,16 +90,25 @@ export class CurrentWeatherComponent implements OnInit {
           response.airQuality
         );
 
-        // Get additional forecast-based issues
+        // Get additional forecast-based issues (need current, hourly, daily, effectiveWind, aqi)
+        const { current } = response.weather;
+        const { hourly: hourlyForecast } = response.weather;
+        const { daily: dailyForecast } = response.weather;
+
+        const effectiveWind = Math.max(
+          current.windspeed_10m,
+          ...hourlyForecast.slice(0, 3).map(h => h.windspeed_10m)
+        );
+        const aqiValue = response.airQuality?.aqi ?? undefined;
+
         const forecastIssues = this.cyclingScoringService.calculateForecastIssues(
-          response.weather.hourly,
-          response.weather.daily
+          current, hourlyForecast, dailyForecast, effectiveWind, aqiValue
         );
 
         // Merge all issues and dynamic advice
         this.cyclingIssues.set([...issues, ...forecastIssues]);
         this.cyclingScore.set(score);
-        this.dynamicAdvice.set(dynamicAdvice);
+        this.dynamicAdvice.set(dynamicAdvice ?? '');
 
         this.loading.set(false);
       },
