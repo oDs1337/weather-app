@@ -1,4 +1,5 @@
 import { Component, inject, input } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WeatherIconService } from '../../../../app/core/utils/weather-icon-svg.service';
 import { LanguageService } from '../../../../app/core/services/language.service';
 import { DailyWeather } from '../../../../core/models/weather.model';
@@ -11,13 +12,14 @@ import { DailyWeather } from '../../../../core/models/weather.model';
   styleUrl: './daily-forecast.scss',
 })
 export class DailyForecastComponent {
+  private sanitizer = inject(DomSanitizer);
   private iconService = inject(WeatherIconService);
   private languageService = inject(LanguageService);
 
   daily = input.required<DailyWeather[]>();
 
-  /** Render inline SVG for a weather code. */
-  readonly iconSvg = (code: number) => this.iconService.renderIcon(code, 28);
+  /** Render inline SVG for a weather code (with HTML trust bypass). */
+  readonly iconSvg: (code: number) => SafeHtml = (code: number) => this.sanitizer.bypassSecurityTrustHtml(this.iconService.renderIcon(code, 28));
 
   /** Day name in the user's language. */
   dayName(dateString: string): string {

@@ -171,6 +171,21 @@
   "hourlyChart": {
     "precipitation": "Rain"
   },
+  "advice": {
+    "icyRoad": "Ice risk on roads — use winter cycling gear or postpone your ride.",
+    "toxicAir": "Hazardous air quality — avoid outdoor exercise immediately.",
+    "moderateAir": "Poor air quality conditions for cycling. Consider postponing or choosing a less polluted route.",
+    "heavyRainNow": "Heavy rain is falling now. Rain protection recommended for your ride.",
+    "highRainRisk": "Very high chance of rain in the next few hours. Consider rain gear or rescheduling.",
+    "extremeHeat": "Extreme heat warning — temperatures above 35°C. Hydrate well and consider riding early morning or evening.",
+    "extremeWind": "Extreme wind conditions expected (≥40 km/h). Not recommended for cycling safety.",
+    "strongWindAdvice": "Strong headwind risk (30–39 km/h). Plan your route carefully to minimize exposure.",
+    "cold": "Cold temperatures below 5°C. Dress in warm layers and protect exposed skin.",
+    "perfectConditions": "Perfect weather conditions for cycling! Enjoy the ride!",
+    "warmHydrate": "Warm conditions — stay well hydrated, especially on longer rides.",
+    "greatWeather": "Great weather for a ride. Enjoy your cycling session!",
+    "mixedConditions": "Mixed riding conditions today. Use caution and check local forecasts."
+  },
   "language": {
     "title": "Language",
     "english": "English",

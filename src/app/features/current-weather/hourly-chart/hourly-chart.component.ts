@@ -1,4 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WeatherIconService } from '../../../../app/core/utils/weather-icon-svg.service';
 import { HourlyWeather } from '../../../../core/models/weather.model';
 
@@ -10,6 +11,7 @@ import { HourlyWeather } from '../../../../core/models/weather.model';
   styleUrl: './hourly-chart.scss',
 })
 export class HourlyChartComponent {
+  private sanitizer = inject(DomSanitizer);
   private iconService = inject(WeatherIconService);
 
   hourly = input.required<HourlyWeather[]>();
@@ -37,8 +39,8 @@ export class HourlyChartComponent {
   /** Whether the data array is long enough that only a subset renders. */
   readonly hasMore = computed(() => this.hourly().length > this.displayHours().length * 2);
 
-  /** Render inline SVG for a weather code. Returns trusted HTML string. */
-  iconSvg(code: number): string {
-    return this.iconService.renderIcon(code, 32);
+  /** Render inline SVG for a weather code (with HTML trust bypass). */
+  iconSvg(code: number): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(this.iconService.renderIcon(code, 32));
   }
 }

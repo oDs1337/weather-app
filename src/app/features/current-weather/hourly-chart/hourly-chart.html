@@ -1,40 +1,42 @@
-<div class="hourly-scroll" role="list" aria-label="Hourly forecast">
+<div class="hourly-wrapper">
+  <div class="hourly-scroll" role="list" aria-label="Hourly forecast">
 
-  <!-- Left scroll indicator -->
-  <div class="scroll-arrow scroll-left">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-  </div>
-
-  @for (hour of displayHours(); track hour.time) {
-    <div class="hour-card" role="listitem">
-      <!-- Time label -->
-      <p class="hour-time">{{ hour.time }}:00</p>
-
-      <!-- Weather icon — inline SVG, no emoji -->
-      <span class="weather-icon" aria-hidden="true" [innerHTML]="iconSvg(hour.icon)"></span>
-
-      <!-- Temperature (primary data point) -->
-      <p class="hour-temp">{{ hour.temp }}°</p>
-
-      <!-- Precipitation probability -->
-      @if (hour.precip != null && hour.precip > 0) {
-        <p class="precip-chance">
-          <span class="precip-dot" aria-hidden="true">&#128167;</span> {{ hour.precip }}%
-        </p>
-      }
-
-      <!-- Wind speed — shown when available -->
-      @if (hour.wind != null && hour.wind > 0) {
-        <p class="wind-line">
-          {{ hour.wind }} km/h
-        </p>
-      }
+    <!-- Left scroll indicator -->
+    <div class="scroll-arrow scroll-left">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </div>
-  }
 
-  <!-- Right scroll indicator -->
-  <div class="scroll-arrow scroll-right" [class.is-visible]="hasMore()">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    @for (hour of displayHours(); track hour.time) {
+      <div class="hour-card" role="listitem">
+        <!-- Time label -->
+        <p class="hour-time">{{ hour.time }}:00</p>
+
+        <!-- Weather icon — inline SVG, no emoji -->
+        <span class="weather-icon" aria-hidden="true" [innerHTML]="iconSvg(hour.icon)"></span>
+
+        <!-- Temperature (primary data point) -->
+        <p class="hour-temp">{{ hour.temp }}°</p>
+
+        <!-- Precipitation probability -->
+        @if (hour.precip != null && hour.precip > 0) {
+          <p class="precip-chance">
+            <span class="precip-dot" aria-hidden="true">&#128167;</span> {{ hour.precip }}%
+          </p>
+        }
+
+        <!-- Wind speed — shown when available -->
+        @if (hour.wind != null && hour.wind > 0) {
+          <p class="wind-line">
+            {{ hour.wind }} km/h
+          </p>
+        }
+      </div>
+    }
+
+    <!-- Right scroll indicator -->
+    <div class="scroll-arrow scroll-right" [class.is-visible]="hasMore()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
   </div>
-
 </div>

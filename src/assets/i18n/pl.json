@@ -171,6 +171,21 @@
   "hourlyChart": {
     "precipitation": "Deszcz"
   },
+  "advice": {
+    "icyRoad": "Ryzyko gołoledzi na drogach — używaj zimowego sprzętu rowerowego lub przełóż jazdę.",
+    "toxicAir": "Niebezpieczna jakość powietrza — unikaj aktywności na świeżym powietrzu.",
+    "moderateAir": "Niski poziom jakości powietrza dla jazdy na rowerze. Rozważ przełożenie lub wybór mniej zanieczyszczonej trasy.",
+    "heavyRainNow": "Trwają ulewne deszcze. Zalecamy zabranie sprzętu przeciwdeszczowego.",
+    "highRainRisk": "Bardzo wysokie prawdopodobieństwo opadów w najbliższych godzinach. Rozważ sprzęt przeciwdeszczowy lub przełożenie jazdy.",
+    "extremeHeat": "Ekstremalny upał — temperatury powyżej 35°C. Regularnie się nawadniaj i rozpor jazdę na poranek lub wieczór.",
+    "extremeWind": "Skrajne warunki wiatrowe (≥40 km/h). Nie zalecamy jazdy na rowerze ze względów bezpieczeństwa.",
+    "strongWindAdvice": "Ryzyko silnego przeciwnego wiatru (30–39 km/h). Zaplanuj trasę tak, by ograniczyć ekspozycję na wiatr.",
+    "cold": "Niskie temperatury poniżej 5°C. Załóż ciepłe warstwy i zabezpiecz wystawione części ciała.",
+    "perfectConditions": "Idealne warunki do jazdy na rowerze! Ciesz się jazdą!",
+    "warmHydrate": "Ciepłe warunki — regularnie nawadniaj się, zwłaszcza na dłuższych trasach.",
+    "greatWeather": "Świetna pogoda na jazdę. Ciesz się sesją rowerową!",
+    "mixedConditions": "Dziś mieszane warunki do jazdy. Zachowaj ostrożność i sprawdź lokalne prognozy."
+  },
   "language": {
     "title": "Język",
     "english": "English",

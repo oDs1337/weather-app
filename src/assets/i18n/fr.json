@@ -131,6 +131,21 @@
   "hourlyChart": {
     "precipitation": "Pluie"
   },
+  "advice": {
+    "icyRoad": "Risque de verglas sur la route — utilisez l'équipement hivernal ou reportez votre balade.",
+    "toxicAir": "Qualité de l'air dangereuse — évitez les efforts en plein air immédiatement.",
+    "moderateAir": "Mauvaise qualité de l'air pour le cyclisme. Envisagez de reporter ou de choisir un itinéraire moins pollué.",
+    "heavyRainNow": "De fortes pluies tombent maintenant. Une protection contre la pluie est recommandée.",
+    "highRainRisk": "Très forte probabilité de pluie dans les prochaines heures. Prévoyez une protection pluvieuse ou reportez votre sortie.",
+    "extremeHeat": "Avertissement de chaleur extrême — températures supérieures à 35°C. Hydratez-vous bien et roulez tôt le matin ou le soir.",
+    "extremeWind": "Conditions de vent extrêmes attendues (≥40 km/h). Déconseillé pour la sécurité cycliste.",
+    "strongWindAdvice": "Risque de fort vent contraire (30–39 km/h). Planifiez votre itinéraire pour minimiser l'exposition au vent.",
+    "cold": "Températures froides en dessous de 5°C. Mettez des couches chaudes et protégez les parties exposées du corps.",
+    "perfectConditions": "Conditions parfaites pour le vélo ! Profitez de la balade !",
+    "warmHydrate": "Conditions chaudes — hydratez-vous régulièrement, surtout sur les longues distances.",
+    "greatWeather": "Excellent temps pour rouler. Profitez de votre sortie à vélo !",
+    "mixedConditions": "Conditions de mixtes aujourd'hui. Faites attention et vérifiez les prévisions locales."
+  },
   "language": {
     "title": "Langue",
     "english": "English",

@@ -77,7 +77,8 @@ export class WeatherService {
   }
 
   /**
-   * Get air quality data for any city by coordinates
+   * Get air quality data for any city by coordinates.
+   * PM2.5 and PM10 are fetched from the current endpoint; O₃ is retrieved separately via hourly=ozone.
    */
   getAirQuality(latitude: number, longitude: number): Observable<AirQuality> {
     const params = new HttpParams()
@@ -97,14 +98,17 @@ export class WeatherService {
           [0, 54, 154, 254, 354, 424, 604], 
           [0, 50, 100, 150, 200, 300, 400]);
         const aqi = Math.max(pm25Aqi, pm10Aqi);
+
+        // O₃ is available as hourly data (not current) — use the nearest hour's value
+        let o3Value = 0;
         
         return {
           pm25: current.pm2_5 ?? 0,
           pm10: current.pm10 ?? 0,
-          o3: 0, // Not available in free API
-          no2: 0, // Not available in free API
-          so2: 0, // Not available in free API
-          co: 0,  // Not available in free API
+          o3: o3Value, // Filled via separate hourly request below
+          no2: 0, // Not available in free API (confirmed by API test)
+          so2: 0, // Same limitation
+          co: 0,  // Same limitation
           aqi,
         };
       }),
@@ -112,13 +116,41 @@ export class WeatherService {
   }
 
   /**
-   * Get complete weather data including air quality for cycling
+   * Get hourly ozone data for O₃ air quality measurement.
+   */
+  getOzone(latitude: number, longitude: number): Observable<number> {
+    const params = new HttpParams()
+      .set('latitude', latitude.toString())
+      .set('longitude', longitude.toString())
+      .set('hourly', 'ozone')
+      .set('timezone', 'auto');
+
+    return this.http.get<any>(`${this.airQualityBaseUrl}?${params}`).pipe(
+      map((response) => {
+        const ozoneData = response.hourly?.ozone;
+        if (!Array.isArray(ozoneData) || ozoneData.length === 0) return 0;
+        // Return the first available hour's value (current/nearest)
+        return ozoneData[0] ?? 0;
+      }),
+    );
+  }
+
+  /**
+   * Get complete weather data including air quality for cycling.
    */
   getCyclingWeather(latitude: number, longitude: number): Observable<{ weather: WeatherResponse; airQuality: AirQuality }> {
     const weather$ = this.getWeatherByCoordinates(latitude, longitude);
     const airQuality$ = this.getAirQuality(latitude, longitude);
+    // Ozone is available as hourly data in the air quality API (not current)
+    const ozone$ = this.getOzone(latitude, longitude);
 
-    return forkJoin({ weather: weather$, airQuality: airQuality$ });
+    return forkJoin({ weather: weather$, airQuality: airQuality$, ozone: ozone$ }).pipe(
+      map(({ weather, airQuality, ozone }) => ({
+        weather,
+        // Replace the placeholder O3 with actual value from hourly endpoint
+        airQuality: { ...airQuality, o3: ozone },
+      })),
+    );
   }
 
   /**
