@@ -12,7 +12,7 @@ Powered by real-time meteorological data and an intelligent cycling suitability 
 |---------|-------------|
 | **Current Conditions** | Temperature, feels-like, wind speed, humidity, precipitation, weather code, and UV index at a glance. |
 | **Hourly Forecast** | Scrollable 24-hour breakdown showing temperature, precipitation probability, wind, and weather conditions for every hour. |
-| **5-Day Outlook** | Daily overview with min/max temperatures, sunrise/sunset times, total precipitation, max wind speed, UV index, and sunshine duration. |
+| **7-Day Outlook** | Horizontal scrollable cards with min/max temperatures, sunrise/sunset times, total precipitation, max wind speed, UV index, and sunshine duration per day. |
 | **Cycling Suitability Score** | A transparent 0–100 score that evaluates current conditions across six weighted factors (temperature, wind, precipitation, air quality, UV, humidity). |
 | **Weather Alerts** | Automatic detection of rain, thunderstorms, extreme heat, freezing conditions, and high winds — displayed as actionable warnings. |
 | **Air Quality Index** | PM2.5 and PM10 levels with a calculated AQI value so you can make informed decisions about outdoor exercise. |
@@ -71,7 +71,7 @@ src/
 │   │   ├── city-selector/                    # City search & selection page
 │   │   ├── current-weather/                  # Main weather dashboard
 │   │   │   ├── current-weather-card/         # Current conditions card
-│   │   │   ├── daily-forecast/               # 5-day forecast grid
+│   │   │   ├── daily-forecast/               # 7-day horizontal scrollable cards
 │   │   │   └── hourly-chart/                 # Hourly scrollable chart
 │   │   ├── cycling-score-card/               # Cycling suitability score
 │   │   ├── cycling-alerts/                   # Weather warnings list
@@ -171,7 +171,7 @@ VELORA uses the **Open-Meteo** free API — no registration or API keys required
 
 - **Current**: temperature, apparent temperature, humidity, wind speed, weather code, UV index, precipitation, rain, snowfall, day/night flag.
 - **Hourly (24h)**: temperature, weather code, precipitation probability, wind speed, UV index.
-- **Daily (6 days incl. today)**: min/max temperature, sunrise/sunset, total precipitation, max wind speed, max UV index, sunshine duration.
+- **Daily (6 days incl. today)**: min/max temperature, sunrise/sunset, total precipitation, max wind speed, max UV index, sunshine duration — rendered as horizontal scrollable cards.
 - **Air quality**: PM2.5 and PM10 concentrations.
 
 All requests use Angular `HttpClient` with typed parameters built via `HttpParams`. Error handling is delegated to the platform's standard error pipe in shared components.

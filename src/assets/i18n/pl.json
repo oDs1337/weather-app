@@ -24,21 +24,21 @@
     "searchButton": "Szukaj",
     "searching": "Wyszukiwanie...",
     "backToCities": "Wróć",
-    "popularDestinations": "Popularne Miasta",
+    "popularDestinations": "Popularne miasta",
     "featuresTitle": "Co sprawdza VELORA:",
     "featureTemperature": "Temperatura i komfort",
-    "featureWind": "Prędkość i podmuchy wiatru",
+    "featureWind": "Prędkość i porywy wiatru",
     "featurePrecipitation": "Prawdopodobieństwo opadów",
     "featureAirQuality": "Indeks jakości powietrza",
     "featureUV": "Indeks UV",
     "featureHumidity": "Poziom wilgotności"
   },
   "weatherCard": {
-    "feelsLike": "Odczuwalna {{temp}} °C",
+    "feelsLike": "Odczuwalna {{temp}}°C",
     "humidity": "Wilgotność",
     "windSpeed": "Wiatr",
     "precipitation": "Opady",
-    "currentConditions": "Aktualne Warunki",
+    "currentConditions": "Aktualne warunki",
     "uvIndex": "Indeks UV",
     "sunshineDuration": "Nasłonecznienie",
     "unitPercent": "%",
@@ -51,67 +51,67 @@
     "2": "Częściowe zachmurzenie",
     "3": "Pochmurno",
     "45": "Mgła",
-    "48": "Mgła z osadzaniem się szadzi",
-    "51": "Lekka mżawka",
+    "48": "Mgła osadzająca szadź",
+    "51": "Słaba mżawka",
     "53": "Umiarkowana mżawka",
     "55": "Gęsta mżawka",
-    "61": "Lekki deszcz",
+    "61": "Słaby deszcz",
     "63": "Umiarkowany deszcz",
     "65": "Silny deszcz",
-    "71": "Lekkie opady śniegu",
+    "71": "Słabe opady śniegu",
     "73": "Umiarkowane opady śniegu",
     "75": "Silne opady śniegu",
-    "80": "Lekkie przelotne deszcze",
-    "81": "Umiarkowane przelotne deszcze",
-    "82": "Gwałtowne przelotne deszcze",
+    "80": "Słaby przelotny deszcz",
+    "81": "Umiarkowany przelotny deszcz",
+    "82": "Gwałtowna ulewa",
     "95": "Burza",
-    "96": "Burza z lekkim gradem",
+    "96": "Burza z drobnym gradem",
     "99": "Burza z silnym gradem"
   },
   "cyclingScore": {
-    "title": "Warunki na Rower",
+    "title": "Warunki do jazdy",
     "scoreOutOf100": "/100",
     "temperature": "Temperatura",
     "wind": "Wiatr",
     "precipitation": "Opady",
-    "airQuality": "Jakość Powietrza",
+    "airQuality": "Jakość powietrza",
     "uvIndex": "Indeks UV",
     "humidity": "Wilgotność",
-    "excellent": "Świetne warunki na jazdę 🚴",
+    "excellent": "Świetne warunki do jazdy 🚴",
     "good": "Dobre warunki na rower 👍",
-    "moderate": "Przeciętne — ostrożnie ⚠️",
-    "poor": "Nieidealne do jazdy ❌"
+    "moderate": "Średnie — zachowaj ostrożność ⚠️",
+    "poor": "Odradzamy jazdę ❌"
   },
   "cyclingAlerts": {
-    "alertsTitle": "Ostrzeżenia Pogodowe",
-    "alertsSubtitle": "Ważne warunki, które warto znać",
+    "alertsTitle": "Ostrzeżenia pogodowe",
+    "alertsSubtitle": "Ważne informacje o warunkach na trasie",
     "noAlertsIcon": "✓",
-    "noAlertsTitle": "Brak Aktywnych Ostrzeżeń",
-    "noAlertsMessage": "Warunki sprzyjają rowerowej jeździe. Miłej jazdy!"
+    "noAlertsTitle": "Brak aktywnych ostrzeżeń",
+    "noAlertsMessage": "Warunki sprzyjają jeździe na rowerze. Udanej trasy!"
   },
   "airQuality": {
-    "title": "Jakość Powietrza",
+    "title": "Jakość powietrza",
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
     "no2": "NO₂",
     "good": "Dobra",
     "moderate": "Umiarkowana",
-    "unhealthySensitive": "Niezdrowa dla grup wrażliwych",
-    "unhealthy": "Niezdrowa",
-    "veryUnhealthy": "Bardzo niezdrowa"
+    "unhealthySensitive": "Zła dla grup wrażliwych",
+    "unhealthy": "Zła",
+    "veryUnhealthy": "Bardzo zła"
   },
   "forecast": {
-    "today": "Dziś",
+    "today": "Dzisiaj",
     "tomorrow": "Jutro",
     "daily": "Prognoza 7-dniowa",
-    "monday": "Pon",
-    "tuesday": "Wto",
-    "wednesday": "Śro",
-    "thursday": "Czw",
-    "friday": "Pią",
-    "saturday": "Sob",
-    "sunday": "Ndz"
+    "monday": "Pon.",
+    "tuesday": "Wt.",
+    "wednesday": "Śr.",
+    "thursday": "Czw.",
+    "friday": "Pt.",
+    "saturday": "Sob.",
+    "sunday": "Niedz."
   },
   "scoreLabels": {
     "temperature": {
@@ -124,7 +124,7 @@
       "calm": "Bezwietrznie",
       "lightBreeze": "Lekki wiatr",
       "moderate": "Umiarkowany",
-      "strongHeadwind": "Duże ryzyko przeciwnego wiatru"
+      "strongHeadwind": "Ryzyko silnego wiatru czołowego"
     },
     "precipitation": {
       "none": "Brak",
@@ -133,10 +133,10 @@
       "high": "Wysokie"
     },
     "airQuality": {
-      "excellent": "Doskonała",
+      "excellent": "Bardzo dobra",
       "good": "Dobra",
-      "moderate": "Przeciętna",
-      "unhealthy": "Niezdrowa"
+      "moderate": "Umiarkowana",
+      "unhealthy": "Zła"
     },
     "uvIndex": {
       "low": "Niski",
@@ -146,46 +146,46 @@
     },
     "humidity": {
       "comfortable": "Komfortowa",
-      "ok": "OK",
+      "ok": "W normie",
       "humid": "Wilgotno",
       "veryHumid": "Bardzo wilgotno"
     }
   },
   "alerts": {
-    "rainExpected": "Oczekiwane Opady Deszczu",
-    "rainExpectedDescription": "Prawdopodobieństwo opadów przekracza 50% w ciągu następnych {{count}} godzin. Rozważ zabranie sprzętu przeciwdeszczowego lub przełożenie jazdy.",
-    "thunderstormRisk": "Ryzyko Burzy",
-    "thunderstormRiskDescription": "Wykryto potencjalne burze. Dla bezpieczeństwa unikaj jazdy podczas burz z piorunami.",
-    "heavyRainExpected": "Oczekiwane Silne Opady Deszczu",
-    "heavyRainDescription": "Przewiduje się znaczne opady deszczu. Warunki na drodze mogą być niebezpieczne.",
-    "extremeHeatWarning": "Ostrzeżenie Przed Ekstremalnym Upałem",
-    "extremeHeatDescription": "Przewiduje się temperatury powyżej 35°C. Nawadniaj się regularnie i rozważ poranne lub wieczorne jazdy.",
-    "freezingTemperatures": "Zamrożone Temperatury",
-    "freezingTemperaturesDescription": "Oczekiwane temperatury poniżej zera. Na drogach może być lód. Używaj odpowiedniego zimowego sprzętu rowerowego.",
-    "airQualityWarning": "😷 Zła Jakość Powietrza (Smog)",
-    "airQualityWarningDescription": "Obecny poziom zanieczyszczenia powietrza jest wysoki. Jazda na rowerze zwiększa ilość wchłanianego powietrza — rozważ przełożenie treningu lub zmień trasę.",
-    "strongWind": "💨 Silny Wiatr",
-    "strongWindDescription": "Przewidywane są silne podmuchy wiatru (≥30 km/h). Zachowaj ostrożność, szczególnie na otwartych odcinkach i mostkach.",
-    "iceRisk": "🧊 Ryzyko Gołoledzi",
-    "iceRiskDescription": "Temperatura w pobliżu zera oraz wysoka wilgotność/opady zwiększają ryzyko gołoledzi na drodze. Unikaj gwałtownych manewrów."
+    "rainExpected": "Spodziewany deszcz",
+    "rainExpectedDescription": "Prawdopodobieństwo opadów przekracza 50% w ciągu najbliższych {{count}} godzin. Rozważ zabranie odzieży przeciwdeszczowej lub przełożenie jazdy.",
+    "thunderstormRisk": "Ryzyko burzy",
+    "thunderstormRiskDescription": "Prognozowane są burze. Dla własnego bezpieczeństwa unikaj jazdy w trakcie wyładowań atmosferycznych.",
+    "heavyRainExpected": "Spodziewany ulewny deszcz",
+    "heavyRainDescription": "Prognozowane są intensywne opady deszczu. Warunki na drodze mogą być bardzo trudne.",
+    "extremeHeatWarning": "Ostrzeżenie przed upałem",
+    "extremeHeatDescription": "Prognozowane są temperatury powyżej 35°C. Pamiętaj o regularnym nawadnianiu i rozważ jazdę wczesnym rankiem lub wieczorem.",
+    "freezingTemperatures": "Ujemne temperatury",
+    "freezingTemperaturesDescription": "Spodziewane są temperatury poniżej zera. Na drogach może występować oblodzenie. Załóż odpowiednią zimową odzież rowerową.",
+    "airQualityWarning": "😷 Zła jakość powietrza (Smog)",
+    "airQualityWarningDescription": "Wysoki poziom zanieczyszczenia powietrza. Jazda na rowerze zwiększa wentylację płuc — rozważ przełożenie treningu lub zmianę trasy.",
+    "strongWind": "💨 Silny wiatr",
+    "strongWindDescription": "Prognozowane są silne porywy wiatru (≥30 km/h). Zachowaj ostrożność, szczególnie na odsłoniętych odcinkach i mostach.",
+    "iceRisk": "🧊 Ryzyko oblodzenia",
+    "iceRiskDescription": "Temperatura w okolicach zera oraz wysoka wilgotność lub opady zwiększają ryzyko oblodzenia jezdni. Unikaj gwałtownych manewrów."
   },
   "hourlyChart": {
     "precipitation": "Deszcz"
   },
   "advice": {
-    "icyRoad": "Ryzyko gołoledzi na drogach — używaj zimowego sprzętu rowerowego lub przełóż jazdę.",
-    "toxicAir": "Niebezpieczna jakość powietrza — unikaj aktywności na świeżym powietrzu.",
-    "moderateAir": "Niski poziom jakości powietrza dla jazdy na rowerze. Rozważ przełożenie lub wybór mniej zanieczyszczonej trasy.",
-    "heavyRainNow": "Trwają ulewne deszcze. Zalecamy zabranie sprzętu przeciwdeszczowego.",
-    "highRainRisk": "Bardzo wysokie prawdopodobieństwo opadów w najbliższych godzinach. Rozważ sprzęt przeciwdeszczowy lub przełożenie jazdy.",
-    "extremeHeat": "Ekstremalny upał — temperatury powyżej 35°C. Regularnie się nawadniaj i rozpor jazdę na poranek lub wieczór.",
-    "extremeWind": "Skrajne warunki wiatrowe (≥40 km/h). Nie zalecamy jazdy na rowerze ze względów bezpieczeństwa.",
-    "strongWindAdvice": "Ryzyko silnego przeciwnego wiatru (30–39 km/h). Zaplanuj trasę tak, by ograniczyć ekspozycję na wiatr.",
-    "cold": "Niskie temperatury poniżej 5°C. Załóż ciepłe warstwy i zabezpiecz wystawione części ciała.",
-    "perfectConditions": "Idealne warunki do jazdy na rowerze! Ciesz się jazdą!",
-    "warmHydrate": "Ciepłe warunki — regularnie nawadniaj się, zwłaszcza na dłuższych trasach.",
-    "greatWeather": "Świetna pogoda na jazdę. Ciesz się sesją rowerową!",
-    "mixedConditions": "Dziś mieszane warunki do jazdy. Zachowaj ostrożność i sprawdź lokalne prognozy."
+    "icyRoad": "Ryzyko oblodzenia dróg — użyj zimowej odzieży rowerowej lub zrezygnuj z jazdy.",
+    "toxicAir": "Bardzo zła jakość powietrza — unikaj wszelkiego wysiłku fizycznego na zewnątrz.",
+    "moderateAir": "Jakość powietrza nie sprzyja jeździe. Rozważ zmianę trasy na mniej zanieczyszczoną.",
+    "heavyRainNow": "Obecnie pada silny deszcz. Konieczna odzież przeciwdeszczowa.",
+    "highRainRisk": "Bardzo wysokie prawdopodobieństwo opadów w najbliższych godzinach. Zabierz odzież przeciwdeszczową lub przełóż jazdę.",
+    "extremeHeat": "Ekstremalny upał — temperatury powyżej 35°C. Pamiętaj o nawodnieniu i zaplanuj jazdę na wczesny ranek lub wieczór.",
+    "extremeWind": "Skrajnie silny wiatr (≥40 km/h). Odradzamy jazdę ze względów bezpieczeństwa.",
+    "strongWindAdvice": "Ryzyko silnego wiatru czołowego (30–39 km/h). Zaplanuj trasę tak, by zminimalizować ekspozycję na wiatr.",
+    "cold": "Niskie temperatury (poniżej 5°C). Ubierz się ciepło na tak zwaną cebulkę i osłoń odkryte części ciała.",
+    "perfectConditions": "Idealne warunki na rower! Ciesz się jazdą!",
+    "warmHydrate": "Jest gorąco — regularnie uzupełniaj płyny, zwłaszcza na dłuższych dystansach.",
+    "greatWeather": "Świetna pogoda na rower. Udanej jazdy!",
+    "mixedConditions": "Dziś warunki są zmienne. Zachowaj ostrożność i śledź na bieżąco lokalne prognozy."
   },
   "language": {
     "title": "Język",
@@ -194,15 +194,15 @@
     "french": "Français",
     "russian": "Русский",
     "ukrainian": "Українська",
-    "systemDefault": "Domyślny Systemu"
+    "systemDefault": "Zgodny z systemem"
   },
   "loading": {
-    "weatherData": "Ładowanie danych pogodowych...",
+    "weatherData": "Pobieranie danych pogodowych...",
     "searching": "Wyszukiwanie miast..."
   },
   "error": {
     "default": "Coś poszło nie tak. Spróbuj ponownie.",
-    "noWeather": "Nie udało się załadować danych pogodowych. Sprawdź połączenie i spróbuj ponownie.",
-    "noCityFound": "Nie znaleziono miasta. Spróbuj innej nazwy."
+    "noWeather": "Nie udało się pobrać danych. Sprawdź połączenie z siecią i spróbuj ponownie.",
+    "noCityFound": "Nie znaleziono miasta. Spróbuj wpisać inną nazwę."
   }
 }

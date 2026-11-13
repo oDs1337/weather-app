@@ -10,7 +10,7 @@
     "searchButton": "Rechercher",
     "searching": "Recherche...",
     "backToCities": "Retour",
-    "popularDestinations": "Villes Populaires",
+    "popularDestinations": "Villes populaires",
     "featuresTitle": "Ce que VELORA vérifie :",
     "featureTemperature": "Température et confort",
     "featureWind": "Vitesse et rafales de vent",
@@ -20,71 +20,71 @@
     "featureHumidity": "Niveau d'humidité"
   },
   "weatherCard": {
-    "feelsLike": "Senti {{temp}}°C",
+    "feelsLike": "Ressenti {{temp}} °C",
     "humidity": "Humidité",
     "windSpeed": "Vent",
     "precipitation": "Précipitations",
-    "currentConditions": "Conditions Actuelles",
+    "currentConditions": "Conditions actuelles",
     "uvIndex": "Indice UV",
     "sunshineDuration": "Ensoleillement"
   },
   "cyclingScore": {
-    "title": "Conditions Cyclistes",
+    "title": "Conditions cyclistes",
     "scoreOutOf100": "/100",
     "temperature": "Température",
     "wind": "Vent",
     "precipitation": "Précipitations",
-    "airQuality": "Qualité de l'Air",
+    "airQuality": "Qualité de l'air",
     "uvIndex": "Indice UV",
     "humidity": "Humidité",
-    "excellent": "Conditions excellentes pour le vélo 🚴",
+    "excellent": "Excellentes conditions pour le vélo 🚴",
     "good": "Bonnes conditions pour rouler 👍",
-    "moderate": "Modéré — prudence ⚠️",
-    "poor": "Pas idéal pour le cyclisme ❌"
+    "moderate": "Moyen — prudence ⚠️",
+    "poor": "Déconseillé ❌"
   },
   "cyclingAlerts": {
-    "alertsTitle": "Alertes Météo",
+    "alertsTitle": "Alertes météo",
     "alertsSubtitle": "Conditions importantes à connaître",
     "noAlertsIcon": "✓",
-    "noAlertsTitle": "Aucune Alerte Active",
+    "noAlertsTitle": "Aucune alerte active",
     "noAlertsMessage": "Les conditions sont favorables au vélo. Bonne balade !"
   },
   "airQuality": {
-    "title": "Qualité de l'Air",
+    "title": "Qualité de l'air",
     "pm25": "PM2.5",
     "pm10": "PM10",
     "o3": "O₃",
     "no2": "NO₂",
     "good": "Bonne",
-    "moderate": "Modérée",
-    "unhealthySensitive": "Nuisible pour les groupes sensibles",
-    "unhealthy": "Nuisible",
-    "veryUnhealthy": "Très nuisible"
+    "moderate": "Moyenne",
+    "unhealthySensitive": "Mauvaise pour les groupes sensibles",
+    "unhealthy": "Mauvaise",
+    "veryUnhealthy": "Très mauvaise"
   },
   "forecast": {
     "today": "Aujourd'hui",
     "tomorrow": "Demain",
     "daily": "Prévision sur 7 jours",
-    "monday": "Lun",
-    "tuesday": "Mar",
-    "wednesday": "Mer",
-    "thursday": "Jeu",
-    "friday": "Ven",
-    "saturday": "Sam",
-    "sunday": "Dim"
+    "monday": "Lun.",
+    "tuesday": "Mar.",
+    "wednesday": "Mer.",
+    "thursday": "Jeu.",
+    "friday": "Ven.",
+    "saturday": "Sam.",
+    "sunday": "Dim."
   },
   "scoreLabels": {
     "temperature": {
       "ideal": "Idéal",
       "good": "Bon",
-      "fair": "Moyen",
+      "fair": "Correct",
       "poor": "Mauvais"
     },
     "wind": {
       "calm": "Calme",
       "lightBreeze": "Légère brise",
       "moderate": "Modéré",
-      "strongHeadwind": "Risque de vent contraire fort"
+      "strongHeadwind": "Risque de fort vent de face"
     },
     "precipitation": {
       "none": "Aucune",
@@ -93,10 +93,10 @@
       "high": "Élevée"
     },
     "airQuality": {
-      "excellent": "Excellent",
-      "good": "Bon",
-      "moderate": "Modéré",
-      "unhealthy": "Nuisible"
+      "excellent": "Excellente",
+      "good": "Bonne",
+      "moderate": "Moyenne",
+      "unhealthy": "Mauvaise"
     },
     "uvIndex": {
       "low": "Faible",
@@ -112,40 +112,40 @@
     }
   },
   "alerts": {
-    "rainExpected": "Pluie Prévue",
+    "rainExpected": "Pluie prévue",
     "rainExpectedDescription": "La probabilité de pluie dépasse 50 % dans les prochaines {{count}} heure(s). Pensez à prendre un équipement imperméable ou à reporter votre balade.",
-    "thunderstormRisk": "Risque d'Orage",
+    "thunderstormRisk": "Risque d'orage",
     "thunderstormRiskDescription": "Orages potentiels détectés. Pour votre sécurité, évitez de faire du vélo pendant les orages électriques.",
-    "heavyRainExpected": "Fortes Pluies Prévues",
+    "heavyRainExpected": "Fortes pluies prévues",
     "heavyRainDescription": "Des pluies importantes sont prévues. Les conditions routières peuvent être dangereuses.",
-    "extremeHeatWarning": "Avertissement de Chaleur Extrême",
-    "extremeHeatDescription": "Températures supérieures à 35°C prévues. Hydratez-vous régulièrement et privilégiez les balades matinales ou du soir.",
-    "freezingTemperatures": "Températures Glaciales",
-    "freezingTemperaturesDescription": "Températures négatives attendues. Du verglas peut être présent sur la route. Utilisez l'équipement hivernal adapté.",
-    "airQualityWarning": "😷 Mauvaise Qualité de l'Air (Smog)",
+    "extremeHeatWarning": "Alerte forte chaleur",
+    "extremeHeatDescription": "Températures supérieures à 35°C prévues. Hydratez-vous régulièrement et privilégiez les balades matinales ou en soirée.",
+    "freezingTemperatures": "Températures négatives",
+    "freezingTemperaturesDescription": "Des températures en dessous de zéro sont attendues. Du verglas peut être présent sur la route. Utilisez l'équipement hivernal adapté.",
+    "airQualityWarning": "😷 Mauvaise qualité de l'air (Smog)",
     "airQualityWarningDescription": "Le niveau actuel de pollution est élevé. Le vélo augmente l'oxygénation — envisagez de reporter votre sortie ou de changer de trajet.",
-    "strongWind": "💨 Vent Fort",
-    "strongWindDescription": "Rafales de vent fortes attendues (≥30 km/h). Faites attention, surtout sur les sections exposées et les ponts.",
-    "iceRisk": "🧊 Risque de Verglas",
-    "iceRiskDescription": "Températures proches de zéro avec humidité ou précipitations augmentent le risque de verglas. Évitez les manœuvres brusques."
+    "strongWind": "💨 Vent fort",
+    "strongWindDescription": "De fortes rafales de vent sont attendues (≥30 km/h). Faites attention, surtout sur les sections exposées et les ponts.",
+    "iceRisk": "🧊 Risque de verglas",
+    "iceRiskDescription": "Des températures proches de zéro avec humidité ou précipitations augmentent le risque de verglas. Évitez les manœuvres brusques."
   },
   "hourlyChart": {
     "precipitation": "Pluie"
   },
   "advice": {
-    "icyRoad": "Risque de verglas sur la route — utilisez l'équipement hivernal ou reportez votre balade.",
+    "icyRoad": "Risque de verglas sur la route — équipez-vous pour l'hiver ou reportez votre sortie.",
     "toxicAir": "Qualité de l'air dangereuse — évitez les efforts en plein air immédiatement.",
-    "moderateAir": "Mauvaise qualité de l'air pour le cyclisme. Envisagez de reporter ou de choisir un itinéraire moins pollué.",
-    "heavyRainNow": "De fortes pluies tombent maintenant. Une protection contre la pluie est recommandée.",
+    "moderateAir": "La qualité de l'air n'est pas idéale pour le cyclisme. Envisagez de reporter ou de choisir un itinéraire moins pollué.",
+    "heavyRainNow": "De fortes pluies tombent actuellement. Une protection contre la pluie est recommandée.",
     "highRainRisk": "Très forte probabilité de pluie dans les prochaines heures. Prévoyez une protection pluvieuse ou reportez votre sortie.",
-    "extremeHeat": "Avertissement de chaleur extrême — températures supérieures à 35°C. Hydratez-vous bien et roulez tôt le matin ou le soir.",
-    "extremeWind": "Conditions de vent extrêmes attendues (≥40 km/h). Déconseillé pour la sécurité cycliste.",
-    "strongWindAdvice": "Risque de fort vent contraire (30–39 km/h). Planifiez votre itinéraire pour minimiser l'exposition au vent.",
-    "cold": "Températures froides en dessous de 5°C. Mettez des couches chaudes et protégez les parties exposées du corps.",
+    "extremeHeat": "Alerte forte chaleur — températures supérieures à 35°C. Hydratez-vous bien et roulez tôt le matin ou le soir.",
+    "extremeWind": "Conditions de vent extrêmes attendues (≥40 km/h). Déconseillé pour votre sécurité.",
+    "strongWindAdvice": "Risque de fort vent de face (30–39 km/h). Planifiez votre itinéraire pour minimiser l'exposition au vent.",
+    "cold": "Températures froides en dessous de 5°C. Habillez-vous chaudement et protégez les parties exposées du corps.",
     "perfectConditions": "Conditions parfaites pour le vélo ! Profitez de la balade !",
-    "warmHydrate": "Conditions chaudes — hydratez-vous régulièrement, surtout sur les longues distances.",
+    "warmHydrate": "Il fait chaud — hydratez-vous régulièrement, surtout sur les longues distances.",
     "greatWeather": "Excellent temps pour rouler. Profitez de votre sortie à vélo !",
-    "mixedConditions": "Conditions de mixtes aujourd'hui. Faites attention et vérifiez les prévisions locales."
+    "mixedConditions": "Les conditions sont variables aujourd'hui. Faites attention et vérifiez les prévisions locales."
   },
   "language": {
     "title": "Langue",
@@ -154,15 +154,15 @@
     "french": "Français",
     "russian": "Русский",
     "ukrainian": "Українська",
-    "systemDefault": "Défaut du Système"
+    "systemDefault": "Langue du système"
   },
   "loading": {
     "weatherData": "Chargement des données météo...",
     "searching": "Recherche de villes..."
   },
   "error": {
-    "default": "Quelque chose s'est mal passé. Veuillez réessayer.",
+    "default": "Une erreur s'est produite. Veuillez réessayer.",
     "noWeather": "Impossible de charger les données météo. Vérifiez votre connexion et réessayez.",
-    "noCityFound": "Aucune ville trouvée. Essayez un autre terme."
+    "noCityFound": "Aucune ville trouvée. Essayez une autre recherche."
   }
 }
