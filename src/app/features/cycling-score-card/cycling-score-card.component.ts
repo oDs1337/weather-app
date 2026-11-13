@@ -118,6 +118,12 @@ export class CyclingScoreCardComponent {
     return this._colorMap[this.scoreGroup()] ?? '#FFAB00';
   }
 
+  /** Colour at the END of the progress gradient (the tip color). */
+  endpointColor(): string {
+    const colors = this._gradientMap[this.scoreGroup()] ?? ['#FFD700', '#FF8C00'];
+    return colors[1]; // second stop is the end-of-line color
+  }
+
   /** Gradient stops as "color1 color2" string for inline gradient binding. */
   gradientStops(): [string, string] {
     const colors = this._gradientMap[this.scoreGroup()] ?? ['#FFD700', '#FF8C00'];
