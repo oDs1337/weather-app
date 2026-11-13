@@ -1,6 +1,6 @@
 /* ============================================================
-   VELORA — Cycling Score Card Component Styles (Phase 3)
-   Premium Alpine Precision • Mobile-first
+   VELORA — Cycling Score Card Component Styles (Phase 4)
+   Premium Radial Progress Chart • Dark Theme
    ============================================================ */
 
 .cycling-score-card {
@@ -32,7 +32,7 @@
   }
 }
 
-/* ---------- Hero score area ---------- */
+/* ---------- Hero score area wrapper ---------- */
 .hero-score {
   display: flex;
   flex-direction: column;
@@ -40,84 +40,115 @@
   padding: var(--space-xl) var(--space-md) var(--space-lg);
 }
 
-.score-ring {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  margin-bottom: var(--space-md);
+/* ===== Premium Score Card (blends with parent module bg) ===== */
+.score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 32px;
 
-  svg {
+  /* Inherits background from parent .cycling-score-card — no duplicate bg */
+}
+
+/* ===== Radial Chart Container ===== */
+.radial-chart-container {
+  position: relative;
+  width: 140px; // Mobile base size — scales on tablet
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .radial-chart {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    // rotation happens implicitly via stroke-dashoffset starting from top (SVG default arc starts at 3 o'clock, dash offset pushes it to 12)
+
+    /* Inactive track — thin, semi-transparent white */
+    .track-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 6; // Thinner than active track
+      stroke-linecap: round;
+    }
+
+    /* Active progress track — thick with gradient and glow */
+    .track-active {
+      fill: none;
+      stroke-width: 10; // Thick premium feel
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1); // Smooth eased animation
+    }
   }
 
-  /* Dynamic ring colour based on score group */
-  &.excellent .ring-progress,
-  &:has(> .score-display.excellent) .ring-progress {
-    stroke: var(--color-positive);
-  }
+  /* Centered Typography Overlay */
+  .score-text {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-  &.good .ring-progress {
-    stroke: #B8E054;
-  }
+    .main-number {
+      font-size: 48px;
+      font-weight: 800; // Extra bold
+      color: #ffffff;
+      line-height: 1;
+      letter-spacing: -1.5px;
+    }
 
-  &.fair .ring-progress {
-    stroke: var(--score-fair, #E8C45A);
-  }
-
-  &.poor .ring-progress {
-    stroke: var(--score-poor, #E8735A);
+    .sub-number {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.4); // Muted secondary
+      margin-top: 2px;
+      line-height: 1;
+    }
   }
 }
 
-.score-display {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.score-number {
-  display: block;
-  font-size: var(--text-3xl);
+/* ===== Pill Status Badge ===== */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px; // Perfect pill shape
+  font-size: 13px;
   font-weight: 700;
-  line-height: 1.1;
-  color: var(--color-text-primary);
-}
+  letter-spacing: 0.25px;
 
-.score-suffix {
-  display: block;
-  font-size: var(--text-sm);
-  opacity: 0.6;
-  margin-top: 2px;
-  color: var(--color-text-secondary);
-}
-
-.rating-label {
-  margin: 0;
-  font-size: var(--text-md);
-  font-weight: 500;
-  line-height: 1.3;
-  text-align: center;
-  max-width: 280px;
-
-  &.excellent,
-  &:has(> svg.excellent) {
-    color: var(--color-positive);
+  .badge-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
   }
 
-  &.good {
-    color: #B8E054;
+  /* Moderate / fair — amber variant */
+  &.status-moderate {
+    background-color: rgba(255, 171, 0, 0.12); // Highly transparent amber bg
+    color: #FFAB00; // Solid amber text + icon inherits via stroke="currentColor"
   }
 
-  &.fair {
-    color: var(--score-fair, #E8C45A);
+  /* Excellent — green variant */
+  &.status-excellent {
+    background-color: rgba(0, 200, 83, 0.12);
+    color: #00C853;
   }
 
-  &.poor {
-    color: var(--score-poor, #E8735A);
+  /* Poor — red variant */
+  &.status-poor {
+    background-color: rgba(255, 61, 0, 0.12);
+    color: #FF3D00;
   }
+
+  /* Good — no extra class needed (inherits from component defaults) */
 }
 
 /* ---------- Subscores ---------- */
@@ -190,19 +221,19 @@
   &.fair {
     .icon-wrapper,
     .subscore-score {
-      color: var(--score-fair, #E8C45A);
+      color: var(--score-fair, #FFAB00);
     }
   }
 
   &.poor {
     .icon-wrapper,
     .subscore-score {
-      color: var(--score-poor, #E8735A);
+      color: var(--score-poor, #FF3D00);
     }
   }
 }
 
-/* ---------- Status badges ---------- */
+/* ---------- Status badges (sub-scores) ---------- */
 .status-badges {
   padding: var(--space-sm) var(--space-md) var(--space-lg);
   display: flex;
@@ -230,16 +261,16 @@
 
   &.fair {
     background: rgba(232, 196, 90, 0.12);
-    color: var(--score-fair, #E8C45A);
+    color: var(--score-fair, #FFAB00);
   }
 
   &.poor {
     background: rgba(232, 115, 90, 0.12);
-    color: var(--score-poor, #E8735A);
+    color: var(--score-poor, #FF3D00);
   }
 }
 
-/* ---------- Tablet+ ---------- */
+/* ========== Tablet+ (≥768px) ========== */
 @media (min-width: 768px) {
   .cycling-score-card {
     border-radius: var(--radius-xl);
@@ -261,23 +292,33 @@
       padding: 2.5rem var(--space-2xl) 2rem;
     }
 
-    .score-ring {
-      width: 160px;
-      height: 160px;
-      margin-bottom: 1.5rem;
+    /* Scale up the premium score card */
+    .score-card {
+      border-radius: 24px; // Keep rounded corners
+      padding: 36px 36px 32px;
+      gap: 28px;
     }
 
-    .score-number {
-      font-size: 3rem;
+    /* Larger chart on tablet */
+    .radial-chart-container {
+      width: 170px;
+      height: 170px;
+
+      .score-text {
+        .main-number {
+          font-size: 56px;
+        }
+
+        .sub-number {
+          font-size: 16px;
+        }
+      }
     }
 
-    .score-suffix {
-      font-size: var(--text-md);
-    }
-
-    .rating-label {
-      font-size: var(--text-lg);
-      max-width: 320px;
+    /* Slightly bigger badge */
+    .status-badge {
+      font-size: 14px;
+      padding: 10px 20px;
     }
 
     .subscores {
@@ -314,9 +355,28 @@
   }
 }
 
+/* ========== Desktop+ (≥1024px) ========== */
+@media (min-width: 1024px) {
+  .radial-chart-container {
+    width: 180px;
+    height: 180px;
+
+    .score-text {
+      .main-number {
+        font-size: 60px;
+        letter-spacing: -2px;
+      }
+
+      .sub-number {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .score-ring svg circle.ring-progress {
-    transition: none;
+  .track-active {
+    transition: none !important;
   }
 }
