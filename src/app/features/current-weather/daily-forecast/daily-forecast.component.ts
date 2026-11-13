@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { WeatherIconService } from '../../../../app/core/utils/weather-icon-svg.service';
 import { LanguageService } from '../../../../app/core/services/language.service';
 import { DailyWeather } from '../../../../core/models/weather.model';
@@ -17,9 +17,6 @@ export class DailyForecastComponent {
   private languageService = inject(LanguageService);
 
   daily = input.required<DailyWeather[]>();
-
-  /** Render inline SVG for a weather code (with HTML trust bypass). */
-  readonly iconSvg: (code: number) => SafeHtml = (code: number) => this.sanitizer.bypassSecurityTrustHtml(this.iconService.renderIcon(code, 28));
 
   /** Day name in the user's language. */
   dayName(dateString: string): string {
@@ -48,6 +45,69 @@ export class DailyForecastComponent {
     if (isNaN(date.getTime())) return '';
 
     return date.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+  }
+
+  /**
+   * Parse an ISO date/time string (YYYY-MM-DD or YYYY-MM-DDTHH:MM) and return the hour.
+   * Returns null on failure.
+   */
+  private parseHour(isoString: string): number | null {
+    try {
+      if (!isoString || isoString.length < 13) return null;
+      const timePart = isoString.slice(11); // "HH:..." or similar
+      const colonIdx = timePart.indexOf(':');
+      if (colonIdx <= 0) return null;
+      const hour = parseInt(timePart.slice(0, colonIdx), 10);
+      if (isNaN(hour)) return null;
+      return hour;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Derive the best day/night variant for a daily forecast row.
+   *
+   * Daily forecasts represent full calendar days — each card spans sunrise
+   * to sunrise of the next day. We use the row's own `sunrise` and `sunset`
+   * timestamps to determine when daylight occurs, then pick the part of the
+   * cycle that is longer:
+   *  - If daylight ≥ night → 'day' (most common in temperate latitudes)
+   *  - Otherwise              → 'night' (high-latitude winter, polar regions)
+   */
+  private determineDailyVariant(dayData: DailyWeather): 'day' | 'night' {
+    const sunriseHour = this.parseHour(dayData.sunrise);
+    const sunsetHour = this.parseHour(dayData.sunset);
+
+    // Both timestamps required to compute daylight duration reliably.
+    if (sunriseHour === null || sunsetHour === null) return 'day';
+
+    try {
+      let daylightHours = sunsetHour - sunriseHour;
+      // If sunset < sunrise the day spans midnight (e.g. polar regions); treat as full 24 h day.
+      if (daylightHours < 0) daylightHours += 24;
+
+      const nightHours = 24 - daylightHours;
+
+      return daylightHours >= nightHours ? 'day' : 'night';
+    } catch {
+      return 'day';
+    }
+  }
+
+  /** Build asset URL for a weather icon using central resolve(). */
+  iconSrc(dayData: DailyWeather): SafeUrl {
+    const variant = this.determineDailyVariant(dayData);
+    const resolution = this.iconService.resolve(dayData.weather_code, { forceVariant: variant });
+
+    let filename: string;
+    if (resolution.group === 'overcast' && !resolution.filename.startsWith('weather-overcast')) {
+      filename = 'assets/icons/velora/weather-overcast.svg';
+    } else {
+      filename = `assets/icons/velora/${resolution.filename}.svg`;
+    }
+
+    return this.sanitizer.bypassSecurityTrustUrl(filename);
   }
 
   // ---- Localised day names (unchanged logic from previous phases) ----

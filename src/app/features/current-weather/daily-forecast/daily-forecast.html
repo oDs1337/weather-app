@@ -9,8 +9,8 @@
         <span class="day-date">{{ dayDate(day.time) }}</span>
       </div>
 
-      <!-- Weather icon — inline SVG, no emoji -->
-      <span class="weather-icon" aria-hidden="true" [innerHTML]="iconSvg(day.weather_code)"></span>
+      <!-- Weather icon — premium SVG asset, no emoji -->
+      <img class="weather-icon" [attr.src]="iconSrc(day)" alt="Weather icon"/>
 
       <!-- High / Low temperatures (tabular numerals for alignment) -->
       <div class="temps">

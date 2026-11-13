@@ -1,7 +1,9 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, computed, input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CyclingScore } from '../../../core/models/weather.model';
+import { WeatherIconService } from '../../../app/core/utils/weather-icon-svg.service';
 
 @Component({
   selector: 'app-cycling-score-card',
@@ -15,6 +17,50 @@ export class CyclingScoreCardComponent {
   city = input<string>('Your City');
 
   private translate = inject(TranslateService);
+  private sanitizer = inject(DomSanitizer);
+  private iconService = inject(WeatherIconService);
+
+  /** SafeUrl for the temperature metric icon asset. */
+  temperatureIconSrc(): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(
+      this.iconService.iconSrc('metric-temperature.svg')
+    );
+  }
+
+  /** SafeUrl for the precipitation metric icon asset. */
+  precipitationIconSrc(): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(
+      this.iconService.iconSrc('metric-precipitation.svg')
+    );
+  }
+
+  /** SafeUrl for the air quality metric icon asset. */
+  airQualityIconSrc(): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(
+      this.iconService.iconSrc('metric-air-quality.svg')
+    );
+  }
+
+  /** SafeUrl for the UV index metric icon asset. */
+  uvIndexIconSrc(): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(
+      this.iconService.iconSrc('metric-uv.svg')
+    );
+  }
+
+  /** SafeUrl for the humidity metric icon asset. */
+  humidityIconSrc(): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(
+      this.iconService.iconSrc('metric-humidity.svg')
+    );
+  }
+
+  /** SafeUrl for the wind metric icon asset (reuses existing weather-wind). */
+  windIconSrc(): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(
+      this.iconService.iconSrc('weather-wind.svg')
+    );
+  }
 
   /** CSS class for a given numeric score */
   getScoreClass(score: number): string {

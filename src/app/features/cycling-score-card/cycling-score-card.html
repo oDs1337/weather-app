@@ -39,17 +39,17 @@
         <!-- SVG icon -->
         <span class="icon-wrapper" aria-hidden="true">
           @if (item.icon === 'temperature') {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.67V6a2 2 0 1 0-4 0v8.67"/><path d="M12 10.5V19a4 4 0 1 0 4 0V10.5h-4z"/><line x1="8" y1="4" x2="16" y2="4"/></svg>
+            <img [attr.src]="temperatureIconSrc()" alt="{{ 'cyclingScore.temperature' | translate }}"/>
           } @else if (item.icon === 'wind') {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 7.36H3a3 3 0 0 0 0 5.8h6.5"/><path d="M14.24 7.36H21a3 3 0 0 1 0 5.8h-6.76"/><polyline points="9.5 10.96 12.17 8 9.5 5.04"/></svg>
+            <img [attr.src]="windIconSrc()" alt="{{ item.titleKey | translate }}"/>
           } @else if (item.icon === 'precipitation') {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16a3 3 0 1 0 4 0c0-1.95-2-3-2-5.5 0-2.87-2.5-5-5-5 0 3.27 4 4 4 7 0 2.5-2 3.5-2 5.5z"/><path d="M16 16v2"/><path d="M8 19v2"/></svg>
+            <img [attr.src]="precipitationIconSrc()" alt="{{ item.titleKey | translate }}"/>
           } @else if (item.icon === 'airQuality') {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3m0 12v3M3 12h3m12 0h3"/></svg>
+            <img [attr.src]="airQualityIconSrc()" alt="{{ item.titleKey | translate }}"/>
           } @else if (item.icon === 'uvIndex') {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 3v2m0 14v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M3 12h2m14 0h2"/></svg>
+            <img [attr.src]="uvIndexIconSrc()" alt="{{ item.titleKey | translate }}"/>
           } @else {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4 7 11 7 11s7-7 11-11a7 7 0 0 0-7-7z"/><path d="M9 10a1.5 1.5 0 0 0 3 0 1.5 1.5 0 0 0-3 0"/></svg>
+            <img [attr.src]="humidityIconSrc()" alt="{{ item.titleKey | translate }}"/>
           }
         </span>
 

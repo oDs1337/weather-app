@@ -11,16 +11,18 @@
         <!-- Time label -->
         <p class="hour-time">{{ hour.time }}:00</p>
 
-        <!-- Weather icon — inline SVG, no emoji -->
-        <span class="weather-icon" aria-hidden="true" [innerHTML]="iconSvg(hour.icon)"></span>
+        <!-- Weather icon — premium SVG asset, no emoji -->
+        <img class="weather-icon" [attr.src]="iconSrc(hour)" alt="Weather icon"/>
 
         <!-- Temperature (primary data point) -->
         <p class="hour-temp">{{ hour.temp }}°</p>
 
-        <!-- Precipitation probability -->
+        <!-- Precipitation probability — SVG raindrop, no emoji -->
         @if (hour.precip != null && hour.precip > 0) {
           <p class="precip-chance">
-            <span class="precip-dot" aria-hidden="true">&#128167;</span> {{ hour.precip }}%
+            <span class="precip-dot" aria-hidden="true">
+              <svg viewBox="0 0 64 64" width="12" height="12" fill="none" stroke="#9BD7E8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 8S18 29 18 37a14 14 0 0 0 28 0C46 29 32 8 32 8Z"/></svg>
+            </span> {{ hour.precip }}%
           </p>
         }
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<defs>
+    <mask id="cloud-mask">
+        <rect width="64" height="64" fill="white"/>
+        <path d="M 22 44 L 42 44 A 10 10 0 0 0 42 24 A 14 14 0 0 0 22 26 A 9 9 0 0 0 22 44 Z" fill="black" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+    <mask id="front-cloud-mask">
+        <rect width="64" height="64" fill="white"/>
+        <path d="M 20 46 L 40 46 A 10 10 0 0 0 40 26 A 14 14 0 0 0 20 28 A 9 9 0 0 0 20 46 Z" fill="black" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+</defs><path d="M 22 44 L 42 44 A 10 10 0 0 0 42 24 A 14 14 0 0 0 22 26 A 9 9 0 0 0 22 44 Z" fill="none" stroke="#9BD7E8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><line x1="22" y1="48" x2="18" y2="58" stroke="#9BD7E8" stroke-width="3" stroke-linecap="round"/><line x1="28" y1="48" x2="24" y2="60" stroke="#9BD7E8" stroke-width="3" stroke-linecap="round"/><line x1="34" y1="48" x2="30" y2="60" stroke="#9BD7E8" stroke-width="3" stroke-linecap="round"/><line x1="40" y1="48" x2="36" y2="58" stroke="#9BD7E8" stroke-width="3" stroke-linecap="round"/>
+</svg>

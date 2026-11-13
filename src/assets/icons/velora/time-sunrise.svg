@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<defs>
+    <mask id="cloud-mask">
+        <rect width="64" height="64" fill="white"/>
+        <path d="M 22 44 L 42 44 A 10 10 0 0 0 42 24 A 14 14 0 0 0 22 26 A 9 9 0 0 0 22 44 Z" fill="black" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+    <mask id="front-cloud-mask">
+        <rect width="64" height="64" fill="white"/>
+        <path d="M 20 46 L 40 46 A 10 10 0 0 0 40 26 A 14 14 0 0 0 20 28 A 9 9 0 0 0 20 46 Z" fill="black" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+</defs><line x1='12' y1='46' x2='52' y2='46' stroke='#91A0AA' stroke-width='3' stroke-linecap='round'/><path d='M 22 46 A 10 10 0 0 1 42 46' fill='none' stroke='#D7F36A' stroke-width='3' stroke-linecap='round'/><line x1='32' y1='30' x2='32' y2='24' stroke='#D7F36A' stroke-width='3' stroke-linecap='round'/><line x1='20.7' y1='34.7' x2='16.5' y2='30.5' stroke='#D7F36A' stroke-width='3' stroke-linecap='round'/><line x1='43.3' y1='34.7' x2='47.5' y2='30.5' stroke='#D7F36A' stroke-width='3' stroke-linecap='round'/>
+</svg>

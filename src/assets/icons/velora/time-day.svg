@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<defs>
+    <mask id="cloud-mask">
+        <rect width="64" height="64" fill="white"/>
+        <path d="M 22 44 L 42 44 A 10 10 0 0 0 42 24 A 14 14 0 0 0 22 26 A 9 9 0 0 0 22 44 Z" fill="black" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+    <mask id="front-cloud-mask">
+        <rect width="64" height="64" fill="white"/>
+        <path d="M 20 46 L 40 46 A 10 10 0 0 0 40 26 A 14 14 0 0 0 20 28 A 9 9 0 0 0 20 46 Z" fill="black" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+</defs><circle cx="32" cy="32" r="10" fill="none" stroke="#D7F36A" stroke-width="3"/>
+<path d="M 32 17 L 32 12 M 32 52 L 32 47 M 17 32 L 12 32 M 52 32 L 47 32 M 21.4 21.4 L 17.8 17.8 M 42.6 42.6 L 46.2 46.2 M 21.4 42.6 L 17.8 46.2 M 42.6 21.4 L 46.2 17.8" fill="none" stroke="#D7F36A" stroke-width="3" stroke-linecap="round"/>
+</svg>
