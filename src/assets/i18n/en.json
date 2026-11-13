@@ -104,6 +104,7 @@
   "forecast": {
     "today": "Today",
     "tomorrow": "Tomorrow",
+    "daily": "7-Day Forecast",
     "monday": "Mon",
     "tuesday": "Tue",
     "wednesday": "Wed",

@@ -104,6 +104,7 @@
   "forecast": {
     "today": "Dziś",
     "tomorrow": "Jutro",
+    "daily": "Prognoza 7-dniowa",
     "monday": "Pon",
     "tuesday": "Wto",
     "wednesday": "Śro",

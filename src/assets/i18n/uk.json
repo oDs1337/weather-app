@@ -64,6 +64,7 @@
   "forecast": {
     "today": "Сьогодні",
     "tomorrow": "Завтра",
+    "daily": "Прогноз на 7 днів",
     "monday": "Пн",
     "tuesday": "Вт",
     "wednesday": "Ср",

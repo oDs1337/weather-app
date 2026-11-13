@@ -64,6 +64,7 @@
   "forecast": {
     "today": "Aujourd'hui",
     "tomorrow": "Demain",
+    "daily": "Prévision sur 7 jours",
     "monday": "Lun",
     "tuesday": "Mar",
     "wednesday": "Mer",

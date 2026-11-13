@@ -1,38 +1,45 @@
-<div class="daily-list" role="list" aria-label="Daily forecast">
+<div class="daily-wrapper">
+  <div class="daily-scroll" role="list" aria-label="Daily forecast" #dailyScroll (scroll)="onScroll()">
 
-  @for (day of daily(); track day.time) {
-    <div class="day-row" role="listitem">
-
-      <!-- Day label + date -->
-      <div class="day-label">
-        <span class="day-name">{{ dayName(day.time) }}</span>
-        <span class="day-date">{{ dayDate(day.time) }}</span>
-      </div>
-
-      <!-- Weather icon — premium SVG asset, no emoji -->
-      <img class="weather-icon" [attr.src]="iconSrc(day)" alt="Weather icon"/>
-
-      <!-- High / Low temperatures (tabular numerals for alignment) -->
-      <div class="temps">
-        <span class="temp-max">{{ day.temperature_2m_max }}°</span>
-        <span class="temp-min">{{ day.temperature_2m_min }}°</span>
-      </div>
-
-      <!-- Precipitation (when > 0) -->
-      @if (day.precipitation_sum != null && day.precipitation_sum > 0) {
-        <span class="detail detail--precip">
-          {{ day.precipitation_sum }} <span class="unit">mm</span>
-        </span>
-      }
-
-      <!-- Max wind speed (when > 0) -->
-      @if (day.windspeed_10m_max != null && day.windspeed_10m_max > 0) {
-        <span class="detail detail--wind">
-          {{ day.windspeed_10m_max }} <span class="unit">km/h</span>
-        </span>
-      }
-
+    <!-- Left scroll indicator -->
+    <div class="scroll-arrow scroll-left">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </div>
-  }
 
+    @for (day of daily(); track day.time) {
+      <div class="day-card" role="listitem">
+
+        <!-- Day name + date -->
+        <p class="day-label">{{ dayName(day.time) }}<br>{{ dayDate(day.time) }}</p>
+
+        <!-- Weather icon — premium SVG asset, no emoji -->
+        <img class="weather-icon" [attr.src]="iconSrc(day)" alt="Weather icon"/>
+
+        <!-- High / Low temperatures -->
+        <p class="day-temp">
+          <span class="temp-max">{{ day.temperature_2m_max }}°</span>
+          <span class="temp-min">/{{ day.temperature_2m_min }}°</span>
+        </p>
+
+        <!-- Precipitation (when > 0) -->
+        @if (day.precipitation_sum != null && day.precipitation_sum > 0) {
+          <p class="detail--precip">
+            {{ day.precipitation_sum }} <small>mm</small>
+          </p>
+        }
+
+        <!-- Max wind speed (when > 0) -->
+        @if (day.windspeed_10m_max != null && day.windspeed_10m_max > 0) {
+          <p class="detail--wind">{{ day.windspeed_10m_max }} km/h</p>
+        }
+
+      </div>
+    }
+
+    <!-- Right scroll indicator -->
+    <div class="scroll-arrow scroll-right" [class.is-visible]="hasMore()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+  </div>
 </div>

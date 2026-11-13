@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ElementRef, ViewChild, signal, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { WeatherIconService } from '../../../../app/core/utils/weather-icon-svg.service';
 import { LanguageService } from '../../../../app/core/services/language.service';
@@ -11,12 +11,31 @@ import { DailyWeather } from '../../../../core/models/weather.model';
   templateUrl: './daily-forecast.html',
   styleUrl: './daily-forecast.scss',
 })
-export class DailyForecastComponent {
+export class DailyForecastComponent implements OnInit {
   private sanitizer = inject(DomSanitizer);
   private iconService = inject(WeatherIconService);
   private languageService = inject(LanguageService);
+  private elRef = inject(ElementRef);
 
   daily = input.required<DailyWeather[]>();
+  hasMore = signal(false);
+
+  @ViewChild('dailyScroll', { static: false }) dailyScroll!: ElementRef;
+
+  ngOnInit(): void {
+    this.checkScroll();
+  }
+
+  /** Check if the scroll container has more content to show. */
+  checkScroll(): void {
+    const el = this.dailyScroll?.nativeElement as HTMLElement | undefined;
+    if (!el) return;
+    this.hasMore.set(el.scrollWidth > el.clientWidth);
+  }
+
+  onScroll(): void {
+    this.checkScroll();
+  }
 
   /** Day name in the user's language. */
   dayName(dateString: string): string {
