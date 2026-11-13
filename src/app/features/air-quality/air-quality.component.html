@@ -53,15 +53,5 @@
         <span class="aq-detail-value">—</span>
       }
     </div>
-
-    <!-- NO2 -->
-    <div class="aq-detail-item" [class]="getAqClass(data.no2)">
-      <span class="aq-detail-label">{{ 'airQuality.no2' | translate }}</span>
-      @if (isDataAvailable('no2')) {
-        <span class="aq-detail-value">{{ data.no2 }}<small>μg/m³</small></span>
-      } @else {
-        <span class="aq-detail-value">—</span>
-      }
-    </div>
   </div>
 </div>

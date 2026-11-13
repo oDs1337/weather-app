@@ -64,7 +64,6 @@ export class AirQualityComponent {
       case 'pm25': return this.data.pm25 > 0;
       case 'pm10': return this.data.pm10 > 0;
       case 'o3': return this.data.o3 > 0;
-      case 'no2': return this.data.no2 > 0;
       default: return false;
     }
   }
