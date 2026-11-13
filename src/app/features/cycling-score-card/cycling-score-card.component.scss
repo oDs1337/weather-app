@@ -84,6 +84,19 @@
       stroke-linecap: round;
       transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1); // Smooth eased animation
     }
+
+    /* Centered Typography Overlay */
+  }
+
+  /* Dot at the end of progress arc (HTML div, absolutely positioned inside container) */
+  .endpoint-dot {
+    position: absolute;
+    width: 18px; // r=9 → diameter 18
+    height: 18px;
+    border-radius: 50%;
+    background-color: #FFAB00; // amber fill — no border
+    z-index: 20; // above score-text (z-index: 10) and SVG (implicit stacking)
+    transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1), top 1.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Centered Typography Overlay */

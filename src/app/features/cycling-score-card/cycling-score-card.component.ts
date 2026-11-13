@@ -56,6 +56,36 @@ export class CyclingScoreCardComponent {
     return `url(#${this.gradientId()})`;
   }
 
+  /** X/Y position of the dot at the end of the progress arc (rotated -90°, starts from top). */
+
+  endpointDotX(): number {
+    const p = this.overallScore() / 100;
+    if (p <= 0 || isNaN(p)) return 70; // center-top fallback for score=0 or null
+    const angle = p * 2 * Math.PI; // radians from top, clockwise
+    return 70 + 55 * Math.sin(angle);
+  }
+
+  endpointDotY(): number {
+    const p = this.overallScore() / 100;
+    if (p <= 0 || isNaN(p)) return 15; // top-most point for score=0 or null
+    const angle = p * 2 * Math.PI;
+    return 70 - 55 * Math.cos(angle);
+  }
+
+  /** Inline transform string for SVG dot position. */
+  endpointDotTransform(): string {
+    const x = this.endpointDotX();
+    const y = this.endpointDotY();
+    return `translate(${x - 70}, ${y - 70})`; // offset from cx=70 cy=70 center
+  }
+
+  /** Debug: returns score for template display. */
+  debugScore(): string {
+    const x = this.endpointDotX();
+    const y = this.endpointDotY();
+    return `${this.overallScore()}% → X=${x.toFixed(1)}, Y=${y.toFixed(1)}`;
+  }
+
   /* ────────────────────────────────────────
      Colour / badge helpers (driven by score group)
      ──────────────────────────────────────── */

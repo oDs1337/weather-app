@@ -44,9 +44,16 @@
             stroke-linecap="round"
             transform="rotate(-90 70 70)"
           />
-        </svg>
 
-        <!-- Centered typography: large score number + max suffix -->
+          <!-- Dot at the end of progress arc (SVG circle, positioned on the track edge) -->
+          <circle 
+            [attr.cx]="endpointDotX()" 
+            [attr.cy]="endpointDotY()" 
+            r="9" 
+            fill="#FFAB00"
+          />
+
+        </svg>
         <div class="score-text">
           <span class="main-number">{{ overallScore() }}</span>
           <span class="sub-number">/100</span>
