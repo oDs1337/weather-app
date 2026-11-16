@@ -16,6 +16,7 @@ import { WeatherIconService } from '../../../app/core/utils/weather-icon-svg.ser
 export class CyclingScoreCardComponent {
   score = input.required<CyclingScore>();
   city = input<string>('Your City');
+  pm25 = input<number>(0);
 
   private translate = inject(TranslateService);
   private sanitizer = inject(DomSanitizer);
@@ -24,6 +25,29 @@ export class CyclingScoreCardComponent {
 
   goBack(): void {
     this.router.navigate(['/']);
+  }
+
+  /** PM2.5 severity class matching air-quality.component thresholds */
+  getAqClass(): string {
+    const value = this.pm25();
+    if (value <= 12) return 'aq-good';
+    if (value <= 35.4) return 'aq-moderate';
+    if (value <= 55.4) return 'aq-unhealthy-sensitive';
+    if (value <= 150.4) return 'aq-unhealthy';
+    return 'aq-very-unhealthy';
+  }
+
+  /** Air quality colour for city name */
+  getCityColor(): string {
+    const cls = this.getAqClass();
+    const colors: Record<string, string> = {
+      'aq-good': '#6BCB77',
+      'aq-moderate': 'var(--score-fair, #FFAB00)',
+      'aq-unhealthy-sensitive': 'var(--color-warning, #F29F03)',
+      'aq-unhealthy': 'var(--color-critical, #E8735A)',
+      'aq-very-unhealthy': '#C41E0D',
+    };
+    return colors[cls] ?? 'var(--color-text-secondary)';
   }
 
   /* ────────────────────────────────────────

@@ -12,7 +12,8 @@
         <!-- Cycling Score Card (main hero) -->
         <app-cycling-score-card 
           [score]="cyclingScore()!" 
-          [city]="selectedCityName()" 
+          [city]="selectedCityName()"
+          [pm25]="airQuality()?.pm25 ?? 0"
         />
 
         <!-- Dynamic Advice Box — contextual, colour-coded -->
