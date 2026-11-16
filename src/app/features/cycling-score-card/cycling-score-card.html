@@ -64,10 +64,7 @@
       </div>
 
       <!-- Status pill badge with warning SVG icon + translated label -->
-      <div 
-        class="status-badge"
-        [class]="badgeClass()"
-      >
+      <div class="status-badge" [class]="badgeClass()">
         <!-- Warning triangle SVG icon (stroke-based, no emojis) -->
         <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
@@ -76,6 +73,13 @@
         </svg>
         <span>{{ getOverallLabel() }}</span>
       </div>
+
+      <!-- Dynamic Advice text under the badge -->
+      @if (adviceHasContent()) {
+        <div class="advice-text">
+          {{ dynamicAdvice() | translate }}
+        </div>
+      }
 
     </div>
   </section>

@@ -6,49 +6,17 @@
   } @else if (data() && cyclingScore()) {
     <div class="weather-content fade-in-up">
 
-      <!-- ════════ HERO: Cycling Score + Dynamic Advice ════════ -->
+      <!-- ════════ HERO: Cycling Score (with advice inside) ════════ -->
       <section class="hero-section">
 
-        <!-- Cycling Score Card (main hero) -->
+        <!-- Cycling Score Card — receives dynamicAdvice as input -->
         <app-cycling-score-card 
           [score]="cyclingScore()!" 
           [city]="selectedCityName()"
           [pm25]="airQuality()?.pm25 ?? 0"
+          [dynamicAdvice]="dynamicAdvice()"
         />
 
-        <!-- Dynamic Advice Box — contextual, colour-coded -->
-        @if (dynamicAdvice()) {
-          <div class="advice-box fade-in-up">
-            <!-- Icon: positive / warning / danger based on score group -->
-            <span class="advice-icon" aria-hidden="true">
-              @if ((cyclingScore()?.overall ?? 0) >= 80) {
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4 7 11 7 11s7-7 7-11a7 7 0 0 0-7-7z"/><path d="M9 10a1.5 1.5 0 0 0 3 0 1.5 1.5 0 0 0-3 0"/></svg>
-              } @else if ((cyclingScore()?.overall ?? 0) >= 60) {
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 7.36H3a3 3 0 0 0 0 5.8h6.5"/><path d="M14.24 7.36H21a3 3 0 0 1 0 5.8h-6.76"/><polyline points="9.5 10.96 12.17 8 9.5 5.04"/></svg>
-              } @else if ((cyclingScore()?.overall ?? 0) >= 40) {
-                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M32 7 58 53H6L32 7Z"/><path d="M32 23v14M32 44v1"/></svg>
-              } @else {
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 13.5 11 16l5-7"/><line x1="12" y1="22" x2="12" y2="18"/><circle cx="12" cy="11" r="9"/></svg>
-              }
-            </span>
-
-            <div class="advice-content">
-              <!-- Group label -->
-              @if ((cyclingScore()?.overall ?? 0) >= 80) {
-                <span class="advice-label advice-label--excellent">{{ 'cyclingScore.excellent' | translate }}</span>
-              } @else if ((cyclingScore()?.overall ?? 0) >= 60) {
-                <span class="advice-label advice-label--good">{{ 'cyclingScore.good' | translate }}</span>
-              } @else if ((cyclingScore()?.overall ?? 0) >= 40) {
-                <span class="advice-label advice-label--fair">{{ 'cyclingScore.moderate' | translate }}</span>
-              } @else {
-                <span class="advice-label advice-label--poor">{{ 'cyclingScore.poor' | translate }}</span>
-              }
-
-              <!-- Advisory message -->
-              <p>{{ dynamicAdvice() | translate }}</p>
-            </div>
-          </div>
-        }
       </section>
 
       <!-- ════════ Alerts ════════ -->

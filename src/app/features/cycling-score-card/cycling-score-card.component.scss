@@ -200,6 +200,14 @@
   /* Good — no extra class needed (inherits from component defaults) */
 }
 
+/* ════════ Dynamic Advice Text ════════ */
+.advice-text {
+  font-size: var(--text-md);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  padding: 0 var(--space-sm) var(--space-sm);
+}
+
 /* ---------- Subscores ---------- */
 .subscores {
   padding: 0 var(--space-md) var(--space-md);

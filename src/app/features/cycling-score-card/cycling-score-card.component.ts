@@ -17,6 +17,7 @@ export class CyclingScoreCardComponent {
   score = input.required<CyclingScore>();
   city = input<string>('Your City');
   pm25 = input<number>(0);
+  dynamicAdvice = input<string>('');
 
   private translate = inject(TranslateService);
   private sanitizer = inject(DomSanitizer);
@@ -57,6 +58,50 @@ export class CyclingScoreCardComponent {
   /** The numeric score (0–100). */
   overallScore() {
     return this.score().overall ?? 0;
+  }
+
+  /* ────────────────────────────────────────
+     Dynamic Advice helpers
+     ──────────────────────────────────────── */
+
+  adviceHasContent(): boolean {
+    return !!this.dynamicAdvice()?.trim();
+  }
+
+  /** CSS class for the label based on overall score. */
+  adviceLabelClass(): string {
+    const s = this.overallScore();
+    if (s >= 80) return 'advice-label--excellent';
+    if (s >= 60) return 'advice-label--good';
+    if (s >= 40) return 'advice-label--fair';
+    return 'advice-label--poor';
+  }
+
+  /** SVG icon for the advice box based on overall score. */
+  adviceIconType(): string {
+    const s = this.overallScore();
+    if (s >= 80) return 'good';
+    if (s >= 60) return 'traffic';
+    if (s >= 40) return 'warning';
+    return 'danger';
+  }
+
+  /** Icon colour for the advice box based on overall score. */
+  adviceIconBgColor(): string {
+    const s = this.overallScore();
+    if (s >= 80) return '#E7F945';
+    if (s >= 60) return '#FFD145';
+    if (s >= 40) return '#FFAB00';
+    return '#FF3D00';
+  }
+
+  /** Overall label text key for the advice box. */
+  adviceLabelKey(): string {
+    const s = this.overallScore();
+    if (s >= 80) return 'cyclingScore.excellent';
+    if (s >= 60) return 'cyclingScore.good';
+    if (s >= 40) return 'cyclingScore.moderate';
+    return 'cyclingScore.poor';
   }
 
   /** SVG circle circumference for r=55: 2 × π × 55 ≈ 345.58. */
