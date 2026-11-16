@@ -28,9 +28,9 @@ export class CurrentWeatherCardComponent {
     let filename: string;
     if (resolution.group === 'overcast' && !resolution.filename.startsWith('weather-overcast')) {
       // Fallback group — ensure we have a valid file
-      filename = 'assets/icons/velora/weather-overcast.svg';
+      filename = '/assets/icons/velora/weather-overcast.svg';
     } else {
-      filename = `assets/icons/velora/${resolution.filename}.svg`;
+      filename = `/assets/icons/velora/${resolution.filename}.svg`;
     }
 
     return this.sanitizer.bypassSecurityTrustUrl(filename);

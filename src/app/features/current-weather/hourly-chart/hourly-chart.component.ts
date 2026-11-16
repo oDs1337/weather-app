@@ -50,9 +50,9 @@ export class HourlyChartComponent {
 
     let filename: string;
     if (resolution.group === 'overcast' && !resolution.filename.startsWith('weather-overcast')) {
-      filename = 'assets/icons/velora/weather-overcast.svg';
+      filename = '/assets/icons/velora/weather-overcast.svg';
     } else {
-      filename = `assets/icons/velora/${resolution.filename}.svg`;
+      filename = `/assets/icons/velora/${resolution.filename}.svg`;
     }
 
     return this.sanitizer.bypassSecurityTrustUrl(filename);

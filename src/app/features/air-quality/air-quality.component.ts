@@ -68,6 +68,15 @@ export class AirQualityComponent {
     }
   }
 
+  // Ozone (O₃) short label — same AQ thresholds
+  getO3Label(o3?: number): string {
+    const value = o3 ?? 0;
+    if (value === 0 && !this.isDataAvailable('o3')) return '—';
+    // O₃ WHO guideline: 100 μg/m³ 8h mean, EU 120
+    const key = value <= 100 ? 'good' : value <= 168 ? 'moderate' : value <= 375 ? 'unhealthySensitive' : value <= 785 ? 'unhealthy' : 'veryUnhealthy';
+    return this.translateService.instant(`airQuality.${key}`);
+  }
+
   // Aqi icon helper — kept for compatibility, returns CSS class name
   getAqiIconClass(pm25?: number): string {
     return this.getAqClass(pm25);

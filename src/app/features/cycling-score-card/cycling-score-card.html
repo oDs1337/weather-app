@@ -98,19 +98,16 @@
           }
         </span>
 
-        <!-- Label and value -->
+        <!-- Label + inline status badge -->
         <div class="subscore-info">
           <span class="subscore-title">{{ item.titleKey | translate }}</span>
+          <span class="badge inline-badge" [class]="item.group">{{ item.status }}</span>
         </div>
+
+        <!-- Score pushed to the right -->
         <span class="subscore-score" aria-label="{{ item.value }} out of 100">{{ item.value }}/100</span>
       </div>
     }
   </section>
 
-  <!-- Status badges row -->
-  <section class="status-badges">
-    @for (item of subscores(); track item.key) {
-      <span class="badge" [class]="item.group">{{ item.status }}</span>
-    }
-  </section>
 </div>

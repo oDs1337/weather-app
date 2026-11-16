@@ -59,7 +59,7 @@ export interface IconResolution {
 
 @Injectable({ providedIn: 'root' })
 export class WeatherIconService {
-  private readonly prefix = 'assets/icons/velora/weather-';
+  private readonly prefix = '/assets/icons/velora/weather-';
 
   // Open-Meteo WMO weather code → icon group mapping
   // Covers all codes from the API and maps them to local icon groups.
@@ -270,7 +270,7 @@ export class WeatherIconService {
     const variants = this.getVariants(group);
     const filename = variants.day ?? variants.night; // default to daytime variant as fallback
 
-    return `assets/icons/velora/${filename}.svg`;
+    return `/assets/icons/velora/${filename}.svg`;
   }
 
   /** Return a human-readable weather description for the given code. */
@@ -303,6 +303,6 @@ export class WeatherIconService {
 
   /** Build a SafeUrl for any asset in the velora icon pack by filename. */
   iconSrc(filename: string): string {
-    return `assets/icons/velora/${filename}`;
+    return `/assets/icons/velora/${filename}`;
   }
 }

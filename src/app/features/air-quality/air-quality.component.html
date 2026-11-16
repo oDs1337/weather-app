@@ -1,7 +1,7 @@
 <div class="aq-card" [class]="getAqClass(data.pm25)">
   <!-- Card Header -->
   <div class="aq-header">
-    <img width="20" height="20" src="assets/icons/velora/metric-air-quality.svg" alt="{{ 'airQuality.title' | translate }}" aria-hidden="true"/>
+    <img width="20" height="20" src="/assets/icons/velora/metric-air-quality.svg" alt="{{ 'airQuality.title' | translate }}" aria-hidden="true"/>
     <h3>{{ 'airQuality.title' | translate }}</h3>
   </div>
 
@@ -52,6 +52,7 @@
       } @else {
         <span class="aq-detail-value">—</span>
       }
+      <span class="aq-detail-status" [class]="getAqClass(data.o3)">{{ getO3Label(data.o3) }}</span>
     </div>
   </div>
 </div>
