@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { WeatherService } from '../../../core/services/weather.service';
 import { CyclingScoringService } from '../../core/services/cycling-scoring.service';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
@@ -34,7 +34,6 @@ export class CurrentWeatherComponent implements OnInit {
   private readonly weatherService = inject(WeatherService);
   private readonly cyclingScoringService = inject(CyclingScoringService);
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
 
   data = signal<WeatherResponse | null>(null);
   airQuality = signal<any>(null);
@@ -103,9 +102,5 @@ export class CurrentWeatherComponent implements OnInit {
         console.error('Weather API Error:', err);
       },
     });
-  }
-
-  goBack(): void {
-    this.router.navigate(['/']);
   }
 }

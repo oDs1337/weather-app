@@ -16,36 +16,6 @@
   }
 }
 
-/* ════════ Back Button ════════ */
-.back-btn {
-  width: 100%;
-  padding: 0.75rem var(--space-lg);
-  background: transparent;
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-md);
-  color: var(--color-text-secondary);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  min-height: 48px;
-  font-size: var(--text-sm);
-
-  &:hover {
-    background: rgba(215, 243, 106, 0.04);
-    border-color: var(--color-accent);
-    color: var(--color-text-primary);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-}
-
 /* ════════ HERO SECTION (Cycling Score + Advice) ════════ */
 .hero-section {
   display: flex;
@@ -170,11 +140,6 @@
   .hero-section {
     gap: var(--space-lg);
   }
-
-  .back-btn {
-    width: fit-content;
-    padding: 0.8rem var(--space-xl);
-  }
 }
 
 /* ════════ Small Screens (≤360px) ════════ */
@@ -209,8 +174,6 @@
 
 /* ════════ Reduced Motion ════════ */
 @media (prefers-reduced-motion: reduce) {
-  .back-btn { transition-duration: 0.01ms !important; }
-  
   .weather-content > * {
     animation-duration: 0.01ms !important;
   }

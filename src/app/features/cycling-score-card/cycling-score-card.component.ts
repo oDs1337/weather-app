@@ -1,4 +1,5 @@
 import { Component, computed, input, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -19,6 +20,11 @@ export class CyclingScoreCardComponent {
   private translate = inject(TranslateService);
   private sanitizer = inject(DomSanitizer);
   private iconService = inject(WeatherIconService);
+  private router = inject(Router);
+
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
 
   /* ────────────────────────────────────────
      Radial-chart computed helpers
