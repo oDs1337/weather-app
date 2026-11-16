@@ -87,7 +87,10 @@
     "alertsSubtitle": "Important conditions to be aware of",
     "noAlertsIcon": "✓",
     "noAlertsTitle": "No Active Alerts",
-    "noAlertsMessage": "Conditions look good for cycling. Enjoy your ride!"
+    "noAlertsMessage": "Conditions look good for cycling. Enjoy your ride!",
+    "critical": "Critical",
+    "warning": "Warning",
+    "informational": "Information"
   },
   "airQuality": {
     "title": "Air Quality",

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CyclingIssue } from '../../../core/models/weather.model';
 
 @Component({
@@ -13,13 +13,11 @@ import { CyclingIssue } from '../../../core/models/weather.model';
 export class CyclingAlertsComponent {
   @Input() issues: CyclingIssue[] = [];
 
+  constructor(private translateService: TranslateService) {}
+
   getSeverityLabel(type: string): string {
-    switch (type) {
-      case 'danger': return 'critical';
-      case 'warning': return 'warning';
-      case 'info': return 'informational';
-      default: return 'informational';
-    }
+    const key = type === 'danger' ? 'critical' : (type === 'warning' ? 'warning' : 'informational');
+    return this.translateService.instant(`cyclingAlerts.${key}`);
   }
 
   isCritical(type: string): boolean {

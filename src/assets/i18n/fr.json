@@ -47,7 +47,10 @@
     "alertsSubtitle": "Conditions importantes à connaître",
     "noAlertsIcon": "✓",
     "noAlertsTitle": "Aucune alerte active",
-    "noAlertsMessage": "Les conditions sont favorables au vélo. Bonne balade !"
+    "noAlertsMessage": "Les conditions sont favorables au vélo. Bonne balade !",
+    "critical": "Critique",
+    "warning": "Avertissement",
+    "informational": "Information"
   },
   "airQuality": {
     "title": "Qualité de l'air",

@@ -87,7 +87,10 @@
     "alertsSubtitle": "Ważne informacje o warunkach na trasie",
     "noAlertsIcon": "✓",
     "noAlertsTitle": "Brak aktywnych ostrzeżeń",
-    "noAlertsMessage": "Warunki sprzyjają jeździe na rowerze. Udanej trasy!"
+    "noAlertsMessage": "Warunki sprzyjają jeździe na rowerze. Udanej trasy!",
+    "critical": "Krytyczny",
+    "warning": "Ostrzeżenie",
+    "informational": "Informacja"
   },
   "airQuality": {
     "title": "Jakość powietrza",
