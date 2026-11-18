@@ -4,15 +4,14 @@ import Capacitor
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+    func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         // Update status bar style when dark/light appearance changes
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             setNeedsStatusBarAppearanceUpdate()
         }
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    var preferredStatusBarStyle: UIStatusBarStyle {
         return traitCollection.userInterfaceStyle == .dark ? .lightContent : .default
     }
 
@@ -21,21 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Ensure the webview respects safe-area insets on iOS 11+
         if #available(iOS 15.0, *) {
-            windowScene.keyboardFoggingBehavior = .none
+            // Use standard safe area inset handling (keyboardFoggingBehavior is iOS 26+)
+            window?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
 
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = CAPBridgeViewController()
         window?.makeKeyAndVisible()
-
-        SceneDelegateProxy.shared.scene(scene, willConnectTo: session, options: connectionOptions)
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        SceneDelegateProxy.shared.scene(scene, openURLContexts: URLContexts)
+        // Handle URLs if needed
     }
 
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        SceneDelegateProxy.shared.scene(scene, continue: userActivity)
+        // Continue user activity if needed
     }
 }
