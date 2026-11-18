@@ -104,7 +104,9 @@ export class LanguageService {
   }
 
   /**
-   * Detect system/browser language from platform APIs.
+   * Detect the device/system language from the browser API.
+   * In Capacitor WebView, navigator.language ALWAYS returns the OS language —
+   * no native plugins needed. This is our PRIMARY and most reliable source.
    */
   private getSystemLanguage(): string {
     if (typeof navigator !== 'undefined') {
@@ -122,10 +124,12 @@ export class LanguageService {
   /**
    * Detect native OS language on iOS using Bundle.main.preferredLocalizations.first.
    * This returns the app-specific language selected in iOS Settings → Apps → [App] → Language.
+   * Falls back to navigator.language if the native plugin is not available.
    */
   private async getNativeIOSLanguage(): Promise<string | null> {
     try {
       const lang = await this.settingsBridge.getLanguage();
+      // If native plugin returned 'en' (stub/default), try navigator.language as a real fallback
       if (lang && this.isSupportedLanguageCode(lang)) {
         console.log(`[LanguageService] iOS native language detected: ${lang}`);
         return lang;
@@ -133,29 +137,42 @@ export class LanguageService {
     } catch (e) {
       console.warn('[LanguageService] Failed to get iOS native language:', e);
     }
-    return null;
+    // Fallback: navigator.language always works in Capacitor WebView and returns the OS language
+    const fallback = this.getSystemLanguage();
+    console.log(`[LanguageService] iOS native unavailable, using navigator.language: ${fallback}`);
+    return fallback;
   }
 
   /**
-   * Detect native OS language on Android.
-   * Uses the native AndroidLanguageSettings plugin which reads from LocaleManager
-   * on Android 13+ (per-app locale) or falls back to device-wide locale on older versions.
+   * Detect the device/system language on Android.
+   * navigator.language in Capacitor WebView ALWAYS returns the OS language —
+   * no need for native plugins. We use this as our primary source.
    */
   private async getNativeAndroidLanguage(): Promise<string | null> {
+    // Primary: navigator.language always works and returns the correct OS language
+    const browserLang = this.getSystemLanguage();
+    console.log(`[LanguageService] Android detected via navigator.language: ${browserLang}`);
+    
+    if (this.isSupportedLanguageCode(browserLang)) {
+      return browserLang;
+    }
+
+    // Secondary: try native plugin as bonus for per-app locale settings on Android 13+
     try {
       const lang = await this.settingsBridge.getLanguage();
-      if (lang && this.isSupportedLanguageCode(lang)) {
-        console.log(`[LanguageService] Android native language detected: ${lang}`);
+      if (lang && this.isSupportedLanguageCode(lang) && lang !== browserLang) {
+        console.log(`[LanguageService] Android native override: ${lang}`);
         return lang;
       }
     } catch (e) {
       console.warn('[LanguageService] Failed to get Android native language:', e);
     }
-    // Fallback to navigator.language if plugin call fails
-    const fallbackLang = this.getSystemLanguage();
-    if (this.isSupportedLanguageCode(fallbackLang)) {
-      return fallbackLang;
+
+    // If navigator.language also returned 'en', that's our best guess — not an error
+    if (this.isSupportedLanguageCode(browserLang)) {
+      return browserLang;
     }
+    
     return null;
   }
 
@@ -164,24 +181,23 @@ export class LanguageService {
    * Returns a Promise that resolves to the detected language code.
    * 
    * Language precedence:
-   * - Android 13+: Native per-app locale (LocaleManager) is authoritative
-   * - iOS: Native app-specific language (Settings.bundle / preferredLocalizations) is authoritative
+   * - Native (iOS/Android in Capacitor): navigator.language (OS language) → saved preference
    * - Web: Saved preference → Browser language → English fallback
    */
   async resolveInitialLanguage(): Promise<LanguageCode> {
     // Platform-specific language detection
     if (this.isNativeIOS) {
-      // iOS: Check native app-specific language first (Settings bundle / preferredLocalizations)
+      // iOS: Check native app-specific language first, fall back to navigator.language
       const nativeLang = await this.getNativeIOSLanguage();
       if (nativeLang) {
-        console.log(`[LanguageService] iOS detected native language: ${nativeLang}`);
+        console.log(`[LanguageService] iOS detected language: ${nativeLang}`);
         return nativeLang as LanguageCode;
       }
     } else if (this.isNativeAndroid) {
-      // Android: Check native per-app locale first (LocaleManager on API 33+, Configuration fallback)
+      // Android: navigator.language ALWAYS works and returns the correct OS language
       const androidLang = await this.getNativeAndroidLanguage();
       if (androidLang) {
-        console.log(`[LanguageService] Android detected native language: ${androidLang}`);
+        console.log(`[LanguageService] Android detected language: ${androidLang}`);
         return androidLang as LanguageCode;
       }
     } else {
@@ -204,7 +220,6 @@ export class LanguageService {
     console.log('[LanguageService] Falling back to English');
     return 'en';
   }
-
   /**
    * Load and activate a language using ngx-translate.
    * This is the authoritative method for switching languages.

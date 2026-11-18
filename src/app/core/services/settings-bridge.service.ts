@@ -59,6 +59,20 @@ export class SettingsBridgeService {
   private static readonly SETTINGS_KEY = 'app_language';
 
   /**
+   * Get the system/browser language as a fallback.
+   */
+  private getBrowserLanguage(): string {
+    if (typeof navigator !== 'undefined') {
+      const lang = 
+        (navigator as any).languages?.[0] ||
+        (navigator as any).language ||
+        '';
+      return this.normalizeLanguageCode(lang);
+    }
+    return 'en';
+  }
+
+  /**
    * Read the current application language from native platform APIs.
    * 
    * On iOS: Uses Bundle.main.preferredLocalizations.first (Settings.bundle)
@@ -70,7 +84,19 @@ export class SettingsBridgeService {
       if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
         // iOS: Use the new iOSLanguagePlugin which uses Bundle.main.preferredLocalizations.first
         const result = await iOSLanguage.getLanguage() as GetLanguageResult;
-        const languageTag = result.language || 'en';
+        let languageTag = result.language || '';
+        
+        // If native plugin returned 'en' (which may be a stub/default), 
+        // also try Locale.preferredLanguages for comparison
+        if (!languageTag || this.normalizeLanguageCode(languageTag) === 'en') {
+          console.log('[SettingsBridge] iOS native returned default, trying preferred languages');
+          try {
+            const preferred = await iOSLanguage.getPreferredLanguages?.() as GetLanguageResult | null;
+            if (preferred?.language && this.normalizeLanguageCode(preferred.language) !== 'en') {
+              languageTag = preferred.language;
+            }
+          } catch {}
+        }
         
         // Normalize the language tag to a simple code (e.g., 'pl-PL' -> 'pl', 'en-US' -> 'en')
         const normalizedLang = this.normalizeLanguageCode(languageTag);
@@ -80,18 +106,44 @@ export class SettingsBridgeService {
       } else if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android') {
         // Android: Use the native AndroidLanguageSettings plugin
         const result = await AndroidLanguage.getLanguage() as GetLanguageResult;
-        const language = result.language || 'en';
+        let language = result.language || '';
+        
+        // If native plugin returned 'en' (default stub), fall back to navigator.language
+        if (!language || this.normalizeLanguageCode(language) === 'en') {
+          console.log('[SettingsBridge] Native Android returned default/en, falling back to navigator.language');
+          const browserLang = this.getBrowserLanguage();
+          if (browserLang !== 'en' || !result.language) {
+            // Use browser language as fallback — even if it's also 'en', that's our best guess
+            console.log(`[SettingsBridge] Fallback browser language: ${browserLang}`);
+            return browserLang;
+          }
+        }
         
         console.log(`[SettingsBridge] Native Android language: ${language}`);
         return this.normalizeLanguageCode(language);
       }
       
-      // Fallback for other platforms or if plugin fails
-      const result = await AppSettings.getLanguage() as GetLanguageResult;
-      return result.language || 'en';
+      // Fallback for other platforms or if plugin fails — try browser first, then app settings stub
+      const browserLang = this.getBrowserLanguage();
+      if (browserLang !== 'en') {
+        console.log(`[SettingsBridge] Non-native platform fallback to browser: ${browserLang}`);
+        return browserLang;
+      }
+      
+      // Try the generic AppSettings plugin as last resort
+      try {
+        const result = await AppSettings.getLanguage() as GetLanguageResult;
+        return result.language || 'en';
+      } catch {
+        console.warn('[SettingsBridge] All native APIs failed, returning browser language');
+        return this.getBrowserLanguage();
+      }
     } catch (error) {
       console.warn('Failed to read language from native APIs:', error);
-      return 'en'; // fallback
+      // Ultimate fallback: use navigator.language instead of hardcoded 'en'
+      const fallback = this.getBrowserLanguage();
+      console.log(`[SettingsBridge] Error path fallback → ${fallback}`);
+      return fallback;
     }
   }
 

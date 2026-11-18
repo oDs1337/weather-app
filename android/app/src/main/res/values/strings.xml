@@ -4,6 +4,7 @@
     <string name="title_activity_main">VELORA</string>
     <string name="package_name">com.example.weatherapp</string>
     <string name="custom_url_scheme">com.example.weatherapp</string>
+    <string name="settings_title">Settings</string>
 
     <!-- Settings (for Android 12 and below where per-app language is not natively supported) -->
     <string name="settings_category_general">General</string>
