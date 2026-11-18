@@ -44,7 +44,7 @@ export class HourlyChartComponent {
   /** Build asset URL for weather icon with per-point day/night variant resolution. */
   iconSrc(hourData: { icon: number; hourForTimeContext: number }): SafeUrl | null {
     const code = hourData.icon;
-    if (!code) return null;
+    if (code == null) return null;
 
     const resolution = this.iconService.resolve(code, { hourForTimeContext: hourData.hourForTimeContext });
 

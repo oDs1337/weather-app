@@ -44,7 +44,7 @@ function computeDisplayHours(hourlyData: HourlyWeather[]): { time: string; temp:
 
 /** Simulate the iconSrc() path building from HourlyChartComponent. */
 function buildIconPath(code: number, hourForTimeContext: number): string | null {
-  if (!code) return null;
+  if (code == null) return null;
   const service = new WeatherIconService();
   const resolution = service.resolve(code, { hourForTimeContext });
 
