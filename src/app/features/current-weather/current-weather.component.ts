@@ -10,7 +10,7 @@ import { HourlyChartComponent } from './hourly-chart/hourly-chart.component';
 import { CyclingScoreCardComponent } from '../cycling-score-card/cycling-score-card.component';
 import { CyclingAlertsComponent } from '../cycling-alerts/cycling-alerts.component';
 import { AirQualityComponent } from '../air-quality/air-quality.component';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { WeatherResponse, CyclingScore, CyclingIssue } from '../../../core/models/weather.model';
 
 @Component({
@@ -34,6 +34,7 @@ export class CurrentWeatherComponent implements OnInit {
   private readonly weatherService = inject(WeatherService);
   private readonly cyclingScoringService = inject(CyclingScoringService);
   private readonly route = inject(ActivatedRoute);
+  private readonly translate = inject(TranslateService);
 
   data = signal<WeatherResponse | null>(null);
   airQuality = signal<any>(null);
@@ -97,7 +98,7 @@ export class CurrentWeatherComponent implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set('Failed to load weather data. Please try again later.');
+        this.error.set(this.translate.instant('error.noWeather'));
         this.loading.set(false);
         console.error('Weather API Error:', err);
       },

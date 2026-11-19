@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
     } @else {
       <div class="loading-container">
         <div class="spinner"></div>
-        <p>Loading...</p>
+        <p>{{ loadingText }}</p>
       </div>
     }
   `,
@@ -46,8 +46,10 @@ export class App {
   // This is set by the APP_INITIALIZER in main.ts
   languageReady = signal(true); // Start as true since APP_INITIALIZER blocks bootstrap
 
-  // Start listening for iOS Settings changes (only on native iOS)
+  loadingText = '';
+
   constructor() {
+    this.loadingText = this.translateService.instant('loading.weatherData');
     this.startNativeLanguageListener();
   }
 

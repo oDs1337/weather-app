@@ -3,7 +3,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
 import { LanguageSelectorComponent } from '../../core/components/language-selector/language-selector.component';
 
@@ -26,6 +26,7 @@ interface GeoLocation {
 export class CitySelectorComponent {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
 
   // Show language selector only on web (not on iOS/Android where users use system Settings)
   showLanguageSelector = computed(() => {
@@ -100,12 +101,12 @@ export class CitySelectorComponent {
       } else {
         this.cities.set([]);
         this.hasSearched.set(true);
-        this.error.set('No cities found. Try a different search term.');
+        this.error.set(this.translate.instant('error.noCityFound'));
       }
     } catch (err) {
       this.cities.set([]);
       this.hasSearched.set(true);
-      this.error.set('Failed to search cities. Please try again.');
+      this.error.set(this.translate.instant('error.default'));
       console.error('Geo coding error:', err);
     } finally {
       this.loading.set(false);

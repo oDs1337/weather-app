@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-loading',
@@ -39,5 +40,11 @@ import { Component } from '@angular/core';
   `]
 })
 export class LoadingComponent {
-  loadingText = 'Loading weather data...';
+  loadingText = '';
+
+  private translate = inject(TranslateService);
+
+  constructor() {
+    this.loadingText = this.translate.instant('loading.weatherData');
+  }
 }
