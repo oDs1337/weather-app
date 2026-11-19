@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-loading',
-  imports: [],
+  imports: [TranslatePipe],
   template: `
     <div class="loading-container">
       <div class="spinner"></div>
-      <p>{{ loadingText }}</p>
+      <p>{{ 'loading.weatherData' | translate }}</p>
     </div>
   `,
   styles: [`
@@ -37,14 +37,6 @@ import { TranslateService } from '@ngx-translate/core';
       color: var(--color-text-secondary);
       font-size: 0.9375rem;
     }
-  `]
+  `],
 })
-export class LoadingComponent {
-  loadingText = '';
-
-  private translate = inject(TranslateService);
-
-  constructor() {
-    this.loadingText = this.translate.instant('loading.weatherData');
-  }
-}
+export class LoadingComponent {}

@@ -1,41 +1,31 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { LanguageService, LanguageCode } from '../../services/language.service';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, inject, signal } from '@angular/core';
+import { LanguageCode, LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-language-selector',
-  standalone: true,
-  imports: [],
   templateUrl: './language-selector.html',
-  styleUrl: './language-selector.scss'
+  styleUrl: './language-selector.scss',
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+  },
 })
-export class LanguageSelectorComponent implements OnInit {
-  isOpen = false;
-  private languageService = inject(LanguageService);
-  private translateService = inject(TranslateService);
+export class LanguageSelectorComponent {
+  protected readonly languageService = inject(LanguageService);
+  protected readonly isOpen = signal(false);
 
-  ngOnInit() {
-    // Close dropdown when clicking outside
-    document.addEventListener('click', this.onDocumentClick.bind(this));
+  protected toggleDropdown(): void {
+    this.isOpen.update((open) => !open);
   }
 
-  ngOnDestroy() {
-    document.removeEventListener('click', this.onDocumentClick.bind(this));
+  protected async selectLanguage(lang: LanguageCode): Promise<void> {
+    await this.languageService.setLanguage(lang);
+    this.isOpen.set(false);
   }
 
-  toggleDropdown() {
-    this.isOpen = !this.isOpen;
-  }
-
-  async selectLanguage(lang: LanguageCode) {
-    await this.languageService.setLanguage(lang, this.translateService);
-    this.isOpen = false;
-  }
-
-  private onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.language-selector')) {
-      this.isOpen = false;
+  protected onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('.language-selector')) {
+      this.isOpen.set(false);
     }
   }
 }

@@ -1,30 +1,20 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { CyclingIssue } from '../../../core/models/weather.model';
+import { CyclingIssue } from '../../core/models/weather.model';
 
 @Component({
   selector: 'app-cycling-alerts',
-  standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [TranslatePipe],
   templateUrl: './cycling-alerts.html',
-  styleUrl: './cycling-alerts.component.scss'
+  styleUrl: './cycling-alerts.component.scss',
 })
 export class CyclingAlertsComponent {
-  @Input() issues: CyclingIssue[] = [];
+  private readonly translate = inject(TranslateService);
 
-  constructor(private translateService: TranslateService) {}
+  readonly issues = input<CyclingIssue[]>([]);
 
-  getSeverityLabel(type: string): string {
-    const key = type === 'danger' ? 'critical' : (type === 'warning' ? 'warning' : 'informational');
-    return this.translateService.instant(`cyclingAlerts.${key}`);
-  }
-
-  isCritical(type: string): boolean {
-    return type === 'danger';
-  }
-
-  isWarning(type: string): boolean {
-    return type === 'warning';
+  protected getSeverityLabel(type: CyclingIssue['type']): string {
+    const key = type === 'danger' ? 'critical' : type === 'warning' ? 'warning' : 'informational';
+    return this.translate.instant(`cyclingAlerts.${key}`);
   }
 }

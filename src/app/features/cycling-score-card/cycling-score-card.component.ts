@@ -1,328 +1,156 @@
-import { Component, computed, input, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { CyclingScore } from '../../../core/models/weather.model';
-import { WeatherIconService } from '../../../app/core/utils/weather-icon-svg.service';
+import { CyclingScore } from '../../core/models/weather.model';
+import { getAirQualityColor } from '../../core/utils/air-quality.utils';
+import { WeatherIconService } from '../../core/utils/weather-icon-svg.service';
+
+type ScoreGroup = 'excellent' | 'good' | 'fair' | 'poor';
+
+interface SubscoreItem {
+  key: string;
+  titleKey: string;
+  value: number;
+  status: string;
+  group: ScoreGroup;
+  iconSrc: string;
+}
+
+const RADIUS = 55;
+const CENTER = 70;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+const GRADIENT_MAP: Record<ScoreGroup, readonly [string, string]> = {
+  excellent: ['#00C853', '#69F0AE'],
+  good: ['#B8E054', '#DDF88E'],
+  fair: ['#FFD700', '#FF8C00'],
+  poor: ['#FF1744', '#FF5252'],
+};
+
+const LABEL_KEY_MAP: Record<ScoreGroup, string> = {
+  excellent: 'cyclingScore.excellent',
+  good: 'cyclingScore.good',
+  fair: 'cyclingScore.moderate',
+  poor: 'cyclingScore.poor',
+};
+
+const BADGE_CLASS_MAP: Record<ScoreGroup, string> = {
+  excellent: 'status-excellent',
+  good: '',
+  fair: 'status-moderate',
+  poor: 'status-poor',
+};
+
+function toScoreGroup(score: number): ScoreGroup {
+  if (score >= 80) return 'excellent';
+  if (score >= 60) return 'good';
+  if (score >= 40) return 'fair';
+  return 'poor';
+}
 
 @Component({
   selector: 'app-cycling-score-card',
-  standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [TranslatePipe],
   templateUrl: './cycling-score-card.html',
-  styleUrl: './cycling-score-card.component.scss'
+  styleUrl: './cycling-score-card.component.scss',
 })
 export class CyclingScoreCardComponent {
-  score = input.required<CyclingScore>();
-  city = input<string>('Your City');
-  pm25 = input<number>(0);
-  dynamicAdvice = input<string>('');
+  private readonly translate = inject(TranslateService);
+  private readonly iconService = inject(WeatherIconService);
+  private readonly router = inject(Router);
 
-  private translate = inject(TranslateService);
-  private sanitizer = inject(DomSanitizer);
-  private iconService = inject(WeatherIconService);
-  private router = inject(Router);
+  readonly score = input.required<CyclingScore>();
+  readonly city = input('Your City');
+  readonly pm25 = input(0);
+  readonly dynamicAdvice = input('');
 
-  goBack(): void {
+  protected readonly circumference = CIRCUMFERENCE;
+  protected readonly overallScore = computed(() => this.score().overall ?? 0);
+  protected readonly scoreGroup = computed(() => toScoreGroup(this.overallScore()));
+  protected readonly cityColor = computed(() => getAirQualityColor(this.pm25()));
+  protected readonly adviceHasContent = computed(() => this.dynamicAdvice().trim().length > 0);
+
+  protected readonly strokeDashOffset = computed(
+    () => CIRCUMFERENCE * (1 - this.overallScore() / 100)
+  );
+  protected readonly glowFilterId = computed(() => `score-glow-${this.overallScore()}`);
+  protected readonly gradientId = computed(() => `score-gradient-${this.overallScore()}`);
+  protected readonly gradientUrl = computed(() => `url(#${this.gradientId()})`);
+  protected readonly gradientStops = computed(() => GRADIENT_MAP[this.scoreGroup()]);
+  protected readonly endpointColor = computed(() => this.gradientStops()[1]);
+  protected readonly badgeClass = computed(() => BADGE_CLASS_MAP[this.scoreGroup()]);
+
+  protected readonly endpointDot = computed(() => {
+    const progress = this.overallScore() / 100;
+    if (progress <= 0 || Number.isNaN(progress)) {
+      return { x: CENTER, y: CENTER - RADIUS };
+    }
+    const angle = progress * 2 * Math.PI;
+    return {
+      x: CENTER + RADIUS * Math.sin(angle),
+      y: CENTER - RADIUS * Math.cos(angle),
+    };
+  });
+
+  protected readonly subscores = computed<SubscoreItem[]>(() => {
+    const data = this.score();
+    return [
+      {
+        key: 'temperature',
+        titleKey: 'cyclingScore.temperature',
+        value: data.temperature,
+        status: data.details.temperatureComfort,
+        group: toScoreGroup(data.temperature),
+        iconSrc: this.iconService.iconSrc('metric-temperature.svg'),
+      },
+      {
+        key: 'wind',
+        titleKey: 'cyclingScore.wind',
+        value: data.wind,
+        status: data.details.windCondition,
+        group: toScoreGroup(data.wind),
+        iconSrc: this.iconService.iconSrc('weather-wind.svg'),
+      },
+      {
+        key: 'precipitation',
+        titleKey: 'cyclingScore.precipitation',
+        value: data.precipitation,
+        status: data.details.precipitationRisk,
+        group: toScoreGroup(data.precipitation),
+        iconSrc: this.iconService.iconSrc('metric-precipitation.svg'),
+      },
+      {
+        key: 'airQuality',
+        titleKey: 'cyclingScore.airQuality',
+        value: data.airQuality,
+        status: data.details.airQualityStatus,
+        group: toScoreGroup(data.airQuality),
+        iconSrc: this.iconService.iconSrc('metric-air-quality.svg'),
+      },
+      {
+        key: 'uvIndex',
+        titleKey: 'cyclingScore.uvIndex',
+        value: data.uvIndex,
+        status: data.details.uvRiskLevel,
+        group: toScoreGroup(data.uvIndex),
+        iconSrc: this.iconService.iconSrc('metric-uv.svg'),
+      },
+      {
+        key: 'humidity',
+        titleKey: 'cyclingScore.humidity',
+        value: data.humidity,
+        status: data.details.humidityComfort,
+        group: toScoreGroup(data.humidity),
+        iconSrc: this.iconService.iconSrc('metric-humidity.svg'),
+      },
+    ];
+  });
+
+  protected goBack(): void {
     this.router.navigate(['/']);
   }
 
-  /** PM2.5 severity class matching air-quality.component thresholds */
-  getAqClass(): string {
-    const value = this.pm25();
-    if (value <= 12) return 'aq-good';
-    if (value <= 35.4) return 'aq-moderate';
-    if (value <= 55.4) return 'aq-unhealthy-sensitive';
-    if (value <= 150.4) return 'aq-unhealthy';
-    return 'aq-very-unhealthy';
-  }
-
-  /** Air quality colour for city name */
-  getCityColor(): string {
-    const cls = this.getAqClass();
-    const colors: Record<string, string> = {
-      'aq-good': '#6BCB77',
-      'aq-moderate': 'var(--score-fair, #FFAB00)',
-      'aq-unhealthy-sensitive': 'var(--color-warning, #F29F03)',
-      'aq-unhealthy': 'var(--color-critical, #E8735A)',
-      'aq-very-unhealthy': '#C41E0D',
-    };
-    return colors[cls] ?? 'var(--color-text-secondary)';
-  }
-
-  /* ────────────────────────────────────────
-     Radial-chart computed helpers
-     ──────────────────────────────────────── */
-
-  /** The numeric score (0–100). */
-  overallScore() {
-    return this.score().overall ?? 0;
-  }
-
-  /* ────────────────────────────────────────
-     Dynamic Advice helpers
-     ──────────────────────────────────────── */
-
-  adviceHasContent(): boolean {
-    return !!this.dynamicAdvice()?.trim();
-  }
-
-  /** CSS class for the label based on overall score. */
-  adviceLabelClass(): string {
-    const s = this.overallScore();
-    if (s >= 80) return 'advice-label--excellent';
-    if (s >= 60) return 'advice-label--good';
-    if (s >= 40) return 'advice-label--fair';
-    return 'advice-label--poor';
-  }
-
-  /** SVG icon for the advice box based on overall score. */
-  adviceIconType(): string {
-    const s = this.overallScore();
-    if (s >= 80) return 'good';
-    if (s >= 60) return 'traffic';
-    if (s >= 40) return 'warning';
-    return 'danger';
-  }
-
-  /** Icon colour for the advice box based on overall score. */
-  adviceIconBgColor(): string {
-    const s = this.overallScore();
-    if (s >= 80) return '#E7F945';
-    if (s >= 60) return '#FFD145';
-    if (s >= 40) return '#FFAB00';
-    return '#FF3D00';
-  }
-
-  /** Overall label text key for the advice box. */
-  adviceLabelKey(): string {
-    const s = this.overallScore();
-    if (s >= 80) return 'cyclingScore.excellent';
-    if (s >= 60) return 'cyclingScore.good';
-    if (s >= 40) return 'cyclingScore.moderate';
-    return 'cyclingScore.poor';
-  }
-
-  /** SVG circle circumference for r=55: 2 × π × 55 ≈ 345.58. */
-  circumference(): number {
-    const r = 55;
-    return 2 * Math.PI * r;
-  }
-
-  /** dashoffset so the arc length equals score% of the circle. */
-  strokeDashOffset(): number {
-    const c = this.circumference();
-    return c * (1 - this.overallScore() / 100);
-  }
-
-  /** Unique SVG <filter> id per instance (needed if >1 card on page). */
-  glowFilterId(): string {
-    return `score-glow-${this.score().overall ?? 0}`;
-  }
-
-  /** Unique SVG <linearGradient> id per instance. */
-  gradientId(): string {
-    return `score-gradient-${this.score().overall ?? 0}`;
-  }
-
-  /** Returns `url(#id)` reference for SVG stroke binding. */
-  gradientUrl(): string {
-    return `url(#${this.gradientId()})`;
-  }
-
-  /** X/Y position of the dot at the end of the progress arc (rotated -90°, starts from top). */
-
-  endpointDotX(): number {
-    const p = this.overallScore() / 100;
-    if (p <= 0 || isNaN(p)) return 70; // center-top fallback for score=0 or null
-    const angle = p * 2 * Math.PI; // radians from top, clockwise
-    return 70 + 55 * Math.sin(angle);
-  }
-
-  endpointDotY(): number {
-    const p = this.overallScore() / 100;
-    if (p <= 0 || isNaN(p)) return 15; // top-most point for score=0 or null
-    const angle = p * 2 * Math.PI;
-    return 70 - 55 * Math.cos(angle);
-  }
-
-  /** Inline transform string for SVG dot position. */
-  endpointDotTransform(): string {
-    const x = this.endpointDotX();
-    const y = this.endpointDotY();
-    return `translate(${x - 70}, ${y - 70})`; // offset from cx=70 cy=70 center
-  }
-
-  /** Debug: returns score for template display. */
-  debugScore(): string {
-    const x = this.endpointDotX();
-    const y = this.endpointDotY();
-    return `${this.overallScore()}% → X=${x.toFixed(1)}, Y=${y.toFixed(1)}`;
-  }
-
-  /* ────────────────────────────────────────
-     Colour / badge helpers (driven by score group)
-     ──────────────────────────────────────── */
-
-  private _colorMap: Record<string, string> = {
-    excellent: '#00C853',
-    good:      '#B8E054',
-    fair:      '#FFAB00',   // amber for moderate (~40-59)
-    poor:      '#FF3D00',
-  };
-
-  private _gradientMap: Record<string, [string, string]> = {
-    excellent: ['#00C853', '#69F0AE'],
-    good:      ['#B8E054', '#DDF88E'],
-    fair:      ['#FFD700', '#FF8C00'],   // yellow → orange
-    poor:      ['#FF1744', '#FF5252'],   // red tones
-  };
-
-  /** CSS group class (excellent | good | fair | poor). */
-  scoreGroup(): string {
-    const s = this.overallScore();
-    if (s >= 80) return 'excellent';
-    if (s >= 60) return 'good';
-    if (s >= 40) return 'fair';
-    return 'poor';
-  }
-
-  /** Solid stroke colour for the track. */
-  trackColor(): string {
-    return this._colorMap[this.scoreGroup()] ?? '#FFAB00';
-  }
-
-  /** Colour at the END of the progress gradient (the tip color). */
-  endpointColor(): string {
-    const colors = this._gradientMap[this.scoreGroup()] ?? ['#FFD700', '#FF8C00'];
-    return colors[1]; // second stop is the end-of-line color
-  }
-
-  /** Gradient stops as "color1 color2" string for inline gradient binding. */
-  gradientStops(): [string, string] {
-    const colors = this._gradientMap[this.scoreGroup()] ?? ['#FFD700', '#FF8C00'];
-    return colors;
-  }
-
-  /** CSS class applied to the badge container (status-moderate / status-excellent / status-poor). */
-  badgeClass(): string {
-    const g = this.scoreGroup();
-    if (g === 'fair')   return 'status-moderate';
-    if (g === 'excellent') return 'status-excellent';
-    if (g === 'poor')       return 'status-poor';
-    return ''; // good → no extra class needed
-  }
-
-  /* ────────────────────────────────────────
-     i18n labels
-     ──────────────────────────────────────── */
-
-  getOverallLabel(): string {
-    const g = this.scoreGroup();
-    const keyMap: Record<string, string> = {
-      excellent: 'excellent',
-      good:      'good',
-      fair:      'moderate',
-      poor:      'poor',
-    };
-    return this.translate.instant(`cyclingScore.${keyMap[g] ?? 'moderate'}`);
-  }
-
-  /* ────────────────────────────────────────
-     Icon helpers (unchanged from original)
-     ──────────────────────────────────────── */
-
-  temperatureIconSrc(): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(
-      this.iconService.iconSrc('metric-temperature.svg')
-    );
-  }
-
-  precipitationIconSrc(): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(
-      this.iconService.iconSrc('metric-precipitation.svg')
-    );
-  }
-
-  airQualityIconSrc(): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(
-      this.iconService.iconSrc('metric-air-quality.svg')
-    );
-  }
-
-  uvIndexIconSrc(): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(
-      this.iconService.iconSrc('metric-uv.svg')
-    );
-  }
-
-  humidityIconSrc(): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(
-      this.iconService.iconSrc('metric-humidity.svg')
-    );
-  }
-
-  windIconSrc(): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(
-      this.iconService.iconSrc('weather-wind.svg')
-    );
-  }
-
-  /* ────────────────────────────────────────
-     Sub-scores (unchanged shape)
-     ──────────────────────────────────────── */
-
-  subscores() {
-    const data = this.score();
-    if (!data) return [];
-
-    interface Subscore {
-      key: string;
-      titleKey: string;
-      value: number;
-      status: string;
-      group: string;
-      icon: 'temperature' | 'wind' | 'precipitation' | 'airQuality' | 'uvIndex' | 'humidity';
-    }
-
-    return [
-      { key: 'temperature',  titleKey: 'cyclingScore.temperature',   value: data.temperature,  status: data.details.temperatureComfort, group: this.getSubscoreClass(data.temperature), icon: 'temperature' as const },
-      { key: 'wind',         titleKey: 'cyclingScore.wind',           value: data.wind,          status: data.details.windCondition,        group: this.getSubscoreClass(data.wind),         icon: 'wind' as const },
-      { key: 'precipitation',titleKey: 'cyclingScore.precipitation',  value: data.precipitation, status: data.details.precipitationRisk,    group: this.getSubscoreClass(data.precipitation), icon: 'precipitation' as const },
-      { key: 'airQuality',   titleKey: 'cyclingScore.airQuality',     value: data.airQuality,  status: data.details.airQualityStatus,     group: this.getSubscoreClass(data.airQuality),   icon: 'airQuality' as const },
-      { key: 'uvIndex',      titleKey: 'cyclingScore.uvIndex',        value: data.uvIndex,     status: data.details.uvRiskLevel,          group: this.getSubscoreClass(data.uvIndex),      icon: 'uvIndex' as const },
-      { key: 'humidity',     titleKey: 'cyclingScore.humidity',       value: data.humidity,    status: data.details.humidityComfort,      group: this.getSubscoreClass(data.humidity),     icon: 'humidity' as const },
-    ];
-  }
-
-  /** CSS class for a given numeric score (used by subscores). */
-  getSubscoreClass(scoreVal: number): string {
-    if (scoreVal >= 80) return 'excellent';
-    if (scoreVal >= 60) return 'good';
-    if (scoreVal >= 40) return 'fair';
-    return 'poor';
-  }
-
-  /** Sub-score group colour for the icon. */
-  subscoreColor(group: string): string {
-    const colors: Record<string, string> = {
-      excellent: '#00C853',
-      good:      '#B8E054',
-      fair:      '#FFAB00',
-      poor:      '#FF3D00',
-    };
-    return colors[group] ?? '#ffffff';
-  }
-
-  /** Sub-score background colour. */
-  subscoreBgColor(group: string): string {
-    const colors: Record<string, string> = {
-      excellent: 'rgba(0,200,83,0.12)',
-      good:      'rgba(184,224,84,0.12)',
-      fair:      'rgba(255,171,0,0.12)',
-      poor:      'rgba(255,61,0,0.12)',
-    };
-    return colors[group] ?? 'rgba(255,255,255,0.08)';
+  protected getOverallLabel(): string {
+    return this.translate.instant(LABEL_KEY_MAP[this.scoreGroup()]);
   }
 }

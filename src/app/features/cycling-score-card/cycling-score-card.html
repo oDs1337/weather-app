@@ -1,61 +1,51 @@
 <div class="cycling-score-card">
-  <!-- Compact header -->
-  <div class="card-header" aria-label="{{ 'cyclingScore.title' | translate }}">
-    <button type="button" class="back-button-inline" (click)="goBack()" aria-label="{{ 'citySelector.backToCities' | translate }}">
+  <div class="card-header" [attr.aria-label]="'cyclingScore.title' | translate">
+    <button type="button" class="back-button-inline" (click)="goBack()" [attr.aria-label]="'citySelector.backToCities' | translate">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <h2>{{ 'cyclingScore.title' | translate }}</h2>
-    <span class="city-name" [style.color]="getCityColor()">{{ city() }}</span>
+    <span class="city-name" [style.color]="cityColor()">{{ city() }}</span>
   </div>
 
-  <!-- Hero score area — premium radial chart -->
   <section class="hero-score">
     <div class="score-card">
-
-      <!-- Radial chart container -->
       <div class="radial-chart-container">
-        <svg viewBox="0 0 140 140" class="radial-chart" aria-label="{{ overallScore() }} / 100">
+        <svg viewBox="0 0 140 140" class="radial-chart" [attr.aria-label]="overallScore() + ' / 100'">
           <defs>
-            <!-- Dynamic gradient: varies per score group (excellent=green, good=yellow-green, fair=amber, poor=red) -->
-            <linearGradient id="{{ gradientId() }}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient [attr.id]="gradientId()" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" [attr.stop-color]="gradientStops()[0]" />
               <stop offset="100%" [attr.stop-color]="gradientStops()[1]" />
             </linearGradient>
 
-            <!-- Glow filter: Gaussian blur + composite (feGaussianBlur + feComposite) -->
-            <filter id="{{ glowFilterId() }}" x="-30%" y="-30%" width="160%" height="160%">
+            <filter [attr.id]="glowFilterId()" x="-30%" y="-30%" width="160%" height="160%">
               <feGaussianBlur stdDeviation="4" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
 
-          <!-- Inactive track: thin, semi-transparent white -->
-          <circle 
-            cx="70" cy="70" r="55" 
+          <circle
+            cx="70" cy="70" r="55"
             class="track-bg"
             transform="rotate(-90 70 70)"
           />
 
-          <!-- Active progress track: thicker, gradient stroke, glow filter, round linecap -->
-          <circle 
-            cx="70" cy="70" r="55" 
-            class="track-active" 
+          <circle
+            cx="70" cy="70" r="55"
+            class="track-active"
             [attr.stroke]="gradientUrl()"
             [attr.filter]="'url(#' + glowFilterId() + ')'"
-            [attr.stroke-dasharray]="circumference()" 
+            [attr.stroke-dasharray]="circumference"
             [attr.stroke-dashoffset]="strokeDashOffset()"
             stroke-linecap="round"
             transform="rotate(-90 70 70)"
           />
 
-          <!-- Dot at the end of progress arc (SVG circle, positioned on the track edge) -->
-          <circle 
-            [attr.cx]="endpointDotX()" 
-            [attr.cy]="endpointDotY()" 
-            r="9" 
+          <circle
+            [attr.cx]="endpointDot().x"
+            [attr.cy]="endpointDot().y"
+            r="9"
             [attr.fill]="endpointColor()"
           />
-
         </svg>
         <div class="score-text">
           <span class="main-number">{{ overallScore() }}</span>
@@ -63,9 +53,7 @@
         </div>
       </div>
 
-      <!-- Status pill badge with warning SVG icon + translated label -->
       <div class="status-badge" [class]="badgeClass()">
-        <!-- Warning triangle SVG icon (stroke-based, no emojis) -->
         <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
           <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -74,47 +62,28 @@
         <span>{{ getOverallLabel() }}</span>
       </div>
 
-      <!-- Dynamic Advice text under the badge -->
       @if (adviceHasContent()) {
         <div class="advice-text">
-          {{ dynamicAdvice() | translate }}
+          {{ dynamicAdvice() }}
         </div>
       }
-
     </div>
   </section>
 
-  <!-- Subscores grid -->
   <section class="subscores">
     @for (item of subscores(); track item.key) {
       <div class="subscore-item" [class]="item.group">
-        <!-- SVG icon -->
         <span class="icon-wrapper" aria-hidden="true">
-          @if (item.icon === 'temperature') {
-            <img [attr.src]="temperatureIconSrc()" alt="{{ 'cyclingScore.temperature' | translate }}"/>
-          } @else if (item.icon === 'wind') {
-            <img [attr.src]="windIconSrc()" alt="{{ item.titleKey | translate }}"/>
-          } @else if (item.icon === 'precipitation') {
-            <img [attr.src]="precipitationIconSrc()" alt="{{ item.titleKey | translate }}"/>
-          } @else if (item.icon === 'airQuality') {
-            <img [attr.src]="airQualityIconSrc()" alt="{{ item.titleKey | translate }}"/>
-          } @else if (item.icon === 'uvIndex') {
-            <img [attr.src]="uvIndexIconSrc()" alt="{{ item.titleKey | translate }}"/>
-          } @else {
-            <img [attr.src]="humidityIconSrc()" alt="{{ item.titleKey | translate }}"/>
-          }
+          <img [src]="item.iconSrc" [alt]="item.titleKey | translate"/>
         </span>
 
-        <!-- Label + inline status badge -->
         <div class="subscore-info">
           <span class="subscore-title">{{ item.titleKey | translate }}</span>
           <span class="badge inline-badge" [class]="item.group">{{ item.status }}</span>
         </div>
 
-        <!-- Score pushed to the right -->
-        <span class="subscore-score" aria-label="{{ item.value }} out of 100">{{ item.value }}/100</span>
+        <span class="subscore-score" [attr.aria-label]="item.value + ' out of 100'">{{ item.value }}/100</span>
       </div>
     }
   </section>
-
 </div>

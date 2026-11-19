@@ -1,7 +1,5 @@
 <div class="city-selector-container">
   <div class="selector-card">
-
-    <!-- Compact Brand Header -->
     <header class="brand-header">
       <div class="logo-v">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,53 +10,45 @@
       <h1>{{ 'app.name' | translate }}</h1>
     </header>
 
-    <!-- Language Selector (web only) — inline with brand -->
-    @if (showLanguageSelector()) {
+    @if (showLanguageSelector) {
       <div class="lang-wrapper">
         <app-language-selector />
       </div>
     }
 
-    <!-- Content Section -->
     <main class="card-content">
-
-      <!-- Search Bar: primary action, always above the fold -->
-      <form class="search-form" (ngSubmit)="performSearch(searchControl.value ?? '')">
+      <form class="search-form" (ngSubmit)="onSubmit()">
         <label for="city-search" class="sr-only">{{ 'citySelector.searchPlaceholder' | translate }}</label>
         <div class="input-wrapper">
           <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"/>
             <line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
-          <input 
+          <input
             id="city-search"
             type="search"
             [formControl]="searchControl"
             [placeholder]="'citySelector.searchPlaceholder' | translate"
             class="city-input"
             autocomplete="off"
-            (focus)="onFocusChange(true)"
-            (blur)="onFocusChange(false)"
           />
         </div>
       </form>
 
-      <!-- Loading State -->
       @if (loading()) {
         <div class="state-container loading-state">
-          <svg class="spinner" viewBox="0 0 24 24" fill="none" aria-label="{{ 'citySelector.searching' | translate }}">
+          <svg class="spinner" viewBox="0 0 24 24" fill="none" [attr.aria-label]="'citySelector.searching' | translate">
             <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" stroke-dasharray="31.4 31.4" class="spinner-ring"/>
           </svg>
           <p class="loading-text">{{ 'citySelector.searching' | translate }}</p>
         </div>
       }
 
-      <!-- Empty / Search Results -->
       @if (!loading() && !error()) {
         @if (cities().length > 0) {
           <div class="results-list">
             @for (city of cities(); track city.id) {
-              <button 
+              <button
                 type="button"
                 class="city-item"
                 (click)="selectCity(city)"
@@ -79,18 +69,17 @@
           </div>
         }
 
-        <!-- Popular Cities — shown when no search performed yet or search is empty -->
         @if (!hasSearched()) {
           <section class="popular-section">
             <h3>{{ 'citySelector.popularDestinations' | translate }}</h3>
             <div class="popular-grid">
-              @for (cityName of popularCitiesList(); track cityName) {
-                <button 
+              @for (city of popularCities; track city.name) {
+                <button
                   type="button"
                   class="popular-city-btn"
-                  (click)="selectPopularCity(cityName)"
+                  (click)="selectPopularCity(city)"
                 >
-                  {{ cityName }}
+                  {{ city.name }}
                 </button>
               }
             </div>
@@ -98,7 +87,6 @@
         }
       }
 
-      <!-- Error State -->
       @if (error()) {
         <div class="state-container error-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -110,7 +98,6 @@
         </div>
       }
 
-      <!-- Features Card: What VELORA checks -->
       <section class="features-card">
         <h3 class="features-title">{{ 'citySelector.featuresTitle' | translate | uppercase }}</h3>
         <ul class="features-list">
@@ -140,7 +127,6 @@
           </li>
         </ul>
       </section>
-
     </main>
   </div>
 </div>

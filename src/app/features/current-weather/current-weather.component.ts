@@ -1,107 +1,96 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { WeatherService } from '../../../core/services/weather.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { catchError, of, switchMap, tap } from 'rxjs';
+import { AirQuality, CyclingIssue, CyclingScore, WeatherResponse } from '../../core/models/weather.model';
 import { CyclingScoringService } from '../../core/services/cycling-scoring.service';
-import { LoadingComponent } from '../../../shared/components/loading/loading.component';
-import { ErrorComponent } from '../../../shared/components/error/error.component';
+import { WeatherService } from '../../core/services/weather.service';
+import { ErrorComponent } from '../../shared/components/error/error.component';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { AirQualityComponent } from '../air-quality/air-quality.component';
+import { CyclingAlertsComponent } from '../cycling-alerts/cycling-alerts.component';
+import { CyclingScoreCardComponent } from '../cycling-score-card/cycling-score-card.component';
 import { CurrentWeatherCardComponent } from './current-weather-card/current-weather-card.component';
 import { DailyForecastComponent } from './daily-forecast/daily-forecast.component';
 import { HourlyChartComponent } from './hourly-chart/hourly-chart.component';
-import { CyclingScoreCardComponent } from '../cycling-score-card/cycling-score-card.component';
-import { CyclingAlertsComponent } from '../cycling-alerts/cycling-alerts.component';
-import { AirQualityComponent } from '../air-quality/air-quality.component';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { WeatherResponse, CyclingScore, CyclingIssue } from '../../../core/models/weather.model';
+
+const DEFAULT_CITY = { name: 'Katowice', lat: 50.2649, lon: 19.0238 };
 
 @Component({
   selector: 'app-current-weather',
-  standalone: true,
   imports: [
-    LoadingComponent, 
-    ErrorComponent, 
-    CurrentWeatherCardComponent, 
-    DailyForecastComponent, 
+    LoadingComponent,
+    ErrorComponent,
+    CurrentWeatherCardComponent,
+    DailyForecastComponent,
     HourlyChartComponent,
     CyclingScoreCardComponent,
     CyclingAlertsComponent,
     AirQualityComponent,
-    TranslatePipe
+    TranslatePipe,
   ],
   templateUrl: './current-weather.html',
   styleUrl: './current-weather.scss',
 })
-export class CurrentWeatherComponent implements OnInit {
+export class CurrentWeatherComponent {
   private readonly weatherService = inject(WeatherService);
   private readonly cyclingScoringService = inject(CyclingScoringService);
   private readonly route = inject(ActivatedRoute);
   private readonly translate = inject(TranslateService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  data = signal<WeatherResponse | null>(null);
-  airQuality = signal<any>(null);
-  loading = signal(true);
-  error = signal<string | null>(null);
-  
-  // Cycling-specific signals
-  cyclingScore = signal<CyclingScore | null>(null);
-  cyclingIssues = signal<CyclingIssue[]>([]);
-  dynamicAdvice = signal<string>('');
-  selectedCityName = signal<string>('Your City');
+  protected readonly data = signal<WeatherResponse | null>(null);
+  protected readonly airQuality = signal<AirQuality | null>(null);
+  protected readonly loading = signal(true);
+  protected readonly error = signal<string | null>(null);
+  protected readonly cyclingScore = signal<CyclingScore | null>(null);
+  protected readonly cyclingIssues = signal<CyclingIssue[]>([]);
+  protected readonly dynamicAdvice = signal('');
+  protected readonly selectedCityName = signal(DEFAULT_CITY.name);
 
-  protected readonly todayDate = computed(() => 
-    new Date().toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    })
-  );
+  constructor() {
+    this.route.queryParams
+      .pipe(
+        switchMap((params) => {
+          const parsedLat = Number.parseFloat(params['lat']);
+          const parsedLon = Number.parseFloat(params['lon']);
+          const hasCoords = !Number.isNaN(parsedLat) && !Number.isNaN(parsedLon);
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const lat = parseFloat(params['lat']);
-      const lon = parseFloat(params['lon']);
-      const name = params['name'] || 'Your City';
-      
-      if (!isNaN(lat) && !isNaN(lon)) {
-        this.selectedCityName.set(name);
-        this.fetchCyclingWeather(lat, lon);
-      } else {
-        // Default to Katowice if no city selected
-        this.selectedCityName.set('Katowice');
-        this.fetchCyclingWeather(50.2649, 19.0238);
-      }
-    });
-  }
+          const lat = hasCoords ? parsedLat : DEFAULT_CITY.lat;
+          const lon = hasCoords ? parsedLon : DEFAULT_CITY.lon;
+          const name = hasCoords ? params['name'] || 'Your City' : DEFAULT_CITY.name;
 
-  private fetchCyclingWeather(lat: number, lon: number): void {
-    this.loading.set(true);
-    this.error.set(null);
+          this.selectedCityName.set(name);
+          this.loading.set(true);
+          this.error.set(null);
 
-    this.weatherService.getCyclingWeather(lat, lon).subscribe({
-      next: (response) => {
-        this.data.set(response.weather);
-        this.airQuality.set(response.airQuality);
+          return this.weatherService.getCyclingWeather(lat, lon).pipe(
+            tap(({ weather, airQuality }) => {
+              this.data.set(weather);
+              this.airQuality.set(airQuality);
 
-        // Calculate cycling score (now also returns dynamicAdvice + forecast issues internally)
-        const { score, issues, dynamicAdvice } = this.cyclingScoringService.calculateCyclingScore(
-          response.weather.current,
-          response.weather.hourly,
-          response.weather.daily,
-          response.airQuality
-        );
+              const assessment = this.cyclingScoringService.calculateCyclingScore(
+                weather.current,
+                weather.hourly,
+                weather.daily,
+                airQuality
+              );
 
-        // Apply cycling score and issues directly (issues already contain forecast-based alerts)
-        this.cyclingIssues.set(issues);
-        this.cyclingScore.set(score);
-        this.dynamicAdvice.set(dynamicAdvice ?? '');
-
-        this.loading.set(false);
-      },
-      error: (err) => {
-        this.error.set(this.translate.instant('error.noWeather'));
-        this.loading.set(false);
-        console.error('Weather API Error:', err);
-      },
-    });
+              this.cyclingScore.set(assessment.score);
+              this.cyclingIssues.set(assessment.issues);
+              this.dynamicAdvice.set(assessment.dynamicAdvice);
+              this.loading.set(false);
+            }),
+            catchError(() => {
+              this.error.set(this.translate.instant('error.noWeather'));
+              this.loading.set(false);
+              return of(null);
+            })
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 }

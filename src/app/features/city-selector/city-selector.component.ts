@@ -1,156 +1,117 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { UpperCasePipe } from '@angular/common';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { Capacitor } from '@capacitor/core';
+import { Subject, catchError, debounceTime, distinctUntilChanged, merge, of, switchMap, tap } from 'rxjs';
 import { LanguageSelectorComponent } from '../../core/components/language-selector/language-selector.component';
+import { GeoLocation } from '../../core/models/weather.model';
+import { LanguageService } from '../../core/services/language.service';
+import { WeatherService } from '../../core/services/weather.service';
 
-interface GeoLocation {
-  id: number;
+interface PopularCity {
   name: string;
-  latitude: number;
-  longitude: number;
-  country: string;
-  admin1?: string;
+  lat: number;
+  lon: number;
 }
+
+const POPULAR_CITIES: readonly PopularCity[] = [
+  { name: 'Warsaw', lat: 52.23, lon: 21.01 },
+  { name: 'Krakow', lat: 50.06, lon: 19.94 },
+  { name: 'Gdansk', lat: 54.35, lon: 18.65 },
+  { name: 'Wroclaw', lat: 51.1, lon: 17.03 },
+  { name: 'Berlin', lat: 52.52, lon: 13.41 },
+  { name: 'London', lat: 51.51, lon: -0.13 },
+  { name: 'Paris', lat: 48.86, lon: 2.34 },
+  { name: 'Amsterdam', lat: 52.37, lon: 4.9 },
+];
 
 @Component({
   selector: 'app-city-selector',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslatePipe, LanguageSelectorComponent],
+  imports: [UpperCasePipe, ReactiveFormsModule, TranslatePipe, LanguageSelectorComponent],
   templateUrl: './city-selector.html',
-  styleUrls: ['./city-selector.component.scss']
+  styleUrl: './city-selector.component.scss',
 })
 export class CitySelectorComponent {
-  private readonly http = inject(HttpClient);
+  private readonly weatherService = inject(WeatherService);
+  private readonly languageService = inject(LanguageService);
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  // Show language selector only on web (not on iOS/Android where users use system Settings)
-  showLanguageSelector = computed(() => {
-    return !Capacitor.isNativePlatform();
+  private readonly manualSubmit$ = new Subject<string>();
+
+  protected readonly showLanguageSelector = this.languageService.showLanguageSelector();
+  protected readonly popularCities = POPULAR_CITIES;
+  protected readonly searchControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required],
   });
 
-  searchControl = new FormControl('', [Validators.required]);
-  cities = signal<GeoLocation[]>([]);
-  loading = signal(false);
-  error = signal<string | null>(null);
-  hasSearched = signal(false);
-  // Track whether the user has focused and started typing in the search field.
-  isSearchFocused = signal(false);
+  protected readonly cities = signal<GeoLocation[]>([]);
+  protected readonly loading = signal(false);
+  protected readonly error = signal<string | null>(null);
+  protected readonly hasSearched = signal(false);
 
   constructor() {
-    this.searchControl.valueChanges.subscribe(() => {
-      this.debouncedSearch();
-    });
+    const typing$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    );
+
+    merge(typing$, this.manualSubmit$)
+      .pipe(
+        switchMap((rawQuery) => {
+          const query = rawQuery.trim();
+          if (query.length < 2) {
+            this.cities.set([]);
+            this.error.set(null);
+            this.loading.set(false);
+            return of(null);
+          }
+
+          this.loading.set(true);
+          this.error.set(null);
+
+          return this.weatherService.searchCities(query).pipe(
+            tap((locations) => {
+              this.cities.set(locations);
+              this.hasSearched.set(true);
+              this.error.set(
+                locations.length === 0 ? this.translate.instant('error.noCityFound') : null
+              );
+              this.loading.set(false);
+            }),
+            catchError(() => {
+              this.cities.set([]);
+              this.hasSearched.set(true);
+              this.error.set(this.translate.instant('error.default'));
+              this.loading.set(false);
+              return of(null);
+            })
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
-  private searchTimeout: any;
-
-  onFocusChange(focused: boolean) {
-    this.isSearchFocused.set(focused);
-    if (focused) {
-      // When user focuses, show popular cities again so they can pick one without typing.
-      if (!this.hasSearched()) {
-        this.isSearchFocused.set(true);
-      }
-    } else {
-      this.isSearchFocused.set(false);
-    }
+  protected onSubmit(): void {
+    this.manualSubmit$.next(this.searchControl.value);
   }
 
-  private debouncedSearch() {
-    clearTimeout(this.searchTimeout);
-    const query = this.searchControl.value?.trim();
-
-    if (!query || query.length < 2) {
-      // Clear results but keep hasSearched so we don't flicker popular cities back.
-      this.cities.set([]);
-      this.error.set(null);
-      return;
-    }
-
-    this.searchTimeout = setTimeout(() => {
-      this.performSearch(query);
-    }, 300);
+  protected selectCity(city: GeoLocation): void {
+    this.navigateToWeather(city.latitude, city.longitude, city.name);
   }
 
-  private async performSearch(query: string) {
-    this.loading.set(true);
-    this.error.set(null);
-
-    try {
-      const response = await this.http.get<any>(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=10&language=en&format=json`
-      ).toPromise();
-
-      if (response?.results && response.results.length > 0) {
-        const locations: GeoLocation[] = response.results.map((r: any) => ({
-          id: r.id,
-          name: r.name,
-          latitude: r.latitude,
-          longitude: r.longitude,
-          country: r.country || '',
-          admin1: r.admin1 || ''
-        }));
-        this.cities.set(locations);
-        this.hasSearched.set(true);
-        this.error.set(null);
-      } else {
-        this.cities.set([]);
-        this.hasSearched.set(true);
-        this.error.set(this.translate.instant('error.noCityFound'));
-      }
-    } catch (err) {
-      this.cities.set([]);
-      this.hasSearched.set(true);
-      this.error.set(this.translate.instant('error.default'));
-      console.error('Geo coding error:', err);
-    } finally {
-      this.loading.set(false);
-    }
+  protected selectPopularCity(city: PopularCity): void {
+    this.navigateToWeather(city.lat, city.lon, city.name);
   }
 
-  selectCity(city: GeoLocation) {
+  private navigateToWeather(lat: number, lon: number, name: string): void {
     this.router.navigate(['/weather'], {
-      queryParams: {
-        lat: city.latitude,
-        lon: city.longitude,
-        name: city.name
-      }
+      queryParams: { lat, lon, name },
     });
   }
-
-  popularCitiesList = signal<string[]>([
-    'Warsaw', 'Krakow', 'Gdansk', 'Wroclaw',
-    'Berlin', 'London', 'Paris', 'Amsterdam'
-  ]);
-
-  selectPopularCity(cityName: string) {
-    const cityMap: Record<string, { lat: number; lon: number }> = {
-      'Warsaw': { lat: 52.23, lon: 21.01 },
-      'Krakow': { lat: 50.06, lon: 19.94 },
-      'Gdansk': { lat: 54.35, lon: 18.65 },
-      'Wroclaw': { lat: 51.1, lon: 17.03 },
-      'Berlin': { lat: 52.52, lon: 13.41 },
-      'London': { lat: 51.51, lon: -0.13 },
-      'Paris': { lat: 48.86, lon: 2.34 },
-      'Amsterdam': { lat: 52.37, lon: 4.90 }
-    };
-
-    const city = cityMap[cityName];
-    if (city) {
-      this.router.navigate(['/weather'], {
-        queryParams: {
-          lat: city.lat,
-          lon: city.lon,
-          name: cityName
-        }
-      });
-    }
-  }
-
-
 }

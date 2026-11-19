@@ -1,58 +1,50 @@
-<div class="aq-card" [class]="getAqClass(data.pm25)">
-  <!-- Card Header -->
+<div class="aq-card" [class]="aqClass()">
   <div class="aq-header">
-    <img width="20" height="20" src="/assets/icons/velora/metric-air-quality.svg" alt="{{ 'airQuality.title' | translate }}" aria-hidden="true"/>
+    <img width="20" height="20" src="assets/icons/velora/metric-air-quality.svg" [alt]="'airQuality.title' | translate" aria-hidden="true"/>
     <h3>{{ 'airQuality.title' | translate }}</h3>
   </div>
 
-  <!-- AQI Overview: status level + text -->
   <div class="aq-overview">
-    <!-- Level indicator bar (5 dots) -->
-    <div class="aq-level-bar" aria-label="{{ getAqiLevel(data.pm25) }} out of 5 air quality levels">
-      @for (level of [1,2,3,4,5]; track level) {
-        <span class="aq-level-dot" [class.active]="level <= getAqiLevel(data.pm25)" [class.critical]="level === 4 || level === 5"></span>
+    <div class="aq-level-bar" [attr.aria-label]="aqiLevel() + ' out of 5 air quality levels'">
+      @for (level of levels; track level) {
+        <span class="aq-level-dot" [class.active]="level <= aqiLevel()" [class.critical]="level === 4 || level === 5"></span>
       }
     </div>
 
-    <!-- Status text -->
     <div class="aq-status-text">
-      <span class="aq-status-label">{{ getAqStatus(data.pm25) }}</span>
+      <span class="aq-status-label">{{ getAqStatus() }}</span>
     </div>
   </div>
 
-  <!-- Particulate details grid -->
   <div class="aq-details">
-    <!-- PM2.5 — primary metric, highlighted -->
-    <div class="aq-detail-item aq-primary" [class]="getAqClass(data.pm25)">
+    <div class="aq-detail-item aq-primary" [class]="aqClass()">
       <span class="aq-detail-label">{{ 'airQuality.pm25' | translate }}</span>
-      @if (isDataAvailable('pm25')) {
-        <span class="aq-detail-value">{{ data.pm25 }}<small>μg/m³</small></span>
+      @if (data().pm25 > 0) {
+        <span class="aq-detail-value">{{ data().pm25 }}<small>μg/m³</small></span>
       } @else {
         <span class="aq-detail-value">—</span>
       }
-      <span class="aq-detail-status" [class]="getAqClass(data.pm25)">{{ getPm25Label(data.pm25) }}</span>
+      <span class="aq-detail-status" [class]="aqClass()">{{ getPm25Label() }}</span>
     </div>
 
-    <!-- PM10 -->
-    <div class="aq-detail-item" [class]="getAqClass(data.pm10)">
+    <div class="aq-detail-item" [class]="getSeverityClass(data().pm10)">
       <span class="aq-detail-label">{{ 'airQuality.pm10' | translate }}</span>
-      @if (isDataAvailable('pm10')) {
-        <span class="aq-detail-value">{{ data.pm10 }}<small>μg/m³</small></span>
+      @if (data().pm10 > 0) {
+        <span class="aq-detail-value">{{ data().pm10 }}<small>μg/m³</small></span>
       } @else {
         <span class="aq-detail-value">—</span>
       }
-      <span class="aq-detail-status">{{ getPm10Label(data.pm10) }}</span>
+      <span class="aq-detail-status">{{ getPm10Label() }}</span>
     </div>
 
-    <!-- Ozone -->
-    <div class="aq-detail-item" [class]="getAqClass(data.o3)">
+    <div class="aq-detail-item" [class]="getSeverityClass(data().o3)">
       <span class="aq-detail-label">{{ 'airQuality.o3' | translate }}</span>
-      @if (isDataAvailable('o3')) {
-        <span class="aq-detail-value">{{ data.o3 }}<small>μg/m³</small></span>
+      @if (data().o3 > 0) {
+        <span class="aq-detail-value">{{ data().o3 }}<small>μg/m³</small></span>
       } @else {
         <span class="aq-detail-value">—</span>
       }
-      <span class="aq-detail-status" [class]="getAqClass(data.o3)">{{ getO3Label(data.o3) }}</span>
+      <span class="aq-detail-status" [class]="getSeverityClass(data().o3)">{{ getO3Label() }}</span>
     </div>
   </div>
 </div>

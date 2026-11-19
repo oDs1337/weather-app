@@ -1,19 +1,15 @@
 <div class="current-card">
-  <!-- Location indicator -->
   <div class="location-indicator" aria-hidden="true">
     <svg viewBox="0 0 64 64" fill="none" stroke="var(--color-text-secondary)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M52 27c0 15-20 31-20 31S12 42 12 27a20 20 0 1 1 40 0Z"/><circle cx="32" cy="27" r="6"/></svg>
     <span class="location-text">{{ 'weatherCard.currentConditions' | translate }}</span>
   </div>
 
   <div class="weather-main">
-    <!-- Weather icon — premium SVG asset -->
-    @if (iconSrc()) {
-      <img class="weather-icon" [attr.src]="iconSrc()" alt="Weather icon"/>
-    }
+    <img class="weather-icon" [src]="iconSrc()" alt="Weather icon"/>
     <div class="temp-info">
       <span class="temperature">{{ current().temperature_2m }}<span class="unit">°C</span></span>
       <span class="feels-like">
-        <img [attr.src]="feelsLikeIconSrc()" alt="" width="14" height="14" aria-hidden="true"/>
+        <img [src]="feelsLikeIconSrc" alt="" width="14" height="14" aria-hidden="true"/>
         {{ 'weatherCard.feelsLike' | translate: { temp: current().apparent_temperature } }}
       </span>
     </div>
@@ -23,12 +19,10 @@
     {{ current().weather_code | weatherCode }}
   </p>
 
-  <!-- Detail grid -->
   <div class="detail-grid">
     <div class="detail-item">
-      <!-- Humidity icon — velora asset -->
       <span class="icon" aria-hidden="true">
-        <img [attr.src]="humidityIconSrc()" alt="" width="24" height="24"/>
+        <img [src]="humidityIconSrc" alt="" width="24" height="24"/>
       </span>
       <div class="detail-content">
         <span class="detail-label">{{ 'weatherCard.humidity' | translate }}</span>
@@ -37,9 +31,8 @@
     </div>
 
     <div class="detail-item">
-      <!-- Wind icon — velora asset -->
       <span class="icon" aria-hidden="true">
-        <img [attr.src]="windIconSrc()" alt="" width="24" height="24"/>
+        <img [src]="windIconSrc" alt="" width="24" height="24"/>
       </span>
       <div class="detail-content">
         <span class="detail-label">{{ 'weatherCard.windSpeed' | translate }}</span>
@@ -48,9 +41,8 @@
     </div>
 
     <div class="detail-item">
-      <!-- Precipitation icon — velora asset -->
       <span class="icon" aria-hidden="true">
-        <img [attr.src]="precipitationIconSrc()" alt="" width="24" height="24"/>
+        <img [src]="precipitationIconSrc" alt="" width="24" height="24"/>
       </span>
       <div class="detail-content">
         <span class="detail-label">{{ 'weatherCard.precipitation' | translate }}</span>

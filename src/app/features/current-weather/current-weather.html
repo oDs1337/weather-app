@@ -5,49 +5,38 @@
     <app-error [error]="error()!" />
   } @else if (data() && cyclingScore()) {
     <div class="weather-content fade-in-up">
-
-      <!-- ════════ HERO: Cycling Score (with advice inside) ════════ -->
       <section class="hero-section">
-
-        <!-- Cycling Score Card — receives dynamicAdvice as input -->
-        <app-cycling-score-card 
-          [score]="cyclingScore()!" 
+        <app-cycling-score-card
+          [score]="cyclingScore()!"
           [city]="selectedCityName()"
           [pm25]="airQuality()?.pm25 ?? 0"
           [dynamicAdvice]="dynamicAdvice()"
         />
-
       </section>
 
-      <!-- ════════ Alerts ════════ -->
       @if (cyclingIssues().length > 0) {
         <section class="alerts-section">
           <app-cycling-alerts [issues]="cyclingIssues()" />
         </section>
       }
 
-      <!-- ════════ Air Quality ════════ -->
       @if (airQuality()) {
         <section class="aqi-section">
           <app-air-quality [data]="airQuality()!" />
         </section>
       }
 
-      <!-- ════════ Current Weather Card ════════ -->
       <app-current-weather-card [current]="data()!.current" />
 
-      <!-- ════════ Hourly Forecast ════════ -->
       <section class="hourly-section">
         <h3>{{ 'forecast.today' | translate }}</h3>
         <app-hourly-chart [hourly]="data()!.hourly" />
       </section>
 
-      <!-- ════════ Daily Forecast ════════ -->
       <section class="daily-section">
         <h3>{{ 'forecast.daily' | translate }}</h3>
         <app-daily-forecast [daily]="data()!.daily" />
       </section>
-
     </div>
   }
 </div>
